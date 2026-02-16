@@ -46,33 +46,77 @@ const VoiceInputScreen = ({ navigation, route }) => {
     const lowerInput = input.toLowerCase();
 
     // Simulate AI processing - in a real app, this would call an API
-    if (lowerInput.includes('coda') || lowerInput.includes('computing')) {
-      const location = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305';
+    if (lowerInput.includes("coda") || lowerInput.includes("computing")) {
+      const location =
+        "Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305";
       setRecognizedLocation(location);
-      const botMessage1 = 'Okay, got it. You want to be dropped off at **CoDa, the Computing and Data Science building on the Stanford campus**.';
-      addBotMessage(botMessage1, ['CoDa', 'Computing and Data Science building', 'Stanford campus']);
+      const botMessage1 =
+        "Okay, got it. You want to be dropped off at **CoDa, the Computing and Data Science building on the Stanford campus**.";
+      addBotMessage(botMessage1, [
+        "CoDa",
+        "Computing and Data Science building",
+        "Stanford campus",
+      ]);
       speakResponse(botMessage1);
-      
+
       setTimeout(() => {
-        const botMessage2 = 'Is there a particular entrance that you would like to be dropped off at?';
+        const botMessage2 =
+          "Is there a particular entrance that you would like to be dropped off at?";
         addBotMessage(botMessage2);
         speakResponse(botMessage2);
       }, 1500);
-    } else if (lowerInput.includes('stairs') || lowerInput.includes('fountain') || lowerInput.includes('gilbert')) {
-      const botMessage = 'Got it. You would like to be dropped at the **southwest corner of CODA**. Any other specifications?';
-      addBotMessage(botMessage, ['southwest corner of CODA']);
+    } else if (
+      lowerInput.includes("stairs") ||
+      lowerInput.includes("fountain") ||
+      lowerInput.includes("gilbert") ||
+      lowerInput.includes("gates") ||
+      lowerInput.includes("basement")
+    ) {
+      const botMessage =
+        "Got it. You would like to be dropped at the **southwest entrance of CODA**. Any other specifications?";
+      addBotMessage(botMessage, ["southwest entrance of CODA"]);
       speakResponse(botMessage);
-    } else if (lowerInput.includes("that's it") || lowerInput.includes('no') || lowerInput.includes('done')) {
-      const botMessage1 = 'Great! Converting your location into a pinpoint for your driver.';
+    } else if (
+      lowerInput.includes("blend") ||
+      lowerInput.includes("chemistry") ||
+      lowerInput.includes("north") ||
+      lowerInput.includes("sapp") ||
+      lowerInput.includes("stlc")
+    ) {
+      const botMessage =
+        "Got it. You would like to be dropped at the **north entrance of CoDa**. Any other specifications?";
+      addBotMessage(botMessage, ["north entrance of CoDa"]);
+      speakResponse(botMessage);
+    } else if (
+      lowerInput.includes("oval") ||
+      lowerInput.includes("bikes") ||
+      lowerInput.includes("main") ||
+      lowerInput.includes("voyager") ||
+      lowerInput.includes("coffee") ||
+      lowerInput.includes("east")
+    ) {
+      const botMessage =
+        "Got it. You would like to be dropped at the **east entrance of CoDa**. Any other specifications?";
+      addBotMessage(botMessage, ["north entrance of CODA"]);
+      speakResponse(botMessage);
+    } else if (
+      lowerInput.includes("that's it") ||
+      lowerInput.includes("no") ||
+      lowerInput.includes("done")
+    ) {
+      const botMessage1 =
+        "Great! Converting your location into a pinpoint for your driver.";
       addBotMessage(botMessage1);
       speakResponse(botMessage1);
       setTimeout(() => {
-        const botMessage2 = 'Secured your dropoff location. Please proceed to complete your ride booking with Boogie!';
+        const botMessage2 =
+          "Secured your dropoff location. Please proceed to complete your ride booking with Boogie!";
         addBotMessage(botMessage2);
         speakResponse(botMessage2);
       }, 1500);
     } else {
-      const botMessage = 'I understand. Could you provide more details about your dropoff location?';
+      const botMessage =
+        "I understand. Could you provide more details about your dropoff location?";
       addBotMessage(botMessage);
       speakResponse(botMessage);
     }
