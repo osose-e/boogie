@@ -1,0 +1,30 @@
+node_modules/
+.expo/
+.expo-shared/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Voice setup guide (keep this, but ignore env files)
+!VOICE_SETUP.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
