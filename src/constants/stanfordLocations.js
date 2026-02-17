@@ -40,4 +40,12 @@ export const STANFORD_LOCATIONS = [
 export const DEFAULT_PICKUP_LOCATION = {
   address: '518 Memorial Way, Stanford, CA 94305',
   fullAddress: '518 Memorial Way, Stanford, CA 94305',
+  displayName: '📍Current Location',
+  coordinates: {
+    latitude: 37.4275,
+    longitude: -122.1697,
+  },
 };
+
+// Format: "📍Current Location (latitude, longitude)"
+DEFAULT_PICKUP_LOCATION.displayText = `${DEFAULT_PICKUP_LOCATION.displayName} (${DEFAULT_PICKUP_LOCATION.coordinates.latitude}, ${DEFAULT_PICKUP_LOCATION.coordinates.longitude})`;
