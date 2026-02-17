@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,18 @@ import {
   ScrollView,
   SafeAreaView,
   Switch,
+  AccessibilityInfo,
+  findNodeHandle,
+  Keyboard,
 } from 'react-native';
 import { colors } from '../styles/colors';
+import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import CancelConfirmationModal from '../components/CancelConfirmationModal';
 import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
 
 const RideRegistrationScreen = ({ navigation, route }) => {
   const {
-    pickupLocation = '518 Memorial Way, Stanford, CA 94305',
+    pickupLocation = DEFAULT_PICKUP_LOCATION.displayText,
     dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
   } = route.params || {};
 
@@ -51,6 +55,29 @@ const RideRegistrationScreen = ({ navigation, route }) => {
     navigation.goBack();
   };
 
+  const headerTitleRef = useRef(null);
+
+  // Focus on header title when screen loads
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      const node = findNodeHandle(headerTitleRef.current);
+      if (node) {
+        AccessibilityInfo.setAccessibilityFocus(node);
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Dismiss keyboard when tapping outside
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      Keyboard.dismiss();
+    });
+    return () => {
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -62,16 +89,27 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         >
           <Text style={styles.backIcon}>‹</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle} accessibilityRole="header">
+        <Text 
+          ref={headerTitleRef}
+          style={styles.headerTitle} 
+          accessibilityRole="header"
+          accessible={true}
+          importantForAccessibility="yes"
+        >
           Complete Ride Booking
         </Text>
         <View style={styles.headerSpacer} />
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+      <ScrollView 
+        style={styles.content} 
+        contentContainerStyle={styles.contentContainer}
+        keyboardShouldPersistTaps="handled"
+        onScrollBeginDrag={() => Keyboard.dismiss()}
+      >
         <View style={styles.currentLocationContainer}>
           <Text style={styles.currentLocationLabel} accessibilityRole="text">
-            Current location: {pickupLocation.substring(0, 40)}...
+            {pickupLocation}
           </Text>
         </View>
 
@@ -159,7 +197,6 @@ const RideRegistrationScreen = ({ navigation, route }) => {
           </Text>
           <View style={styles.locationContainer}>
             <Text style={styles.locationText}>{pickupLocation}</Text>
-            <Text style={styles.editIcon}>✏️</Text>
           </View>
         </View>
 
@@ -169,7 +206,6 @@ const RideRegistrationScreen = ({ navigation, route }) => {
           </Text>
           <View style={styles.locationContainer}>
             <Text style={styles.locationText}>{dropoffLocation}</Text>
-            <Text style={styles.editIcon}>✏️</Text>
           </View>
         </View>
 

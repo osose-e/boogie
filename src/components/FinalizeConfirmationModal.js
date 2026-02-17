@@ -135,7 +135,10 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
 
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Dropoff Location:</Text>
-              <Text style={styles.detailValue}>{rideDetails.dropoffLocation}</Text>
+              <Text style={styles.detailValue}>
+                {rideDetails.dropoffLocation}
+                {rideDetails.dropoffLocation && (rideDetails.dropoffLocation.includes('CoDa') || rideDetails.dropoffLocation.includes('Computing and Data Science')) && ' 📍(37.4300, -122.1675)'}
+              </Text>
             </View>
           </View>
 

@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   AccessibilityInfo,
   findNodeHandle,
+  Keyboard,
 } from 'react-native';
 import { colors } from '../styles/colors';
 import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
@@ -17,6 +18,28 @@ const HomeScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [mode, setMode] = useState('choose'); // 'choose' | 'search'
   const searchInputRef = useRef(null);
+  const logoRef = useRef(null);
+
+  // Focus on logo when screen loads
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      const node = findNodeHandle(logoRef.current);
+      if (node) {
+        AccessibilityInfo.setAccessibilityFocus(node);
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Dismiss keyboard when tapping outside
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      Keyboard.dismiss();
+    });
+    return () => {
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const filteredLocations = useMemo(() => {
     if (!searchQuery) return STANFORD_LOCATIONS;
@@ -28,7 +51,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleLocationSelect = (location) => {
     navigation.navigate('RideRegistration', {
-      pickupLocation: DEFAULT_PICKUP_LOCATION.fullAddress,
+      pickupLocation: DEFAULT_PICKUP_LOCATION.displayText,
       dropoffLocation: location.fullAddress,
       dropoffLocationName: location.name,
     });
@@ -59,12 +82,24 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       {/* HEADER */}
       <View style={styles.header}>
-        <Text style={styles.logo} accessibilityRole="text">
+        <Text 
+          ref={logoRef}
+          style={styles.logo} 
+          accessibilityRole="text"
+          accessible={true}
+          importantForAccessibility="yes"
+          accessibilityLabel="Boogie app"
+        >
           boogie
         </Text>
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+      <ScrollView 
+        style={styles.content} 
+        contentContainerStyle={styles.contentContainer}
+        keyboardShouldPersistTaps="handled"
+        onScrollBeginDrag={() => Keyboard.dismiss()}
+      >
         {mode === 'choose' ? (
           <>
             <Text style={styles.title} accessibilityRole="header">
