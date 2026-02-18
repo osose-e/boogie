@@ -76,7 +76,12 @@ const HomeScreen = ({ navigation }) => {
   
     return () => cancelAnimationFrame(raf);
   }, [mode]);
-  
+
+  const sanitizeDictation = (t) =>
+    t
+      .replace(/\uFFFC/g, '')     // remove object-replacement char
+      .replace(/\s+/g, ' ')       // collapse whitespace
+      .trim();  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -162,7 +167,10 @@ const HomeScreen = ({ navigation }) => {
                 placeholder="Find locations by name..."
                 placeholderTextColor={colors.textSecondary}
                 value={searchQuery}
-                onChangeText={setSearchQuery}
+                onChangeText={(t) => setSearchQuery(sanitizeDictation(t))}
+                autoCorrect={false}
+                spellCheck={false}
+                autoCapitalize="none"
                 accessibilityLabel="Search for locations by name"
                 accessibilityRole="searchbox"
                 returnKeyType="search"

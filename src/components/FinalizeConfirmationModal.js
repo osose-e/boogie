@@ -96,7 +96,7 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
             <TouchableOpacity
               onPress={onClose}
               accessibilityRole="button"
-              accessibilityLabel="Close dialog"
+              accessibilityLabel="Close and return to ride booking details"
               accessibilityHint="Closes the finalize booking dialog"
               style={styles.closeButton}
             >
