@@ -1,5 +1,5 @@
 export const fonts = {
-    wordmark: "BagelFatOne",
+    wordmark: "BagelFatOne-Regular",
     header1: "AlbertSans-Bold",
     header2: "AlbertSans-Bold",
     header3: "AlbertSans-Regular",

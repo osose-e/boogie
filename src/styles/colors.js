@@ -1,13 +1,25 @@
 export const colors = {
-  primary: '#6366F1', // Purple/indigo for primary actions
-  primaryDark: '#4F46E5',
-  secondary: '#FFFFFF',
-  text: '#1F2937',
-  textSecondary: '#6B7280',
-  background: '#FFFFFF',
-  backgroundLight: '#F9FAFB',
-  border: '#E5E7EB',
-  success: '#10B981',
-  error: '#EF4444',
-  disabled: '#9CA3AF',
+  light: {
+    header1: "#09A6B8",
+    header2: "#09A6B8",
+    header3: "#000000",
+    bodyLight: "#FFFFFF",
+    bodyDark: "#000000",
+    textAddress: "#6E6E6E",
+    textPlaceholder: "#B4B4B4",
+
+    background: "#FFFFFF",
+    borderLight: "#FFFFFF",
+    borderDark: "#000000",
+    icons: "#09A6B8",
+
+    wordmark: {
+      primary: "#09A6B8",
+      secondary: "#8A38F5",
+      tertiary: "#D32EC8",
+      quaternary: "#ACE347",
+    },
+  },
+  dark: {
+  },
 };
