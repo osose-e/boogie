@@ -9,6 +9,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.boogie.app"
@@ -19,6 +20,9 @@
       },
       "package": "com.boogie.app"
     },
-    "plugins": []
+    "plugins": [
+      "expo-font",
+      "expo-asset"
+    ]
   }
 }
