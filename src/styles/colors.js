@@ -1,7 +1,7 @@
 export const colors = {
   light: {
     header1: "#09A6B8",
-    header2: "#09A6B8",
+    header2: "#000000",
     header3: "#000000",
     bodyLight: "#FFFFFF",
     bodyDark: "#000000",
