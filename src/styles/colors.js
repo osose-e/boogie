@@ -12,6 +12,8 @@ export const colors = {
     borderLight: "#FFFFFF",
     borderDark: "#000000",
     icons: "#09A6B8",
+    separator: "#CFCFCF",
+    arrow: "#CFCFCF",
 
     wordmark: {
       primary: "#09A6B8",
@@ -21,5 +23,26 @@ export const colors = {
     },
   },
   dark: {
+    header1: "#09A6B8",
+    header2: "#F0F0F0",
+    header3: "#F0F0F0",
+    bodyDark: "#F0F0F0",
+    bodyLight: "#13151F",
+    textAddress: "#6E6E6E",
+    textPlaceholder: "#AEAEAE",
+
+    background: "#13151F",
+    borderDark: "#F0F0F0",
+    borderLight: "#13151F",
+    icons: "#09A6B8",
+    separator: "#6E6E6E",
+    arrow: "#AEAEAE",
+
+    wordmark: {
+      primary: "#077581",
+      secondary: "#5E2AA3",
+      tertiary: "#761B70",
+      quaternary: "#5F7C2A",
+    },
   },
 };

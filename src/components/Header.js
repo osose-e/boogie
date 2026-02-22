@@ -7,44 +7,34 @@ import {
 } from "react-native-safe-area-context";
 import GradientText from "./GradientText";
 import { theme } from "../styles/themes";
+import { useTheme } from "../contexts/ThemeContext";
 
 export default function Header() {
   const insets = useSafeAreaInsets(); // dynamic safe area values
+  const { theme } = useTheme();
 
   return (
     <SafeAreaView
       edges={["top"]}
       style={{
-        backgroundColor: theme.colors.light.background,
-        borderColor: "red",
-        // borderWidth: 1,
+        // flex: 0.1,
+        backgroundColor: theme.colors.background,
       }}
     >
       <View
         style={{
-          //   paddingTop: insets.top, // ensures text is below status bar/notch
-          //   paddingBottom: 16,
-          //   height: "20%",
-          paddingLeft: 24,
+          paddingLeft: theme.spacing.regular,
           alignItems: "flex-start",
-          //   justifyContent: "center",
-          //   alignContent: "center",
-          //   justifyContent: "center",
-          borderColor: "blue",
-          //   borderWidth: 1,
-          //   borderBottomWidth: 1,
-          //   borderBottomColor: theme.colors.light.borderDark,
         }}
       >
         <GradientText
           text="boogie"
-          colors={[
-            theme.colors.light.wordmark.primary,
-            theme.colors.light.wordmark.secondary,
-            theme.colors.light.wordmark.tertiary,
-            theme.colors.light.wordmark.quaternary,
-          ]}
-          style={{ fontSize: theme.fontSizes.xxl, fontFamily: theme.fonts.wordmark }}
+          colors={["#09A6B8", "#8A38F5", "#D32EC8", "#ACE347"]}
+          style={{
+            fontSize: theme.fontSizes.xxl,
+            fontFamily: theme.fonts.wordmark,
+            zIndex: 2,
+          }}
         />
       </View>
     </SafeAreaView>

@@ -2,14 +2,16 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
+import AppStatusBar from './src/components/AppStatusBar';
 import { useFonts } from "expo-font";
 import RootNavigator from "./src/navigation/RootNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ThemeProvider } from "./src/contexts/ThemeContext";
 
-import HomeScreen from './src/screens/HomeScreen';
-import VoiceInputScreen from './src/screens/VoiceInputScreen';
-import RideRegistrationScreen from './src/screens/RideRegistrationScreen';
-import RideConfirmationScreen from './src/screens/RideConfirmationScreen';
+// import HomeScreen from './src/screens/HomeScreen';
+// import VoiceInputScreen from './src/screens/VoiceInputScreen';
+// import RideRegistrationScreen from './src/screens/RideRegistrationScreen';
+// import RideConfirmationScreen from './src/screens/RideConfirmationScreen';
 
 
 const Stack = createStackNavigator();
@@ -28,11 +30,14 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar style="auto" />
-        <RootNavigator />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <ThemeProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <AppStatusBar />
+          {/* <StatusBar style="auto" /> */}
+          <RootNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }

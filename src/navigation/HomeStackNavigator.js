@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
+import VoiceInputScreen from "../screens/VoiceInputScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,11 @@ export default function HomeStackNavigator() {
         name="Search"
         component={SearchScreen}
         options={{ title: "Search" }}
+      />
+      <Stack.Screen
+        name="VoiceInput"
+        component={VoiceInputScreen}
+        options={{ title: "VoiceInput" }}
       />
     </Stack.Navigator>
   );

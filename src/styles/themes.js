@@ -9,6 +9,7 @@ export const theme = {
   spacing: {
     regular: 24,
     small: 16,
+    xs: 8,
   },
   radius: 100,
 };
