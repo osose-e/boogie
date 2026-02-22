@@ -1,88 +1,32 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   AccessibilityInfo,
   findNodeHandle,
-  Keyboard,
 } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '../styles/themes';
-import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 
 const HomeScreen = ({ navigation }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [mode, setMode] = useState('choose'); // 'choose' | 'search'
-  const searchInputRef = useRef(null);
-  const logoRef = useRef(null);
+  // const logoRef = useRef(null);
 
-  // Focus on logo when screen loads
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(logoRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  // // Dismiss keyboard when tapping outside
+  // // Focus on logo when screen loads
   // useEffect(() => {
-  //   const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-  //     Keyboard.dismiss();
+  //   const raf = requestAnimationFrame(() => {
+  //     const node = findNodeHandle(logoRef.current);
+  //     if (node) {
+  //       AccessibilityInfo.setAccessibilityFocus(node);
+  //     }
   //   });
-  //   return () => {
-  //     keyboardDidHideListener.remove();
-  //   };
+  //   return () => cancelAnimationFrame(raf);
   // }, []);
 
-  // const filteredLocations = useMemo(() => {
-  //   if (!searchQuery) return STANFORD_LOCATIONS;
-  //   const q = searchQuery.toLowerCase();
-  //   return STANFORD_LOCATIONS.filter((location) =>
-  //     location.name.toLowerCase().includes(q)
-  //   );
-  // }, [searchQuery]);
-
-  // const handleLocationSelect = (location) => {
-  //   navigation.navigate('RideRegistration', {
-  //     pickupLocation: DEFAULT_PICKUP_LOCATION.displayText,
-  //     dropoffLocation: location.fullAddress,
-  //     dropoffLocationName: location.name,
-  //   });
-  // };
-
+  const goToSearch = () => navigation.navigate("Search");
   const goToVoice = () => navigation.navigate('VoiceInput');
-
-  const resetToChooseMode = () => {
-    setMode('choose');
-    setSearchQuery('');
-  };
-
-  useEffect(() => {
-    if (mode !== 'search') return;
-  
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(searchInputRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-  
-    return () => cancelAnimationFrame(raf);
-  }, [mode]);
-
-  // const sanitizeDictation = (t) =>
-  //   t
-  //     .replace(/\uFFFC/g, '')     // remove object-replacement char
-  //     .replace(/\s+/g, ' ')       // collapse whitespace
-  //     .trim();  
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>
@@ -96,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.optionGroup}>
         <TouchableOpacity
           style={styles.searchOptionCard}
-          onPress={() => setMode("search")}
+          onPress={goToSearch}
           accessibilityRole="button"
           accessibilityLabel="Search destinations"
           accessibilityHint="Opens a new page with a search field and list of locations"

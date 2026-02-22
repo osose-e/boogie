@@ -2,7 +2,8 @@
 import React from "react";
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/HomeScreen";
+// import HomeScreen from "../screens/HomeScreen";
+import HomeStackNavigator from "./HomeStackNavigator";
 import VoiceInputScreen from "../screens/VoiceInputScreen";
 import Header from "../components/Header";
 import { theme } from "../styles/themes";
@@ -26,7 +27,7 @@ export default function MainTabNavigator() {
       >
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={HomeStackNavigator}
           options={{
             tabBarIcon: ({ focused, color, size }) => {
               // Switch icon based on focus
