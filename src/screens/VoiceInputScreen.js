@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   ActivityIndicator,
   TextInput,
   Alert,
@@ -13,44 +13,34 @@ import {
   findNodeHandle,
   Keyboard,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Speech from 'expo-speech';
-import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import BoogieBotHeader from '../components/BoogieBotHeader';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import { LinearGradient } from "expo-linear-gradient";
 
 const VoiceInputScreen = ({ navigation, route }) => {
+  const { theme } = useTheme();
+  const headerRef = useRef(null);
+
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState([]);
   const [recognizedLocation, setRecognizedLocation] = useState(null);
   const [userDescriptor, setUserDescriptor] = useState(null);
-  const [manualInput, setManualInput] = useState('');
+  const [manualInput, setManualInput] = useState("");
   const [pickupLocation] = useState(DEFAULT_PICKUP_LOCATION.displayText);
   const scrollViewRef = useRef(null);
   const textInputRef = useRef(null);
   const messageRefs = useRef({});
   const conversationHeaderRef = useRef(null);
-  const logoRef = useRef(null);
   const initializedRef = useRef(false);
 
-  // Initialize conversation with pickup location
-  useEffect(() => {
-    if (!initializedRef.current && transcript.length === 0) {
-      initializedRef.current = true;
-      const initialBotMessage = `Hello! I'm BoogieBot. I see your current pickup location is ${pickupLocation}. Where would you like to be dropped off?`;
-      // Use a unique timestamp with a small random offset to ensure uniqueness
-      const uniqueTimestamp = Date.now() + Math.random();
-      setTranscript([{
-        type: 'bot',
-        text: initialBotMessage,
-        highlights: [],
-        timestamp: uniqueTimestamp,
-      }]);
-    }
-  }, []);
-
-  // Focus on logo when screen loads
+  // Focus on header when screen loads
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(logoRef.current);
+      const node = findNodeHandle(headerRef.current);
       if (node) {
         AccessibilityInfo.setAccessibilityFocus(node);
       }
@@ -58,9 +48,28 @@ const VoiceInputScreen = ({ navigation, route }) => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  // Initialize conversation with pickup location
+  useEffect(() => {
+    if (!initializedRef.current && transcript.length === 0) {
+      initializedRef.current = true;
+      const initialBotMessage = `Hi there, I'm BoogieBot - here to help you book your ride. Where would you like to be dropped off?`;
+      // Use a unique timestamp with a small random offset to ensure uniqueness
+      const uniqueTimestamp = Date.now() + Math.random();
+      setTranscript([
+        {
+          type: "bot",
+          text: initialBotMessage,
+          highlights: [],
+          timestamp: uniqueTimestamp,
+        },
+      ]);
+    }
+  }, []);
+
   // Focus on conversation header when messages are added (but not on initial load)
   useEffect(() => {
-    if (transcript.length > 1) { // Only after initial message
+    if (transcript.length > 1) {
+      // Only after initial message
       const raf = requestAnimationFrame(() => {
         const node = findNodeHandle(conversationHeaderRef.current);
         if (node) {
@@ -73,9 +82,12 @@ const VoiceInputScreen = ({ navigation, route }) => {
 
   // Dismiss keyboard when tapping outside
   useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      Keyboard.dismiss();
-    });
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        Keyboard.dismiss();
+      },
+    );
     return () => {
       keyboardDidHideListener.remove();
     };
@@ -87,10 +99,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
   const addUserMessage = (text) => {
     // Ensure unique timestamp by adding a small random offset
     const timestamp = Date.now() + Math.random();
-    setTranscript((prev) => [
-      ...prev,
-      { type: 'user', text, timestamp },
-    ]);
+    setTranscript((prev) => [...prev, { type: "user", text, timestamp }]);
   };
 
   const addBotMessage = (text, highlights = []) => {
@@ -98,7 +107,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
     const timestamp = Date.now() + Math.random();
     setTranscript((prev) => [
       ...prev,
-      { type: 'bot', text, highlights, timestamp },
+      { type: "bot", text, highlights, timestamp },
     ]);
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
@@ -117,46 +126,70 @@ const VoiceInputScreen = ({ navigation, route }) => {
 
     // Extract user's descriptor words (common location descriptors)
     const descriptorKeywords = [
-      'blend', 'chemistry', 'stairs', 'fountain', 'gilbert', 'gates', 
-      'basement', 'north', 'south', 'east', 'west', 'sapp', 'stlc',
-      'oval', 'bikes', 'main', 'voyager', 'coffee', 'near', 'close to',
-      'by', 'next to', 'beside'
+      "blend",
+      "chemistry",
+      "stairs",
+      "fountain",
+      "gilbert",
+      "gates",
+      "basement",
+      "north",
+      "south",
+      "east",
+      "west",
+      "sapp",
+      "stlc",
+      "oval",
+      "bikes",
+      "main",
+      "voyager",
+      "coffee",
+      "near",
+      "close to",
+      "by",
+      "next to",
+      "beside",
     ];
-    
+
     // Try to extract descriptor phrase - look for patterns like "near X", "close to X", "by X"
     let descriptorPhrase = null;
-    
+
     // Pattern 1: "near [word]" or "close to [word]" or "by [word]" (case insensitive, handles "Near blend")
     // Improved regex that captures the full phrase including preposition
     // Changed [a-z] to [a-zA-Z] to handle capitalized words like "Blend"
-    const nearPattern = /(?:near|close to|by|next to|beside)\s+([a-zA-Z]+(?:\s+[a-zA-Z]+)?)/i;
+    const nearPattern =
+      /(?:near|close to|by|next to|beside)\s+([a-zA-Z]+(?:\s+[a-zA-Z]+)?)/i;
     const nearMatch = input.match(nearPattern);
     if (nearMatch && nearMatch[0]) {
       descriptorPhrase = nearMatch[0].trim(); // Get the full phrase like "near blend" or "Near blend"
       setUserDescriptor(descriptorPhrase);
     } else {
       // Pattern 2: Check if any descriptor keyword is mentioned (like just "blend" or "gilbert")
-      const foundKeyword = descriptorKeywords.find(keyword => 
-        lowerInput.includes(keyword)
+      const foundKeyword = descriptorKeywords.find((keyword) =>
+        lowerInput.includes(keyword),
       );
-      
+
       if (foundKeyword) {
         const words = input.split(/\s+/);
-        const keywordIndex = words.findIndex(w => 
-          w.toLowerCase().includes(foundKeyword)
+        const keywordIndex = words.findIndex((w) =>
+          w.toLowerCase().includes(foundKeyword),
         );
         if (keywordIndex !== -1) {
           // Check if there's a preposition before the keyword
           if (keywordIndex > 0) {
             const prevWord = words[keywordIndex - 1].toLowerCase();
-            if (['near', 'by', 'close', 'next', 'beside'].includes(prevWord)) {
+            if (["near", "by", "close", "next", "beside"].includes(prevWord)) {
               // Get the preposition + keyword (preserve original case)
-              descriptorPhrase = words.slice(keywordIndex - 1, keywordIndex + 1).join(' ');
-            } else if (prevWord === 'to' && keywordIndex > 1) {
+              descriptorPhrase = words
+                .slice(keywordIndex - 1, keywordIndex + 1)
+                .join(" ");
+            } else if (prevWord === "to" && keywordIndex > 1) {
               // Handle "close to" or "next to"
               const prevPrevWord = words[keywordIndex - 2].toLowerCase();
-              if (['close', 'next'].includes(prevPrevWord)) {
-                descriptorPhrase = words.slice(keywordIndex - 2, keywordIndex + 1).join(' ');
+              if (["close", "next"].includes(prevPrevWord)) {
+                descriptorPhrase = words
+                  .slice(keywordIndex - 2, keywordIndex + 1)
+                  .join(" ");
               } else {
                 // Just the keyword, add "near"
                 descriptorPhrase = `near ${words[keywordIndex]}`;
@@ -173,7 +206,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
         }
       }
     }
-    
+
     // Use existing descriptor if no new one found (persist across messages)
     // IMPORTANT: Use descriptorPhrase first (from current input) before userDescriptor (from state)
     // because state updates are async and might not be available immediately
@@ -184,16 +217,15 @@ const VoiceInputScreen = ({ navigation, route }) => {
       const location =
         "Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305";
       setRecognizedLocation(location);
-      
+
       let botMessage1;
       if (currentDescriptor) {
-        botMessage1 =
-          `Okay, got it. You want to be dropped off at **CoDa, the Computing and Data Science building on the Stanford campus**. You mentioned "${currentDescriptor.toLowerCase()}". Is there a particular entrance that you would like to be dropped off at?`;
+        botMessage1 = `Okay, got it. You want to be dropped off at **CoDa, the Computing and Data Science building on the Stanford campus**. You mentioned "${currentDescriptor.toLowerCase()}". Is there a particular entrance that you would like to be dropped off at?`;
       } else {
         botMessage1 =
           "Okay, got it. You want to be dropped off at **CoDa, the Computing and Data Science building on the Stanford campus**.";
       }
-      
+
       addBotMessage(botMessage1, [
         "CoDa",
         "Computing and Data Science building",
@@ -215,11 +247,13 @@ const VoiceInputScreen = ({ navigation, route }) => {
       // Use the descriptor from current input first (descriptorPhrase), then fallback to state
       // This ensures we use what the user just typed, not stale state
       let descriptor = descriptorPhrase || userDescriptor;
-      
+
       // If still no descriptor, try to extract from current input directly
       if (!descriptor && lowerInput.includes("blend")) {
         // Try to find "near blend" or "Near blend" in the input (case insensitive)
-        const blendMatch = input.match(/(?:near|close to|by|next to|beside)\s+blend/i);
+        const blendMatch = input.match(
+          /(?:near|close to|by|next to|beside)\s+blend/i,
+        );
         if (blendMatch && blendMatch[0]) {
           descriptor = blendMatch[0].trim(); // "Near blend" or "near blend" - preserve original case
           setUserDescriptor(descriptor);
@@ -229,24 +263,27 @@ const VoiceInputScreen = ({ navigation, route }) => {
           setUserDescriptor(descriptor);
         }
       }
-      
+
       // Fallback to default if still no descriptor
       if (!descriptor) {
         descriptor = "near Blend";
         setUserDescriptor(descriptor);
       }
-      
+
       // Ensure descriptor is stored in state for future messages
       if (descriptor && descriptor !== userDescriptor) {
         setUserDescriptor(descriptor);
       }
-      
+
       // Coordinates different from current location (37.4275, -122.1697)
       // North entrance coordinates - clearly different (more north and slightly east)
       const coordinates = "(37.4300, -122.1675)";
-      const botMessage =
-        `Got it. You want to be dropped off **${descriptor.toLowerCase()}**! This is nearest to the **north entrance of CoDa** at coordinates ${coordinates}. Any other specifications?`;
-      addBotMessage(botMessage, [`${descriptor.toLowerCase()}`, "north entrance of CoDa", coordinates]);
+      const botMessage = `Got it. You want to be dropped off **${descriptor.toLowerCase()}**! This is nearest to the **north entrance of CoDa** at coordinates ${coordinates}. Any other specifications?`;
+      addBotMessage(botMessage, [
+        `${descriptor.toLowerCase()}`,
+        "north entrance of CoDa",
+        coordinates,
+      ]);
     } else if (
       lowerInput.includes("stairs") ||
       lowerInput.includes("fountain") ||
@@ -257,15 +294,20 @@ const VoiceInputScreen = ({ navigation, route }) => {
     ) {
       // Use the descriptor from current input first (descriptorPhrase), then fallback to state
       let descriptor = descriptorPhrase || userDescriptor;
-      
+
       // If still no descriptor, try to extract from current input directly
       if (!descriptor) {
         // Check for specific keywords and extract descriptor
-        const keywords = ['gilbert', 'stairs', 'fountain', 'gates', 'basement'];
+        const keywords = ["gilbert", "stairs", "fountain", "gates", "basement"];
         for (const keyword of keywords) {
           if (lowerInput.includes(keyword)) {
             // Try to find "near [keyword]" pattern
-            const keywordMatch = input.match(new RegExp(`(?:near|close to|by|next to|beside)\\s+${keyword}`, 'i'));
+            const keywordMatch = input.match(
+              new RegExp(
+                `(?:near|close to|by|next to|beside)\\s+${keyword}`,
+                "i",
+              ),
+            );
             if (keywordMatch && keywordMatch[0]) {
               descriptor = keywordMatch[0].trim();
             } else {
@@ -277,23 +319,26 @@ const VoiceInputScreen = ({ navigation, route }) => {
           }
         }
       }
-      
+
       // Fallback to default if still no descriptor
       if (!descriptor) {
         descriptor = "near the stairs";
       }
-      
+
       // Ensure descriptor is stored in state for future messages
       if (descriptor && descriptor !== userDescriptor) {
         setUserDescriptor(descriptor);
       }
-      
+
       // Coordinates different from current location (37.4275, -122.1697)
       // Southwest entrance coordinates - clearly different
       const coordinates = "(37.4255, -122.1720)";
-      const botMessage =
-        `Got it. You want to be dropped off **${descriptor.toLowerCase()}**! This is nearest to the **southwest entrance of CoDa** at coordinates ${coordinates}. Any other specifications?`;
-      addBotMessage(botMessage, [`${descriptor.toLowerCase()}`, "southwest entrance of CoDa", coordinates]);
+      const botMessage = `Got it. You want to be dropped off **${descriptor.toLowerCase()}**! This is nearest to the **southwest entrance of CoDa** at coordinates ${coordinates}. Any other specifications?`;
+      addBotMessage(botMessage, [
+        `${descriptor.toLowerCase()}`,
+        "southwest entrance of CoDa",
+        coordinates,
+      ]);
     } else if (
       lowerInput.includes("oval") ||
       lowerInput.includes("bikes") ||
@@ -304,15 +349,20 @@ const VoiceInputScreen = ({ navigation, route }) => {
     ) {
       // Use the descriptor from current input first (descriptorPhrase), then fallback to state
       let descriptor = descriptorPhrase || userDescriptor;
-      
+
       // If still no descriptor, try to extract from current input directly
       if (!descriptor) {
         // Check for specific keywords and extract descriptor
-        const keywords = ['oval', 'bikes', 'main', 'voyager', 'coffee'];
+        const keywords = ["oval", "bikes", "main", "voyager", "coffee"];
         for (const keyword of keywords) {
           if (lowerInput.includes(keyword)) {
             // Try to find "near [keyword]" pattern
-            const keywordMatch = input.match(new RegExp(`(?:near|close to|by|next to|beside)\\s+${keyword}`, 'i'));
+            const keywordMatch = input.match(
+              new RegExp(
+                `(?:near|close to|by|next to|beside)\\s+${keyword}`,
+                "i",
+              ),
+            );
             if (keywordMatch && keywordMatch[0]) {
               descriptor = keywordMatch[0].trim();
             } else {
@@ -324,23 +374,26 @@ const VoiceInputScreen = ({ navigation, route }) => {
           }
         }
       }
-      
+
       // Fallback to default if still no descriptor
       if (!descriptor) {
         descriptor = "near the main entrance";
       }
-      
+
       // Ensure descriptor is stored in state for future messages
       if (descriptor && descriptor !== userDescriptor) {
         setUserDescriptor(descriptor);
       }
-      
+
       // Coordinates different from current location (37.4275, -122.1697)
       // East entrance coordinates - clearly different
       const coordinates = "(37.4290, -122.1665)";
-      const botMessage =
-        `Got it. You want to be dropped off **${descriptor.toLowerCase()}**! This is nearest to the **east entrance of CoDa** at coordinates ${coordinates}. Any other specifications?`;
-      addBotMessage(botMessage, [`${descriptor.toLowerCase()}`, "east entrance of CoDa", coordinates]);
+      const botMessage = `Got it. You want to be dropped off **${descriptor.toLowerCase()}**! This is nearest to the **east entrance of CoDa** at coordinates ${coordinates}. Any other specifications?`;
+      addBotMessage(botMessage, [
+        `${descriptor.toLowerCase()}`,
+        "east entrance of CoDa",
+        coordinates,
+      ]);
     } else if (
       lowerInput.includes("that's it") ||
       lowerInput.includes("no") ||
@@ -355,10 +408,13 @@ const VoiceInputScreen = ({ navigation, route }) => {
           "Secured your dropoff location. Please proceed to complete your ride booking with Boogie!";
         addBotMessage(botMessage2);
       }, 1500);
-    } else if (currentDescriptor && !lowerInput.includes("coda") && !lowerInput.includes("computing")) {
+    } else if (
+      currentDescriptor &&
+      !lowerInput.includes("coda") &&
+      !lowerInput.includes("computing")
+    ) {
       // User provided a descriptor but we haven't matched a specific location yet
-      const botMessage =
-        `I understand you mentioned "${currentDescriptor}". Could you tell me which building you'd like to be dropped off at?`;
+      const botMessage = `I understand you mentioned "${currentDescriptor}". Could you tell me which building you'd like to be dropped off at?`;
       addBotMessage(botMessage);
     } else {
       const botMessage =
@@ -376,13 +432,13 @@ const VoiceInputScreen = ({ navigation, route }) => {
     if (textInputRef.current) {
       textInputRef.current.focus();
     }
-    
+
     // Show helpful instructions
     setTimeout(() => {
       Alert.alert(
-        'Voice Input',
-        'Tap the microphone icon on your keyboard to use voice input, or type your message directly.',
-        [{ text: 'Got it' }]
+        "Voice Input",
+        "Tap the microphone icon on your keyboard to use voice input, or type your message directly.",
+        [{ text: "Got it" }],
       );
     }, 300);
   };
@@ -398,7 +454,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
     if (manualInput.trim()) {
       addUserMessage(manualInput);
       processVoiceInput(manualInput);
-      setManualInput('');
+      setManualInput("");
     }
   };
 
@@ -406,101 +462,112 @@ const VoiceInputScreen = ({ navigation, route }) => {
   const readAllMessages = async () => {
     try {
       if (transcript.length === 0) {
-        AccessibilityInfo.announceForAccessibility?.('No messages to read yet.');
+        AccessibilityInfo.announceForAccessibility?.(
+          "No messages to read yet.",
+        );
         return;
       }
 
-      const isScreenReaderEnabled = await AccessibilityInfo.isScreenReaderEnabled();
-      
+      const isScreenReaderEnabled =
+        await AccessibilityInfo.isScreenReaderEnabled();
+
       if (isScreenReaderEnabled) {
         // Screen reader is active - announce each message sequentially
         // Focus on first message, then announce all
         if (transcript.length > 0) {
-          const firstMessageNode = findNodeHandle(messageRefs.current[transcript[0].timestamp]);
+          const firstMessageNode = findNodeHandle(
+            messageRefs.current[transcript[0].timestamp],
+          );
           if (firstMessageNode) {
             AccessibilityInfo.setAccessibilityFocus(firstMessageNode);
           }
         }
-        
+
         // Announce all messages with pauses between them
         transcript.forEach((msg, index) => {
           setTimeout(() => {
-            const cleanText = msg.text.replace(/\*\*/g, '');
-            const announcement = `${msg.type === 'user' ? 'You said' : 'BoogieBot said'}: ${cleanText}`;
+            const cleanText = msg.text.replace(/\*\*/g, "");
+            const announcement = `${msg.type === "user" ? "You said" : "BoogieBot said"}: ${cleanText}`;
             AccessibilityInfo.announceForAccessibility?.(announcement);
           }, index * 2000); // 2 second delay between each message
         });
       } else {
         // No screen reader - use TTS to read all messages
-        const allText = transcript.map(msg => {
-          const cleanText = msg.text.replace(/\*\*/g, '');
-          return `${msg.type === 'user' ? 'You said' : 'BoogieBot said'}: ${cleanText}`;
-        }).join('. ');
-        
+        const allText = transcript
+          .map((msg) => {
+            const cleanText = msg.text.replace(/\*\*/g, "");
+            return `${msg.type === "user" ? "You said" : "BoogieBot said"}: ${cleanText}`;
+          })
+          .join(". ");
+
         Speech.speak(allText, {
-          language: 'en-US',
+          language: "en-US",
           pitch: 1.0,
           rate: 0.9,
         });
       }
     } catch (error) {
-      console.error('Error reading messages:', error);
+      console.error("Error reading messages:", error);
       // Fallback: try to announce error
-      AccessibilityInfo.announceForAccessibility?.('Error reading messages. Please try again.');
+      AccessibilityInfo.announceForAccessibility?.(
+        "Error reading messages. Please try again.",
+      );
     }
   };
 
   const readLastMessage = async () => {
     if (transcript.length === 0) return;
-    
+
     try {
       const lastMessage = transcript[transcript.length - 1];
-      const isScreenReaderEnabled = await AccessibilityInfo.isScreenReaderEnabled();
-      
+      const isScreenReaderEnabled =
+        await AccessibilityInfo.isScreenReaderEnabled();
+
       if (isScreenReaderEnabled) {
         AccessibilityInfo.announceForAccessibility(
-          `${lastMessage.type === 'user' ? 'You said' : 'BoogieBot said'}: ${lastMessage.text}`
+          `${lastMessage.type === "user" ? "You said" : "BoogieBot said"}: ${lastMessage.text}`,
         );
       } else {
         Speech.speak(
-          `${lastMessage.type === 'user' ? 'You said' : 'BoogieBot said'}: ${lastMessage.text}`,
+          `${lastMessage.type === "user" ? "You said" : "BoogieBot said"}: ${lastMessage.text}`,
           {
-            language: 'en-US',
+            language: "en-US",
             pitch: 1.0,
             rate: 0.9,
-          }
+          },
         );
       }
     } catch (error) {
-      console.error('Error reading last message:', error);
+      console.error("Error reading last message:", error);
     }
   };
 
   const handleContinueToConfirmation = () => {
-    const dropoffLocation = recognizedLocation || 
-      'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305';
-    
-    navigation.navigate('RideRegistration', {
+    const dropoffLocation =
+      recognizedLocation ||
+      "Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305";
+
+    navigation.navigate("RideRegistration", {
       pickupLocation: DEFAULT_PICKUP_LOCATION.displayText,
       dropoffLocation: dropoffLocation,
-      dropoffLocationName: 'CoDa',
+      dropoffLocationName: "CoDa",
     });
   };
 
   const renderMessage = (message) => {
-    const isUser = message.type === 'user';
+    const isUser = message.type === "user";
     const highlights = message.highlights || [];
-    
+
     let displayText = message.text;
     highlights.forEach((highlight) => {
       displayText = displayText.replace(
-        new RegExp(`\\*\\*${highlight}\\*\\*`, 'gi'),
-        `**${highlight}**`
+        new RegExp(`\\*\\*${highlight}\\*\\*`, "gi"),
+        `**${highlight}**`,
       );
     });
 
     // Clean text for accessibility (remove markdown formatting)
-    const cleanText = message.text.replace(/\*\*/g, '');
+    const cleanText = message.text.replace(/\*\*/g, "");
 
     return (
       <View
@@ -508,25 +575,30 @@ const VoiceInputScreen = ({ navigation, route }) => {
         ref={(ref) => {
           if (ref) messageRefs.current[message.timestamp] = ref;
         }}
-        style={[styles.messageContainer, isUser ? styles.userMessage : styles.botMessage]}
+        style={[
+          styles.messageContainer,
+          isUser ? styles.userMessage : styles.botMessage,
+        ]}
         accessible={true}
         accessibilityRole="text"
-        accessibilityLabel={isUser ? `You said: ${cleanText}` : `BoogieBot said: ${cleanText}`}
+        accessibilityLabel={
+          isUser ? `You said: ${cleanText}` : `BoogieBot said: ${cleanText}`
+        }
         importantForAccessibility="yes"
       >
-        <Text 
+        <Text
           style={styles.messageLabel}
           accessibilityElementsHidden={true}
           importantForAccessibility="no"
         >
-          {isUser ? 'User Name:' : 'BoogieBot:'}
+          {isUser ? "User Name:" : "BoogieBot:"}
         </Text>
-        <Text 
-          style={styles.messageText} 
+        <Text
+          style={styles.messageText}
           accessibilityElementsHidden={true}
           importantForAccessibility="no"
         >
-          {displayText.split('**').map((part, index) => {
+          {displayText.split("**").map((part, index) => {
             if (index % 2 === 1) {
               return (
                 <Text key={index} style={styles.highlightedText}>
@@ -542,34 +614,21 @@ const VoiceInputScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <Text style={styles.backIcon}>‹</Text>
-        </TouchableOpacity>
-        <Text 
-          ref={logoRef}
-          style={styles.logo} 
-          accessibilityRole="text"
-          accessible={true}
-          importantForAccessibility="yes"
-          accessibilityLabel="Boogie app"
-        >
-          boogie
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      edges={["left", "right"]}
+    >
+      <LinearGradient
+        colors={[theme.colors.wordmark.primary, theme.colors.wordmark.secondary, theme.colors.wordmark.tertiary, theme.colors.wordmark.quaternary]}
+        style={StyleSheet.absoluteFill} // fills parent completely
+        start={{ x: 0, y: 0 }} // top-left
+        end={{ x: 1, y: 1 }} // bottom-right
+      />
+      <BoogieBotHeader ref={headerRef} />
 
-      <View style={styles.promptContainer}>
-        <Text style={styles.prompt} accessibilityRole="header">
-          Where would you like to be dropped off?
-        </Text>
-      </View>
+      <Text style={styles.prompt} accessibilityRole="header">
+        Let's set up your ride.
+      </Text>
 
       <ScrollView
         ref={scrollViewRef}
@@ -590,7 +649,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
               accessibilityHint="Double tap to start or stop voice input"
             >
               {isRecording ? (
-                <ActivityIndicator size="large" color={colors.secondary} />
+                <ActivityIndicator size="large" color={theme.colors.wordmark.primary} />
               ) : (
                 <Text style={styles.recordButtonIcon}>🎤</Text>
               )}
@@ -598,7 +657,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
             <Text style={styles.emptyStateText}>
               Tap the microphone button, then use your keyboard's voice input (🎤 icon) or type your message
             </Text>
-            <View style={styles.manualInputContainer}>
+            <View style={styles.inputWrapper}>
               <Text style={styles.manualInputLabel}>
                 Tap the microphone button above, then use your keyboard's voice input (🎤 icon) or type:
               </Text>
@@ -608,7 +667,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 value={manualInput}
                 onChangeText={setManualInput}
                 placeholder="Say or type: 'I want to go to coda'..."
-                placeholderTextColor={colors.textSecondary}
+                placeholderTextColor={theme.colors.textPlaceholder}
                 onSubmitEditing={handleManualSubmit}
                 onBlur={() => Keyboard.dismiss()}
                 accessibilityLabel="Type or use voice input for your destination message"
@@ -616,43 +675,27 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 accessibilityHint="You can use your device's voice input by tapping the microphone icon on your keyboard"
                 returnKeyType="send"
               />
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.submitButton}
                 onPress={handleManualSubmit}
                 accessibilityRole="button"
                 accessibilityLabel="Submit message"
               >
                 <Text style={styles.submitButtonText}>Send</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         ) : (
           <>
-            <View 
-              ref={conversationHeaderRef}
-              accessible={true}
-              accessibilityRole="header"
-              accessibilityLabel={`Conversation with ${transcript.length} message${transcript.length !== 1 ? 's' : ''}`}
-              style={styles.conversationHeader}
-              importantForAccessibility="yes"
-            >
-              <Text 
-                style={styles.conversationHeaderText}
-                accessibilityElementsHidden={true}
-                importantForAccessibility="no"
-              >
-                Conversation ({transcript.length} message{transcript.length !== 1 ? 's' : ''})
-              </Text>
-            </View>
             {transcript.map(renderMessage)}
-            <View style={styles.manualInputContainer}>
+            <View style={[styles.inputWrapper, { backgroundColor: theme.colors.background }]}>
               <TextInput
                 ref={textInputRef}
                 style={styles.manualInput}
                 value={manualInput}
                 onChangeText={setManualInput}
                 placeholder="Continue conversation... (use keyboard 🎤 for voice)"
-                placeholderTextColor={colors.textSecondary}
+                placeholderTextColor={theme.colors.textPlaceholder}
                 onSubmitEditing={handleManualSubmit}
                 onBlur={() => Keyboard.dismiss()}
                 accessibilityLabel="Continue conversation using voice or text"
@@ -660,18 +703,18 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 accessibilityHint="Use your keyboard's microphone icon for voice input"
                 returnKeyType="send"
               />
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.submitButton}
                 onPress={handleManualSubmit}
                 accessibilityRole="button"
                 accessibilityLabel="Send message"
               >
                 <Text style={styles.submitButtonText}>Send</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             {isRecording && (
               <View style={styles.recordingIndicator}>
-                <ActivityIndicator size="small" color={colors.primary} />
+                <ActivityIndicator size="small" color={theme.colors.wordmark.primary} />
                 <Text style={styles.recordingText}>Listening...</Text>
               </View>
             )}
@@ -712,48 +755,20 @@ const VoiceInputScreen = ({ navigation, route }) => {
       )}
     </SafeAreaView>
   );
-};
+};;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  backIcon: {
-    fontSize: 32,
-    color: colors.text,
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  headerSpacer: {
-    width: 40,
-  },
-  promptContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingLeft: theme.spacing.regular,
+    paddingRight: theme.spacing.regular,
   },
   prompt: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
+    fontSize: theme.fontSizes.xl,
+    fontFamily: theme.fonts.header3,
+    color: "#FFFFFF",
+    alignSelf: "center",
+    marginBottom: theme.spacing.regular,
   },
   transcriptContainer: {
     flex: 1,
@@ -763,39 +778,39 @@ const styles = StyleSheet.create({
   },
   emptyState: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     minHeight: 400,
   },
   recordButton: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: theme.colors.light.wordmark.primary,
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
   },
   recordButtonActive: {
-    backgroundColor: colors.error,
+    backgroundColor: "red",
   },
   recordButtonIcon: {
     fontSize: 40,
   },
   emptyStateText: {
     fontSize: 16,
-    color: colors.textSecondary,
+    color: theme.colors.light.textPlaceholder,
   },
   conversationHeader: {
     marginBottom: 16,
     paddingBottom: 12,
     borderBottomWidth: 2,
-    borderBottomColor: colors.border,
+    borderBottomColor: theme.colors.light.borderDark,
   },
   conversationHeaderText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
+    fontWeight: "600",
+    color: theme.colors.light.bodyDark,
   },
   messageContainer: {
     marginBottom: 16,
@@ -804,133 +819,132 @@ const styles = StyleSheet.create({
     minHeight: 44, // Ensure minimum touch target size
   },
   userMessage: {
-    backgroundColor: colors.backgroundLight,
-    alignSelf: 'flex-end',
-    maxWidth: '85%',
+    backgroundColor: theme.colors.light.background,
+    alignSelf: "flex-end",
+    maxWidth: "85%",
   },
   botMessage: {
-    backgroundColor: colors.background,
-    alignSelf: 'flex-start',
-    maxWidth: '85%',
+    backgroundColor: theme.colors.light.background,
+    alignSelf: "flex-start",
+    maxWidth: "85%",
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: theme.colors.light.borderDark,
   },
   messageLabel: {
     fontSize: 12,
-    fontWeight: '600',
-    color: colors.textSecondary,
+    fontWeight: "600",
+    color: theme.colors.light.textPlaceholder,
     marginBottom: 4,
   },
   messageText: {
     fontSize: 16,
-    color: colors.text,
+    color: theme.colors.light.bodyDark,
     lineHeight: 24,
   },
   highlightedText: {
-    fontWeight: '600',
-    color: colors.primary,
+    fontWeight: "600",
+    color: theme.colors.light.wordmark.primary,
   },
   recordButtonSmall: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    backgroundColor: theme.colors.light.wordmark.primary,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
     marginTop: 16,
   },
   recordButtonSmallIcon: {
     fontSize: 24,
   },
   recordingIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 16,
     gap: 8,
   },
   recordingText: {
     fontSize: 14,
-    color: colors.primary,
-    fontWeight: '600',
+    color: theme.colors.light.wordmark.primary,
+    fontWeight: "600",
   },
-  manualInputContainer: {
-    marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
+  inputWrapper: {
+    flexDirection: "row",
+    // alignSelf: "flex-end",
+    justifyContent: "space-between",
+    height: 45,
+    borderWidth: 2,
+    borderColor: "#09A6B8",
+    borderRadius: 100,
+    paddingHorizontal: theme.spacing.small,
   },
   manualInputLabel: {
     fontSize: 14,
-    color: colors.textSecondary,
+    color: theme.colors.light.textPlaceholder,
     marginBottom: 8,
   },
   manualInput: {
-    backgroundColor: colors.backgroundLight,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: colors.text,
-    marginBottom: 8,
+    color: theme.colors.light.bodyDark,
   },
   submitButton: {
-    backgroundColor: colors.primary,
+    backgroundColor: theme.colors.light.wordmark.primary,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   submitButtonText: {
-    color: colors.secondary,
+    color: theme.colors.light.wordmark.secondary,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   actionButtons: {
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
+    borderTopColor: theme.colors.light.borderDark,
     gap: 12,
   },
   readButton: {
-    backgroundColor: colors.primary,
+    backgroundColor: theme.colors.light.wordmark.primary,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   readButtonText: {
-    color: colors.secondary,
+    color: theme.colors.light.wordmark.secondary,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   primaryButton: {
-    backgroundColor: colors.text,
+    backgroundColor: theme.colors.light.bodyDark,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   primaryButtonText: {
-    color: colors.secondary,
+    color: theme.colors.light.wordmark.secondary,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   secondaryButton: {
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: theme.colors.light.background,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: theme.colors.light.borderDark,
   },
   secondaryButtonText: {
-    color: colors.text,
+    color: theme.colors.light.bodyDark,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
 

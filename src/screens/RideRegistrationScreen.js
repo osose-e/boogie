@@ -6,20 +6,24 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   Switch,
   AccessibilityInfo,
   findNodeHandle,
   Keyboard,
 } from 'react-native';
-import { colors } from '../styles/colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import CancelConfirmationModal from '../components/CancelConfirmationModal';
 import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
+import { theme } from "../styles/themes";
+import { useTheme } from '../contexts/ThemeContext';
+import HomeStackHeader from '../components/HomeStackHeader';
 
 const RideRegistrationScreen = ({ navigation, route }) => {
+  const locationName = "Lathrop Library";
+  const locationAddress = "518 Memorial Way, Stanford, CA 94305";
   const {
-    pickupLocation = DEFAULT_PICKUP_LOCATION.displayText,
+    pickupLocation = DEFAULT_PICKUP_LOCATION,
     dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
   } = route.params || {};
 
@@ -31,6 +35,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
   const [isRecurring, setIsRecurring] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showFinalizeModal, setShowFinalizeModal] = useState(false);
+  const { theme } = useTheme();
 
   const handleRequestRide = () => {
     setShowFinalizeModal(true);
@@ -52,7 +57,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
   const handleCancel = () => {
     setShowCancelModal(false);
-    navigation.goBack();
+    navigation.navigate('HomeMain');
   };
 
   const headerTitleRef = useRef(null);
@@ -79,39 +84,30 @@ const RideRegistrationScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <Text style={styles.backIcon}>‹</Text>
-        </TouchableOpacity>
-        <Text 
-          ref={headerTitleRef}
-          style={styles.headerTitle} 
-          accessibilityRole="header"
-          accessible={true}
-          importantForAccessibility="yes"
-        >
-          Complete Ride Booking
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      edges={["left", "right"]}
+    >
+      <HomeStackHeader title="Complete Ride Booking" />
 
-      <ScrollView 
-        style={styles.content} 
-        contentContainerStyle={styles.contentContainer}
+      <ScrollView
+        // style={styles.content}
+        // contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
         onScrollBeginDrag={() => Keyboard.dismiss()}
       >
-        <View style={styles.currentLocationContainer}>
-          <Text style={styles.currentLocationLabel} accessibilityRole="text">
-            {pickupLocation}
+        <Text
+          style={[styles.currentLocation, { color: theme.colors.textAddress }]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          accessibilityRole="text"
+        >
+          Current location:{" "}
+          <Text style={{ fontFamily: theme.fonts.header2 }}>
+            {locationName}
           </Text>
-        </View>
+          , {locationAddress}
+        </Text>
 
         <View style={styles.section}>
           <Text style={styles.sectionLabel} accessibilityRole="text">
@@ -121,17 +117,17 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             <TouchableOpacity
               style={[
                 styles.timeToggle,
-                pickupTime === 'now' && styles.timeToggleActive,
+                pickupTime === "now" && styles.timeToggleActive,
               ]}
-              onPress={() => setPickupTime('now')}
+              onPress={() => setPickupTime("now")}
               accessibilityRole="button"
               accessibilityLabel="Select pickup time: Now"
-              accessibilityState={{ selected: pickupTime === 'now' }}
+              accessibilityState={{ selected: pickupTime === "now" }}
             >
               <Text
                 style={[
                   styles.timeToggleText,
-                  pickupTime === 'now' && styles.timeToggleTextActive,
+                  pickupTime === "now" && styles.timeToggleTextActive,
                 ]}
               >
                 Now
@@ -140,17 +136,17 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             <TouchableOpacity
               style={[
                 styles.timeToggle,
-                pickupTime === 'later' && styles.timeToggleActive,
+                pickupTime === "later" && styles.timeToggleActive,
               ]}
-              onPress={() => setPickupTime('later')}
+              onPress={() => setPickupTime("later")}
               accessibilityRole="button"
               accessibilityLabel="Select pickup time: Later"
-              accessibilityState={{ selected: pickupTime === 'later' }}
+              accessibilityState={{ selected: pickupTime === "later" }}
             >
               <Text
                 style={[
                   styles.timeToggleText,
-                  pickupTime === 'later' && styles.timeToggleTextActive,
+                  pickupTime === "later" && styles.timeToggleTextActive,
                 ]}
               >
                 Later
@@ -158,7 +154,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
 
-          {pickupTime === 'later' && (
+          {pickupTime === "later" && (
             <View style={styles.dateTimeContainer}>
               <View style={styles.dateTimeRow}>
                 <Text style={styles.dateTimeLabel}>Date</Text>
@@ -196,7 +192,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             Pickup Location
           </Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{pickupLocation}</Text>
+            <Text style={styles.locationText}>{locationName}, {locationAddress}</Text>
           </View>
         </View>
 
@@ -218,15 +214,13 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             value={notes}
             onChangeText={setNotes}
             placeholder="Notes for the driver. (Optional, max. 100 char)"
-            placeholderTextColor={colors.textSecondary}
+            placeholderTextColor={theme.colors.bodyDark}
             multiline
             maxLength={100}
             accessibilityLabel="Notes for the driver, optional, maximum 100 characters"
             accessibilityRole="textbox"
           />
-          <Text style={styles.notesCounter}>
-            {notes.length}/100
-          </Text>
+          <Text style={styles.notesCounter}>{notes.length}/100</Text>
         </View>
 
         <View style={styles.section}>
@@ -237,8 +231,11 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             <Switch
               value={needsWheelchair}
               onValueChange={setNeedsWheelchair}
-              trackColor={{ false: colors.border, true: colors.primary }}
-              thumbColor={colors.secondary}
+              trackColor={{
+                false: theme.colors.borderDark,
+                true: theme.colors.wordmark.primary,
+              }}
+              thumbColor={theme.colors.switchThumb}
               accessibilityRole="switch"
               accessibilityLabel="Wheelchair accessibility needed"
               accessibilityState={{ checked: needsWheelchair }}
@@ -252,8 +249,11 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             <Switch
               value={isRecurring}
               onValueChange={setIsRecurring}
-              trackColor={{ false: colors.border, true: colors.primary }}
-              thumbColor={colors.secondary}
+              trackColor={{
+                false: theme.colors.borderDark,
+                true: theme.colors.wordmark.primary,
+              }}
+              thumbColor={theme.colors.switchThumb}
               accessibilityRole="switch"
               accessibilityLabel="Recurring ride request"
               accessibilityState={{ checked: isRecurring }}
@@ -264,20 +264,20 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
       <View style={styles.actionButtons}>
         <TouchableOpacity
-          style={styles.cancelButton}
+          style={[styles.button, { backgroundColor: theme.colors.buttonSecondary }]}
           onPress={() => setShowCancelModal(true)}
           accessibilityRole="button"
           accessibilityLabel="Cancel booking"
         >
-          <Text style={styles.cancelButtonText}>Cancel booking</Text>
+          <Text style={[styles.cancelButtonText, { color: theme.colors.buttonTextSecondary }]}>Cancel booking</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.requestButton}
+          style={[styles.button, { backgroundColor: theme.colors.buttonPrimary }]}
           onPress={handleRequestRide}
           accessibilityRole="button"
           accessibilityLabel="Request ride"
         >
-          <Text style={styles.requestButtonText}>Request ride</Text>
+          <Text style={[styles.requestButtonText, { color: theme.colors.buttonTextPrimary }]}>Request ride</Text>
         </TouchableOpacity>
       </View>
 
@@ -292,8 +292,9 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         onClose={() => setShowFinalizeModal(false)}
         onConfirm={handleFinalizeBooking}
         rideDetails={{
-          pickupDate: pickupTime === 'now' ? new Date().toISOString() : pickupDate,
-          pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
+          pickupDate:
+            pickupTime === "now" ? new Date().toISOString() : pickupDate,
+          pickupTime: pickupTime === "now" ? "Now" : pickupTimeValue,
           pickupLocation,
           dropoffLocation,
         }}
@@ -305,107 +306,82 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  backIcon: {
-    fontSize: 32,
-    color: colors.text,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  headerSpacer: {
-    width: 40,
-  },
-  content: {
-    flex: 1,
+    paddingLeft: theme.spacing.regular,
+    paddingRight: theme.spacing.regular,
   },
   contentContainer: {
     padding: 20,
   },
-  currentLocationContainer: {
-    marginBottom: 24,
-  },
-  currentLocationLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
+  currentLocation: {
+    fontSize: theme.fontSizes.sm,
+    fontFamily: theme.fonts.body,
+    marginBottom: theme.spacing.regular,
   },
   section: {
     marginBottom: 24,
   },
   sectionLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.header2,
+    color: theme.colors.light.bodyDark,
     marginBottom: 12,
   },
   timeToggleContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
     marginBottom: 16,
+    borderColor: "red",
+    // borderWidth: 1,
+    justifyContent: "space-evenly",
   },
   timeToggle: {
-    flex: 1,
+    // flex: 1,
+    width: "30%",
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
+    paddingHorizontal: theme.spacing.small,
+    borderRadius: theme.radius.button,
+    backgroundColor: theme.colors.light.background,
     borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
+    borderColor: theme.colors.light.borderDark,
+    alignItems: "center",
   },
   timeToggleActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: theme.colors.light.wordmark.primary,
+    borderColor: theme.colors.light.wordmark.primary,
   },
   timeToggleText: {
     fontSize: 16,
-    color: colors.text,
-    fontWeight: '600',
+    color: theme.colors.light.bodyDark,
+    fontWeight: "600",
   },
   timeToggleTextActive: {
-    color: colors.secondary,
+    color: theme.colors.light.bodyLight,
   },
   dateTimeContainer: {
     gap: 16,
   },
   dateTimeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   dateTimeLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.header2,
+    color: theme.colors.light.bodyDark,
   },
   dateTimeInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   dateTimeInput: {
-    fontSize: 16,
-    color: colors.text,
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
+    color: theme.colors.light.bodyDark,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: theme.colors.light.background,
     borderRadius: 6,
     minWidth: 120,
   },
@@ -413,82 +389,78 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   locationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: theme.colors.light.background,
     borderRadius: 8,
   },
   locationText: {
     flex: 1,
-    fontSize: 16,
-    color: colors.text,
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
+    color: theme.colors.light.bodyDark,
   },
   notesInput: {
-    backgroundColor: colors.backgroundLight,
-    borderWidth: 1,
-    borderColor: colors.border,
+    backgroundColor: theme.colors.light.background,
+    borderColor: theme.colors.light.borderDark,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: colors.text,
+    color: theme.colors.light.bodyDark,
     minHeight: 80,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
   notesCounter: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    textAlign: 'right',
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.header2,
+    color: theme.colors.light.bodyDark,
+    textAlign: "right",
     marginTop: 4,
   },
   switchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 12,
+    borderColor: "red",
+    borderWidth: 1,
+    // paddingHorizontal: 12,
     marginBottom: 8,
   },
   switchLabel: {
-    fontSize: 16,
-    color: colors.text,
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
+    color: theme.colors.light.bodyDark,
     flex: 1,
   },
   actionButtons: {
-    flexDirection: 'row',
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    gap: 12,
+    width: "100%",
+    flexDirection: "row",
+    paddingTop: theme.spacing.regular,
+    paddingBottom: theme.spacing.lg,
+    gap: theme.spacing.regular,
+    justifyContent: "space-between",
   },
-  cancelButton: {
-    flex: 1,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
+  button: {
+    width: "45%",
+    paddingVertical: theme.spacing.small,
+    paddingHorizontal: theme.spacing.xs,
     borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
+    borderColor: theme.colors.light.borderDark,
+    borderRadius: theme.radius.button,
+    alignItems: "center",
+    justifyContent: "center",
   },
   cancelButtonText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  requestButton: {
-    flex: 1,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    backgroundColor: colors.text,
-    alignItems: 'center',
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
   },
   requestButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.header2,
   },
 });
 

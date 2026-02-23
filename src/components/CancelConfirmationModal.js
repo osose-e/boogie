@@ -7,41 +7,85 @@ import {
   StyleSheet,
   AccessibilityInfo,
 } from 'react-native';
-import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
 
 const CancelConfirmationModal = ({ visible, onClose, onConfirm }) => {
+  const { theme } = useTheme();
+
   return (
     <Modal
       visible={visible}
       transparent={true}
-      animationType="fade"
+      animationType="none"
       onRequestClose={onClose}
       accessibilityViewIsModal={true}
     >
       <View style={styles.overlay}>
-        <View style={styles.modalContainer} accessible={true} accessibilityRole="alertdialog">
-          <Text style={styles.title} accessibilityRole="header">
+        <View
+          style={[
+            styles.modalContainer,
+            { backgroundColor: theme.colors.background },
+          ]}
+          accessible={true}
+          accessibilityRole="alert"
+        >
+          <Text
+            style={[styles.title, { color: theme.colors.header2 }]}
+            accessibilityRole="header"
+          >
             Cancel your booking?
           </Text>
-          <Text style={styles.message} accessibilityRole="text">
-            Are you sure you want to cancel your booking?
+          <Text
+            style={[styles.message, { color: theme.colors.bodyDark }]}
+            accessibilityRole="text"
+          >
+            {"Are you sure you want to cancel\nyour booking?"}
           </Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={[styles.button, styles.buttonSecondary]}
+              style={[
+                styles.button,
+                {
+                  borderWidth: 1,
+                  borderColor: theme.colors.borderDark,
+                  backgroundColor: theme.colors.buttonPrimary,
+                },
+              ]}
               onPress={onClose}
               accessibilityRole="button"
               accessibilityLabel="No, do not cancel booking"
             >
-              <Text style={styles.buttonTextSecondary}>No</Text>
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: theme.colors.buttonTextPrimary },
+                ]}
+              >
+                No
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.buttonPrimary]}
+              style={[
+                styles.button,
+                {
+                  borderWidth: 1,
+                  borderColor: theme.colors.borderDark,
+                  backgroundColor: theme.colors.buttonSecondary,
+                },
+              ]}
               onPress={onConfirm}
               accessibilityRole="button"
               accessibilityLabel="Yes, cancel booking"
             >
-              <Text style={styles.buttonTextPrimary}>Yes</Text>
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: theme.colors.buttonTextSecondary },
+                ]}
+              >
+                Yes
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -53,57 +97,53 @@ const CancelConfirmationModal = ({ visible, onClose, onConfirm }) => {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContainer: {
-    backgroundColor: colors.background,
-    borderRadius: 12,
-    padding: 24,
-    width: '85%',
-    maxWidth: 400,
+    borderRadius: theme.radius.modal,
+    // padding: theme.spacing.regular,
+    paddingVertical: 30,
+    paddingHorizontal: theme.spacing.small,
+    width: "80%",
+    alignItems: "center",
+    // maxWidth: 400,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 12,
+    fontSize: theme.fontSizes.lg,
+    fontFamily: theme.fonts.header2,
+    marginBottom: theme.spacing.small,
   },
   message: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 24,
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
+    marginBottom: theme.spacing.regular,
+    textAlign: "center",
+    borderColor: "red",
+    // borderWidth: 1,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: theme.spacing.lg,
+    borderColor: "red",
+    // borderWidth: 1,
   },
   button: {
-    flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonPrimary: {
-    backgroundColor: colors.text,
+    // flex: 1,
+    // width: "50%",
+    paddingVertical: theme.spacing.small,
+    paddingHorizontal: theme.spacing.md,
+    borderRadius: theme.radius.button,
+    alignItems: "center",
   },
   buttonSecondary: {
-    backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
   },
-  buttonTextPrimary: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  buttonTextSecondary: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
+  buttonText: {
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
   },
 });
 
