@@ -8,15 +8,22 @@ import {
 } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import HomeStackHeader from '../components/HomeStackHeader';
 
 const SearchScreen = ({ navigation }) => {
+    const { theme } = useTheme();
 
 //   const goToSearch = () => navigation.navigate("Search");
 //   const goToVoice = () => navigation.navigate('VoiceInput');
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Search Screen</Text>
+    <SafeAreaView
+          style={[styles.container, { backgroundColor: theme.colors.background }]}
+          edges={["left", "right"]}
+        >
+        <HomeStackHeader title="Search"/>
+      <Text style={{ color: theme.colors.bodyDark }}>Search Screen</Text>
     </SafeAreaView>
   );
 };
@@ -24,7 +31,6 @@ const SearchScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.light.background,
     paddingLeft: theme.spacing.regular,
     paddingRight: theme.spacing.regular,
   },

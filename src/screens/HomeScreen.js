@@ -16,6 +16,7 @@ import { Alert, Linking } from "react-native";
 import { theme } from '../styles/themes';
 import { useTheme } from "../contexts/ThemeContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Header from '../components/TabHeader';
 
 const HomeScreen = ({ navigation }) => {
   // const logoRef = useRef(null);
@@ -77,6 +78,7 @@ const HomeScreen = ({ navigation }) => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
       edges={["left", "right"]}
     >
+      <Header />
       <Text
         style={[styles.title, { color: theme.colors.header2 }]}
         accessibilityRole="header"
@@ -129,7 +131,7 @@ const HomeScreen = ({ navigation }) => {
             <Text
               style={[
                 styles.chatOptionTitle,
-                { color: theme.colors.bodyLight },
+                { color: "#FFFFFF" },
               ]}
             >
               Chat with BoogieBot
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.lg,
     fontFamily: theme.fonts.header2,
     marginBottom: 5,
-    marginTop: theme.spacing.regular,
+    // marginTop: theme.spacing.regular,
   },
   subtitle: {
     fontSize: theme.fontSizes.md,

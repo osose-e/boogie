@@ -3,14 +3,11 @@ import React from "react";
 import { View, Text } from "react-native";
 import {
   SafeAreaView,
-  useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import GradientText from "./GradientText";
-import { theme } from "../styles/themes";
 import { useTheme } from "../contexts/ThemeContext";
 
 export default function Header() {
-  const insets = useSafeAreaInsets(); // dynamic safe area values
   const { theme } = useTheme();
 
   return (
@@ -23,8 +20,12 @@ export default function Header() {
     >
       <View
         style={{
-          paddingLeft: theme.spacing.regular,
+          // paddingLeft: theme.spacing.regular,
           alignItems: "flex-start",
+          // borderColor: "red",
+          // borderWidth: 1,
+          height: 56,
+          marginBottom: theme.spacing.regular,
         }}
       >
         <GradientText
