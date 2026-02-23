@@ -17,6 +17,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
   const {
     pickupLocation = '518 Memorial Way, Stanford, CA 94305',
     dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
+    dropoffLocationName,
+    dropoffEntranceDescriptor,
   } = route.params || {};
 
   const [pickupTime, setPickupTime] = useState('later'); // 'now' or 'later'
@@ -40,6 +42,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
     navigation.navigate('RideConfirmation', {
       pickupLocation,
       dropoffLocation,
+      dropoffLocationName,
+      dropoffEntranceDescriptor,
       pickupDate: confirmationDate,
       pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
       needsWheelchair,

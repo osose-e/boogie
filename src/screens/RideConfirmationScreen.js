@@ -140,6 +140,26 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     lineHeight: 24,
   },
+  dropoffBlock: {
+    marginTop: 4,
+  },
+  dropoffName: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: 4,
+  },
+  dropoffEntrance: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    fontStyle: 'italic',
+    marginBottom: 4,
+  },
+  dropoffAddress: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    lineHeight: 20,
+  },
   wheelchairContainer: {
     flexDirection: 'row',
     alignItems: 'center',

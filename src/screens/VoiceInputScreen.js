@@ -317,7 +317,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 <Text style={styles.submitButtonText}>Send</Text>
               </TouchableOpacity>
             </View>
-            {isRecording && (
+            {(isRecording || isLoadingBot) && (
               <View style={styles.recordingIndicator}>
                 <ActivityIndicator size="small" color={colors.primary} />
                 <Text style={styles.recordingText}>Listening...</Text>
@@ -353,6 +353,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
       )}
     </SafeAreaView>
   );
+};
 };
 
 const styles = StyleSheet.create({
