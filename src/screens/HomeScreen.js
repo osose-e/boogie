@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -18,18 +19,22 @@ import { Ionicons } from "@expo/vector-icons";
 import Header from '../components/TabHeader';
 
 const HomeScreen = ({ navigation }) => {
-  // const logoRef = useRef(null);
+  const headerRef = useRef(null);
+  const nearbyHeaderRef = useRef(null);
 
-  // // Focus on logo when screen loads
-  // useEffect(() => {
-  //   const raf = requestAnimationFrame(() => {
-  //     const node = findNodeHandle(logoRef.current);
-  //     if (node) {
-  //       AccessibilityInfo.setAccessibilityFocus(node);
-  //     }
-  //   });
-  //   return () => cancelAnimationFrame(raf);
-  // }, []);
+  // Focus on header when screen loads
+  useFocusEffect(
+    React.useCallback(() => {
+      const raf = requestAnimationFrame(() => {
+        const node = findNodeHandle(headerRef.current);
+        if (node) {
+          AccessibilityInfo.setAccessibilityFocus(node);
+        }
+      });
+
+      return () => cancelAnimationFrame(raf);
+    }, []),
+  );
 
   const { theme } = useTheme();
   const [permissionStatus, setPermissionStatus] = useState(null);
@@ -60,10 +65,26 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  useEffect(() => {
+    if (permissionStatus === "granted") {
+      const timeout = setTimeout(() => {
+        const node = findNodeHandle(nearbyHeaderRef.current);
+        if (node) {
+          AccessibilityInfo.setAccessibilityFocus(node);
+        }
+
+        AccessibilityInfo.announceForAccessibility(
+          "Location permission granted. Nearby locations loaded.",
+        );
+      }, 100); // small delay ensures element is rendered
+      return () => clearTimeout(timeout);
+    }
+  }, [permissionStatus]);
+
   const loadNearbyLocations = async () => {
     // Example mock data — replace with real fetch logic
     setLocations([
-      { id: "1", name: "Computing and Data Science (CoDa) something something" },
+      { id: "1", name: "Computing and Data Science (CoDa)" },
       { id: "2", name: "Wallenberg Hall" },
       { id: "3", name: "McLatchy Hall" },
     ]);
@@ -80,6 +101,9 @@ const HomeScreen = ({ navigation }) => {
       <Header />
       <Text
         style={[styles.title, { color: theme.colors.header2 }]}
+        ref={headerRef}
+        accessible={true}
+        focusable={true}
         accessibilityRole="header"
       >
         Find your drop-off location
@@ -102,8 +126,6 @@ const HomeScreen = ({ navigation }) => {
           ]}
           onPress={goToSearch}
           accessibilityRole="button"
-          accessibilityLabel="Search destinations"
-          accessibilityHint="Opens a new page with a search field and list of locations"
         >
           <Text
             style={[styles.searchOptionTitle, { color: theme.colors.bodyDark }]}
@@ -115,8 +137,8 @@ const HomeScreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={goToVoice}
           accessibilityRole="button"
-          accessibilityLabel="Use voice assistant"
-          accessibilityHint="Opens a voice assistant to choose your destination"
+          // accessibilityLabel="Chat with BoogieBot voice assistant"
+          accessibilityHint="Opens a voice assistant to help choose your destination"
         >
           <LinearGradient
             colors={["#09A6B8", "#8A38F5", "#D32EC8", "#ACE347"]}
@@ -127,12 +149,7 @@ const HomeScreen = ({ navigation }) => {
               { backgroundColor: theme.colors.background },
             ]}
           >
-            <Text
-              style={[
-                styles.chatOptionTitle,
-                { color: "#FFFFFF" },
-              ]}
-            >
+            <Text style={[styles.chatOptionTitle, { color: "#FFFFFF" }]}>
               Chat with BoogieBot
             </Text>
           </LinearGradient>
@@ -145,6 +162,8 @@ const HomeScreen = ({ navigation }) => {
                 styles.title,
                 { color: theme.colors.header2, marginTop: 0 },
               ]}
+              accessibilityRole="header"
+              ref={nearbyHeaderRef}
             >
               Browse nearby locations:
             </Text>
@@ -152,6 +171,7 @@ const HomeScreen = ({ navigation }) => {
               style={[styles.curLoc, { color: theme.colors.textAddress }]}
               numberOfLines={1}
               ellipsizeMode="tail"
+              accessibilityLabel={`Current location: ${locationName}, ${locationAddress}`}
             >
               Current location:{" "}
               <Text style={{ fontFamily: theme.fonts.header2 }}>
@@ -163,7 +183,14 @@ const HomeScreen = ({ navigation }) => {
               data={locations}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View style={styles.row}>
+                <TouchableOpacity
+                  style={styles.row}
+                  onPress={() =>
+                    navigation.navigate("LocationDetails", { id: item.id })
+                  }
+                  accessibilityRole="button"
+                  accessibilityLabel={item.name}
+                >
                   <Text
                     style={[styles.loc, { color: theme.colors.bodyDark }]}
                     numberOfLines={1}
@@ -173,10 +200,12 @@ const HomeScreen = ({ navigation }) => {
                   </Text>
                   <Ionicons
                     name="chevron-forward-outline"
-                    size="24"
+                    size={24}
                     color={theme.colors.arrow}
+                    accessibilityElementsHidden
+                    importantForAccessibility="no"
                   />
-                </View>
+                </TouchableOpacity>
               )}
               ItemSeparatorComponent={() => (
                 <View
@@ -197,7 +226,7 @@ const HomeScreen = ({ navigation }) => {
             ]}
             onPress={requestPermission}
             accessibilityRole="button"
-            accessibilityLabel="Browse nearby destinations"
+            accessibilityLabel="Browse nearby locations"
             accessibilityHint="Requests location sharing to provide suggestions"
           >
             <Text
