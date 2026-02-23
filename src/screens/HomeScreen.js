@@ -174,7 +174,7 @@ const HomeScreen = ({ navigation }) => {
               style={[styles.curLoc, { color: theme.colors.textAddress }]}
               numberOfLines={1}
               ellipsizeMode="tail"
-              accessibilityLabel={`Current location: ${locationName}, ${locationAddress}`}
+              accessibilityRole="text"
             >
               Current location:{" "}
               <Text style={{ fontFamily: theme.fonts.header2 }}>
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     gap: theme.spacing.regular,
   },
   searchOptionCard: {
-    borderRadius: 100,
+    borderRadius: theme.radius.button,
     padding: theme.spacing.small,
     borderWidth: 1,
     alignItems: "center",
@@ -277,14 +277,14 @@ const styles = StyleSheet.create({
     width: "85%",
   },
   chatOptionCard: {
-    borderRadius: theme.radius,
+    borderRadius: theme.radius.button,
     padding: theme.spacing.small,
     alignItems: "center",
     alignSelf: "center",
     width: "85%",
   },
   browseOptionCard: {
-    borderRadius: 100,
+    borderRadius: theme.radius.button,
     padding: theme.spacing.small,
     alignItems: "center",
     alignSelf: "center",

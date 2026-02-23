@@ -16,6 +16,11 @@ export const colors = {
     iconsInactive: "#000000",
     separator: "#CFCFCF",
     arrow: "#CFCFCF",
+    buttonPrimary: "#000000",
+    buttonSecondary: "#FFFFFF",
+    buttonTextPrimary: "#FFFFFF",
+    buttonTextSecondary: "#000000",
+    switchThumb: "#FFFFFF",
 
     wordmark: {
       primary: "#09A6B8",
@@ -41,6 +46,11 @@ export const colors = {
     iconsInactive: "#F0F0F0",
     separator: "#6E6E6E",
     arrow: "#AEAEAE",
+    buttonPrimary: "#F0F0F0",
+    buttonSecondary: "#13151F",
+    buttonTextPrimary: "#13151F",
+    buttonTextSecondary: "#F0F0F0",
+    switchThumb: "#FFFFFF",
 
     wordmark: {
       primary: "#077581",

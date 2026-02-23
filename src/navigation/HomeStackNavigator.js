@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import VoiceInputScreen from "../screens/VoiceInputScreen";
+import RideRegistrationScreen from "../screens/RideRegistrationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,9 +27,12 @@ export default function HomeStackNavigator() {
       <Stack.Screen
         name="VoiceInput"
         component={VoiceInputScreen}
-        options={{ title: "VoiceInput",
-            tabBarStyle: { display: "none" } 
-         }}
+        options={{ title: "VoiceInput", tabBarStyle: { display: "none" } }}
+      />
+      <Stack.Screen
+        name="RideRegistration"
+        component={RideRegistrationScreen}
+        options={{ title: "RideRegistration", tabBarStyle: { display: "none" } }}
       />
     </Stack.Navigator>
   );

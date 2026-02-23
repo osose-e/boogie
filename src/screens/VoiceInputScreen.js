@@ -722,7 +722,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
         )}
       </ScrollView>
 
-      {/* {transcript.length > 0 && (
+      {transcript.length > 0 && (
         <View style={styles.actionButtons}>
           <TouchableOpacity
             style={styles.readButton}
@@ -752,7 +752,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
             </Text>
           </TouchableOpacity>
         </View>
-      )} */}
+      )}
     </SafeAreaView>
   );
 };;
@@ -890,62 +890,62 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.light.bodyDark,
   },
-  // submitButton: {
-  //   backgroundColor: theme.colors.light.wordmark.primary,
-  //   paddingVertical: 12,
-  //   paddingHorizontal: 24,
-  //   borderRadius: 8,
-  //   alignItems: "center",
-  // },
-  // submitButtonText: {
-  //   color: theme.colors.light.wordmark.secondary,
-  //   fontSize: 16,
-  //   fontWeight: "600",
-  // },
-  // actionButtons: {
-  //   padding: 20,
-  //   borderTopWidth: 1,
-  //   borderTopColor: colors.border,
-  //   gap: 12,
-  // },
-  // readButton: {
-  //   backgroundColor: colors.primary,
-  //   paddingVertical: 12,
-  //   paddingHorizontal: 24,
-  //   borderRadius: 8,
-  //   alignItems: 'center',
-  // },
-  // readButtonText: {
-  //   color: colors.secondary,
-  //   fontSize: 16,
-  //   fontWeight: '600',
-  // },
-  // primaryButton: {
-  //   backgroundColor: colors.text,
-  //   paddingVertical: 14,
-  //   paddingHorizontal: 24,
-  //   borderRadius: 8,
-  //   alignItems: 'center',
-  // },
-  // primaryButtonText: {
-  //   color: colors.secondary,
-  //   fontSize: 16,
-  //   fontWeight: '600',
-  // },
-  // secondaryButton: {
-  //   backgroundColor: colors.backgroundLight,
-  //   paddingVertical: 14,
-  //   paddingHorizontal: 24,
-  //   borderRadius: 8,
-  //   alignItems: 'center',
-  //   borderWidth: 1,
-  //   borderColor: colors.border,
-  // },
-  // secondaryButtonText: {
-  //   color: colors.text,
-  //   fontSize: 16,
-  //   fontWeight: '600',
-  // },
+  submitButton: {
+    backgroundColor: theme.colors.light.wordmark.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    color: theme.colors.light.wordmark.secondary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  actionButtons: {
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.light.borderDark,
+    gap: 12,
+  },
+  readButton: {
+    backgroundColor: theme.colors.light.wordmark.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  readButtonText: {
+    color: theme.colors.light.wordmark.secondary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  primaryButton: {
+    backgroundColor: theme.colors.light.bodyDark,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  primaryButtonText: {
+    color: theme.colors.light.wordmark.secondary,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  secondaryButton: {
+    backgroundColor: theme.colors.light.background,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: theme.colors.light.borderDark,
+  },
+  secondaryButtonText: {
+    color: theme.colors.light.bodyDark,
+    fontSize: 16,
+    fontWeight: "600",
+  },
 });
 
 export default VoiceInputScreen;

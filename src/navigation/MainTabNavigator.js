@@ -38,7 +38,8 @@ export default function MainTabNavigator() {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeMain";
 
             // Hide tab bar on "VoiceInput" screen
-            const hideTabBar = routeName === "VoiceInput";
+            const hideTabBar =
+              routeName === "VoiceInput" || routeName === "RideRegistration";
 
             return {
               tabBarLabel: "Search",

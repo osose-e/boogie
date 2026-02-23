@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     height: 45,
     borderWidth: 2,
-    borderRadius: 100,
+    borderRadius: theme.radius.button,
     paddingHorizontal: theme.spacing.small,
   },
   input: {
