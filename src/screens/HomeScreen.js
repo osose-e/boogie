@@ -12,10 +12,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from "expo-location";
-import { Alert, Linking } from "react-native";
 import { theme } from '../styles/themes';
 import { useTheme } from "../contexts/ThemeContext";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 import Header from '../components/TabHeader';
 
 const HomeScreen = ({ navigation }) => {
@@ -151,7 +150,7 @@ const HomeScreen = ({ navigation }) => {
             </Text>
             <Text
               style={[styles.curLoc, { color: theme.colors.textAddress }]}
-              numberOfLines={1} // limits to a single line
+              numberOfLines={1}
               ellipsizeMode="tail"
             >
               Current location:{" "}
@@ -167,7 +166,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.row}>
                   <Text
                     style={[styles.loc, { color: theme.colors.bodyDark }]}
-                    numberOfLines={1} // limits to a single line
+                    numberOfLines={1}
                     ellipsizeMode="tail"
                   >
                     {item.name}
@@ -227,7 +226,6 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.lg,
     fontFamily: theme.fonts.header2,
     marginBottom: 5,
-    // marginTop: theme.spacing.regular,
   },
   subtitle: {
     fontSize: theme.fontSizes.md,
@@ -280,9 +278,8 @@ const styles = StyleSheet.create({
 
   row: {
     flexDirection: "row",
-    justifyContent: "space-between", // name on left, distance on right
+    justifyContent: "space-between",
     paddingVertical: 12,
-    // paddingHorizontal: 16,
   },
   loc: {
     fontSize: theme.fontSizes.md,
@@ -292,7 +289,6 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    // marginHorizontal: 16,
   },
 });
 

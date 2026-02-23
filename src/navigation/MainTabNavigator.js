@@ -8,7 +8,8 @@ import ProfileScreen from "../screens/ProfileScreen";
 import Header from "../components/TabHeader";
 // import { theme } from "../styles/themes";
 import { useTheme } from "../contexts/ThemeContext";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
+// import Ionicons from "react-native-vector-icons/Ionicons";
 // import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
