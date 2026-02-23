@@ -1,217 +1,248 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
-  SafeAreaView,
   AccessibilityInfo,
   findNodeHandle,
-  Keyboard,
+  FlatList,
 } from 'react-native';
-import { colors } from '../styles/colors';
-import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from 'expo-linear-gradient';
+import * as Location from "expo-location";
+import { theme } from '../styles/themes';
+import { useTheme } from "../contexts/ThemeContext";
+import { Ionicons } from "@expo/vector-icons";
+import Header from '../components/TabHeader';
 
 const HomeScreen = ({ navigation }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [mode, setMode] = useState('choose'); // 'choose' | 'search'
-  const searchInputRef = useRef(null);
-  const logoRef = useRef(null);
+  const headerRef = useRef(null);
+  const nearbyHeaderRef = useRef(null);
+  const [justGranted, setJustGranted] = useState(false);
+  const { theme } = useTheme();
+  const [permissionStatus, setPermissionStatus] = useState(null);
+  const [locations, setLocations] = useState([]);
+  const locationName = "Lathrop Library";
+  const locationAddress = "518 Memorial Way, Stanford, CA 94305";
 
-  // Focus on logo when screen loads
+  // Focus on header when screen loads
+  useFocusEffect(
+    React.useCallback(() => {
+      const raf = requestAnimationFrame(() => {
+        const node = findNodeHandle(headerRef.current);
+        if (node) {
+          AccessibilityInfo.setAccessibilityFocus(node);
+        }
+      });
+
+      return () => cancelAnimationFrame(raf);
+    }, []),
+  );
+
   useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(logoRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
+    checkPermission();
   }, []);
 
-  // Dismiss keyboard when tapping outside
-  useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      Keyboard.dismiss();
-    });
-    return () => {
-      keyboardDidHideListener.remove();
-    };
-  }, []);
+  const checkPermission = async () => {
+    const { status } = await Location.getForegroundPermissionsAsync();
+    setPermissionStatus(status);
 
-  const filteredLocations = useMemo(() => {
-    if (!searchQuery) return STANFORD_LOCATIONS;
-    const q = searchQuery.toLowerCase();
-    return STANFORD_LOCATIONS.filter((location) =>
-      location.name.toLowerCase().includes(q)
-    );
-  }, [searchQuery]);
-
-  const handleLocationSelect = (location) => {
-    navigation.navigate('RideRegistration', {
-      pickupLocation: DEFAULT_PICKUP_LOCATION.displayText,
-      dropoffLocation: location.fullAddress,
-      dropoffLocationName: location.name,
-    });
+    if (status === "granted") {
+      loadNearbyLocations();
+    }
   };
 
+  const requestPermission = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+
+    setPermissionStatus(status);
+
+    if (status === "granted") {
+      setJustGranted(true);
+      loadNearbyLocations();
+    }
+  };
+
+  useEffect(() => {
+    if (justGranted) {
+      const timeout = setTimeout(() => {
+        const node = findNodeHandle(nearbyHeaderRef.current);
+        if (node) {
+          AccessibilityInfo.setAccessibilityFocus(node);
+        }
+
+        AccessibilityInfo.announceForAccessibility(
+          "Location permission granted. Nearby locations loaded.",
+        );
+      }, 100); // small delay ensures element is rendered
+
+      setJustGranted(false);
+      return () => clearTimeout(timeout);
+    }
+  }, [permissionStatus]);
+
+  const loadNearbyLocations = async () => {
+    // Example mock data — replace with real fetch logic
+    setLocations([
+      { id: "1", name: "Computing and Data Science (CoDa)" },
+      { id: "2", name: "Wallenberg Hall" },
+      { id: "3", name: "McLatchy Hall" },
+    ]);
+  };
+
+  const goToSearch = () => navigation.navigate("Search");
   const goToVoice = () => navigation.navigate('VoiceInput');
 
-  const resetToChooseMode = () => {
-    setMode('choose');
-    setSearchQuery('');
-  };
-
-  useEffect(() => {
-    if (mode !== 'search') return;
-  
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(searchInputRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-  
-    return () => cancelAnimationFrame(raf);
-  }, [mode]);
-
-  const sanitizeDictation = (t) =>
-    t
-      .replace(/\uFFFC/g, '')     // remove object-replacement char
-      .replace(/\s+/g, ' ')       // collapse whitespace
-      .trim();  
-
   return (
-    <SafeAreaView style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <Text 
-          ref={logoRef}
-          style={styles.logo} 
-          accessibilityRole="text"
-          accessible={true}
-          importantForAccessibility="yes"
-          accessibilityLabel="Boogie app"
-        >
-          boogie
-        </Text>
-      </View>
-
-      <ScrollView 
-        style={styles.content} 
-        contentContainerStyle={styles.contentContainer}
-        keyboardShouldPersistTaps="handled"
-        onScrollBeginDrag={() => Keyboard.dismiss()}
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      edges={["left", "right"]}
+    >
+      <Header />
+      <Text
+        style={[styles.title, { color: theme.colors.header2 }]}
+        ref={headerRef}
+        accessible={true}
+        focusable={true}
+        accessibilityRole="header"
       >
-        {mode === 'choose' ? (
-          <>
-            <Text style={styles.title} accessibilityRole="header">
-              Pick a dropoff location
-            </Text>
-            <Text style={styles.subtitle} accessibilityRole="text">
-              Select one of the options below.
-            </Text>
+        Find your drop-off location
+      </Text>
+      <Text
+        style={[styles.subtitle, { color: theme.colors.bodyDark }]}
+        accessibilityRole="text"
+      >
+        Select one of the options below:
+      </Text>
 
-            <View style={styles.optionGroup}>
-              <TouchableOpacity
-                style={styles.optionCard}
-                onPress={() => setMode('search')}
-                accessibilityRole="button"
-                accessibilityLabel="Search locations"
-                accessibilityHint="Shows a search field and a list of locations"
-              >
-                <Text style={styles.optionTitle}>Search locations</Text>
-                <Text style={styles.optionDescription}>
-                  Type a name and choose from a list.
-                </Text>
-              </TouchableOpacity>
+      <View style={styles.optionGroup}>
+        <TouchableOpacity
+          style={[
+            styles.searchOptionCard,
+            {
+              borderColor: theme.colors.borderDark,
+              backgroundColor: theme.colors.background,
+            },
+          ]}
+          onPress={goToSearch}
+          accessibilityRole="button"
+        >
+          <Text
+            style={[styles.searchOptionTitle, { color: theme.colors.bodyDark }]}
+          >
+            Search for a destination
+          </Text>
+        </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.optionCard}
-                onPress={goToVoice}
-                accessibilityRole="button"
-                accessibilityLabel="Use voice assistant"
-                accessibilityHint="Opens a voice assistant to choose your destination"
-              >
-                <Text style={styles.optionTitle}>Use voice assistant</Text>
-                <Text style={styles.optionDescription}>
-                  Speak your destination instead of browsing.
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </>
-        ) : (
-          <>
-            <View style={styles.searchHeaderRow}>
-              <Text style={styles.sectionTitle} accessibilityRole="header">
-                Search locations
+        <TouchableOpacity
+          onPress={goToVoice}
+          accessibilityRole="button"
+          // accessibilityLabel="Chat with BoogieBot voice assistant"
+          accessibilityHint="Opens a voice assistant to help choose your destination"
+        >
+          <LinearGradient
+            colors={["#09A6B8", "#8A38F5", "#D32EC8", "#ACE347"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={[
+              styles.chatOptionCard,
+              { backgroundColor: theme.colors.background },
+            ]}
+          >
+            <Text style={[styles.chatOptionTitle, { color: "#FFFFFF" }]}>
+              Chat with BoogieBot
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        {permissionStatus === "granted" ? (
+          <View>
+            <Text
+              style={[
+                styles.title,
+                { color: theme.colors.header2, marginTop: 0 },
+              ]}
+              accessibilityRole="header"
+              ref={nearbyHeaderRef}
+            >
+              Browse nearby locations:
+            </Text>
+            <Text
+              style={[styles.curLoc, { color: theme.colors.textAddress }]}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              accessibilityRole="text"
+            >
+              Current location:{" "}
+              <Text style={{ fontFamily: theme.fonts.header2 }}>
+                {locationName}
               </Text>
-
-              <TouchableOpacity
-                onPress={resetToChooseMode}
-                accessibilityRole="button"
-                accessibilityLabel="Back to options"
-                accessibilityHint="Returns to the two booking options"
-              >
-                <Text style={styles.backLink}>Back to options</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* SEARCH */}
-            <View style={styles.searchContainer}>
-              <TextInput
-                ref={searchInputRef}
-                style={styles.searchInput}
-                placeholder="Find locations by name..."
-                placeholderTextColor={colors.textSecondary}
-                value={searchQuery}
-                onChangeText={(t) => setSearchQuery(sanitizeDictation(t))}
-                autoCorrect={false}
-                spellCheck={false}
-                autoCapitalize="none"
-                accessibilityLabel="Search for locations by name"
-                accessibilityRole="searchbox"
-                returnKeyType="search"
-              />
-              <Text
-                style={styles.searchIcon}
-                accessibilityElementsHidden
-                importantForAccessibility="no"
-              >
-                🔍
-              </Text>
-            </View>
-
-            <Text style={styles.helperText} accessibilityRole="text">
-              Matching locations ({filteredLocations.length})
+              , {locationAddress}
             </Text>
-
-            <View style={styles.locationsList}>
-              {filteredLocations.map((location) => (
+            <FlatList
+              data={locations}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
                 <TouchableOpacity
-                  key={location.id}
-                  style={styles.locationItem}
-                  onPress={() => handleLocationSelect(location)}
+                  style={styles.row}
+                  onPress={() =>
+                    navigation.navigate("LocationDetails", { id: item.id })
+                  }
                   accessibilityRole="button"
-                  accessibilityLabel={location.name}
-                  accessibilityHint="Double tap to set as dropoff location"
+                  accessibilityLabel={item.name}
                 >
-                  <Text style={styles.locationName}>{location.name}</Text>
                   <Text
-                    style={styles.locationArrow}
+                    style={[styles.loc, { color: theme.colors.bodyDark }]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {item.name}
+                  </Text>
+                  <Ionicons
+                    name="chevron-forward-outline"
+                    size={24}
+                    color={theme.colors.arrow}
                     accessibilityElementsHidden
                     importantForAccessibility="no"
-                  >
-                    ›
-                  </Text>
+                  />
                 </TouchableOpacity>
-              ))}
-            </View>
-          </>
+              )}
+              ItemSeparatorComponent={() => (
+                <View
+                  style={[
+                    styles.separator,
+                    { backgroundColor: theme.colors.separator },
+                  ]}
+                />
+              )}
+              style={{ marginHorizontal: theme.spacing.xs }}
+            />
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={[
+              styles.browseOptionCard,
+              { backgroundColor: theme.colors.wordmark.primary },
+            ]}
+            onPress={requestPermission}
+            accessibilityRole="button"
+            accessibilityLabel="Browse nearby locations"
+            accessibilityHint="Requests location sharing to provide suggestions"
+          >
+            <Text
+              style={[
+                styles.browseOptionTitle,
+                { color: theme.colors.bodyLight },
+              ]}
+            >
+              Browse nearby locations
+            </Text>
+          </TouchableOpacity>
         )}
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -219,132 +250,77 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    paddingLeft: theme.spacing.regular,
+    paddingRight: theme.spacing.regular,
   },
-
-  header: {
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: colors.text,
-  },
-
-  content: { flex: 1 },
-  contentContainer: { padding: 20 },
 
   title: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 8,
+    fontSize: theme.fontSizes.lg,
+    fontFamily: theme.fonts.header2,
+    marginBottom: 5,
   },
   subtitle: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 16,
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
+    marginBottom: theme.spacing.regular,
   },
 
   optionGroup: {
-    gap: 12,
+    gap: theme.spacing.regular,
   },
-  optionCard: {
-    borderRadius: 12,
-    padding: 16,
+  searchOptionCard: {
+    borderRadius: theme.radius.button,
+    padding: theme.spacing.small,
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
+    alignItems: "center",
+    alignSelf: "center",
+    width: "85%",
   },
-  optionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 6,
+  chatOptionCard: {
+    borderRadius: theme.radius.button,
+    padding: theme.spacing.small,
+    alignItems: "center",
+    alignSelf: "center",
+    width: "85%",
   },
-  optionDescription: {
-    fontSize: 14,
-    color: colors.textSecondary,
+  browseOptionCard: {
+    borderRadius: theme.radius.button,
+    padding: theme.spacing.small,
+    alignItems: "center",
+    alignSelf: "center",
+    width: "75%",
+  },
+  searchOptionTitle: {
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.header2,
+  },
+  chatOptionTitle: {
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.header2,
+  },
+  browseOptionTitle: {
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.header2,
+  },
+  curLoc: {
+    fontSize: theme.fontSizes.sm,
+    fontFamily: theme.fonts.body,
+    marginBottom: theme.spacing.small,
   },
 
-  searchHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    justifyContent: 'space-between',
-    marginBottom: 6,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  backLink: {
-    fontSize: 14,
-    color: colors.primary,
-    textDecorationLine: 'underline',
-    fontWeight: '600',
-  },
-
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.backgroundLight,
-    borderRadius: 8,
-    paddingHorizontal: 16,
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 12,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
   },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: colors.text,
+  loc: {
+    fontSize: theme.fontSizes.md,
+    fontFamily: theme.fonts.body,
+    paddingVertical: 5,
+    width: "80%",
   },
-  searchIcon: {
-    fontSize: 20,
-    marginLeft: 8,
-  },
-
-  helperText: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 12,
-  },
-
-  currentLocationContainer: { marginBottom: 12 },
-  currentLocationLabel: { fontSize: 14, color: colors.textSecondary },
-
-  browseLink: { marginBottom: 20 },
-  browseLinkText: {
-    fontSize: 14,
-    color: colors.primary,
-    textDecorationLine: 'underline',
-  },
-
-  locationsList: { marginBottom: 24 },
-  locationItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  locationName: {
-    fontSize: 16,
-    color: colors.text,
-    flex: 1,
-  },
-  locationArrow: {
-    fontSize: 24,
-    color: colors.textSecondary,
-    marginLeft: 12,
+  separator: {
+    height: 1,
   },
 });
 

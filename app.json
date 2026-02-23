@@ -9,9 +9,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.boogie.app"
+      "bundleIdentifier": "com.boogie.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "We use your location to show nearby content."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -19,6 +23,9 @@
       },
       "package": "com.boogie.app"
     },
-    "plugins": []
+    "plugins": [
+      "expo-font",
+      "expo-asset"
+    ]
   }
 }
