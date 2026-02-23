@@ -31,19 +31,24 @@ const SearchScreen = ({ navigation }) => {
       edges={["left", "right"]}
     >
       <HomeStackHeader title="Search" />
-      <View style={[styles.inputWrapper, {
-              borderColor: theme.colors.borderColored,
-              color: theme.colors.bodyDark,
-            }]}>
+      <View
+        style={[
+          styles.inputWrapper,
+          {
+            backgroundColor: theme.colors.background,
+            borderColor: theme.colors.borderColored,
+            color: theme.colors.bodyDark,
+          },
+        ]}
+      >
         <TextInput
-          style={[
-            styles.input,
-          ]}
+          style={[styles.input, { color: theme.colors.bodyDark }]}
           placeholder="Find locations by name"
+          placeholderTextColor={theme.colors.textPlaceholder}
           value={text}
           onChangeText={setText} // updates the state as user types
         />
-        <TouchableOpacity>
+        <TouchableOpacity style={{ justifyContent: "center" }}>
           <Ionicons
             name="search-outline"
             size="36"

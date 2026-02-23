@@ -24,6 +24,7 @@ export default function MainTabNavigator() {
         screenOptions={{
           headerShown: false, // hide stack headers inside tabs
           tabBarActiveTintColor: theme.colors.icons,
+          tabBarInactiveTintColor: theme.colors.iconsInactive,
           tabBarStyle: {
             backgroundColor: theme.colors.background, // Tab bar background
           },

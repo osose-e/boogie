@@ -22,6 +22,11 @@ const HomeScreen = ({ navigation }) => {
   const headerRef = useRef(null);
   const nearbyHeaderRef = useRef(null);
   const [justGranted, setJustGranted] = useState(false);
+  const { theme } = useTheme();
+  const [permissionStatus, setPermissionStatus] = useState(null);
+  const [locations, setLocations] = useState([]);
+  const locationName = "Lathrop Library";
+  const locationAddress = "518 Memorial Way, Stanford, CA 94305";
 
   // Focus on header when screen loads
   useFocusEffect(
@@ -36,12 +41,6 @@ const HomeScreen = ({ navigation }) => {
       return () => cancelAnimationFrame(raf);
     }, []),
   );
-
-  const { theme } = useTheme();
-  const [permissionStatus, setPermissionStatus] = useState(null);
-  const [locations, setLocations] = useState([]);
-  const locationName = "Lathrop Library";
-  const locationAddress = "518 Memorial Way, Stanford, CA 94305";
 
   useEffect(() => {
     checkPermission();

@@ -7,6 +7,7 @@ import { useFonts } from "expo-font";
 import RootNavigator from "./src/navigation/RootNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "./src/contexts/ThemeContext";
+import { useTheme } from './src/contexts/ThemeContext';
 
 // import HomeScreen from './src/screens/HomeScreen';
 // import VoiceInputScreen from './src/screens/VoiceInputScreen';
@@ -15,6 +16,17 @@ import { ThemeProvider } from "./src/contexts/ThemeContext";
 
 
 const Stack = createStackNavigator();
+
+function AppContent() {
+  const { theme } = useTheme();
+
+  return (
+    <NavigationContainer theme={theme}>
+      <AppStatusBar />
+      <RootNavigator />
+    </NavigationContainer>
+  );
+}
 
 export default function App() {
   // console.log(require("./assets/fonts/AlbertSans-Regular.ttf"));
@@ -32,11 +44,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <SafeAreaProvider>
-        <NavigationContainer>
-          <AppStatusBar />
-          {/* <StatusBar style="auto" /> */}
-          <RootNavigator />
-        </NavigationContainer>
+        <AppContent />
       </SafeAreaProvider>
     </ThemeProvider>
   );
