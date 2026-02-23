@@ -11,6 +11,7 @@ export const colors = {
     background: "#FFFFFF",
     borderLight: "#FFFFFF",
     borderDark: "#000000",
+    borderColored: "#09A6B8",
     icons: "#09A6B8",
     separator: "#CFCFCF",
     arrow: "#CFCFCF",
@@ -33,6 +34,7 @@ export const colors = {
 
     background: "#13151F",
     borderDark: "#F0F0F0",
+    borderColored: "#09A6B8",
     borderLight: "#13151F",
     icons: "#09A6B8",
     separator: "#6E6E6E",

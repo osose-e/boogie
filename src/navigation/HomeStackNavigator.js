@@ -26,7 +26,9 @@ export default function HomeStackNavigator() {
       <Stack.Screen
         name="VoiceInput"
         component={VoiceInputScreen}
-        options={{ title: "VoiceInput" }}
+        options={{ title: "VoiceInput",
+            tabBarStyle: { display: "none" } 
+         }}
       />
     </Stack.Navigator>
   );

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   ActivityIndicator,
   TextInput,
   Alert,
@@ -13,11 +12,19 @@ import {
   findNodeHandle,
   Keyboard,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Speech from 'expo-speech';
-import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import BoogieBotHeader from '../components/BoogieBotHeader';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import { LinearGradient } from "expo-linear-gradient";
 
 const VoiceInputScreen = ({ navigation, route }) => {
+  const { theme } = useTheme();
+
+
+
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState([]);
   const [recognizedLocation, setRecognizedLocation] = useState(null);
@@ -542,8 +549,19 @@ const VoiceInputScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      edges={["left", "right"]}
+    >
+      <LinearGradient
+        colors={["#09A6B8", "#8A38F5", "#D32EC8", "#ACE347"]}
+        style={StyleSheet.absoluteFill} // fills parent completely
+        start={{ x: 0, y: 0 }} // top-left
+        end={{ x: 1, y: 1 }} // bottom-right
+      />
+      <BoogieBotHeader />
+
+      {/* <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
@@ -563,15 +581,15 @@ const VoiceInputScreen = ({ navigation, route }) => {
           boogie
         </Text>
         <View style={styles.headerSpacer} />
-      </View>
+      </View> */}
 
-      <View style={styles.promptContainer}>
+      {/* <View style={styles.promptContainer}>
         <Text style={styles.prompt} accessibilityRole="header">
           Where would you like to be dropped off?
         </Text>
-      </View>
+      </View> */}
 
-      <ScrollView
+      {/* <ScrollView
         ref={scrollViewRef}
         style={styles.transcriptContainer}
         contentContainerStyle={styles.transcriptContent}
@@ -677,9 +695,9 @@ const VoiceInputScreen = ({ navigation, route }) => {
             )}
           </>
         )}
-      </ScrollView>
+      </ScrollView> */}
 
-      {transcript.length > 0 && (
+      {/* {transcript.length > 0 && (
         <View style={styles.actionButtons}>
           <TouchableOpacity
             style={styles.readButton}
@@ -709,7 +727,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
             </Text>
           </TouchableOpacity>
         </View>
-      )}
+      )} */}
     </SafeAreaView>
   );
 };
@@ -717,221 +735,223 @@ const VoiceInputScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    paddingLeft: theme.spacing.regular,
+    paddingRight: theme.spacing.regular,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  backIcon: {
-    fontSize: 32,
-    color: colors.text,
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  headerSpacer: {
-    width: 40,
-  },
-  promptContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
-  prompt: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  transcriptContainer: {
-    flex: 1,
-  },
-  transcriptContent: {
-    padding: 20,
-  },
-  emptyState: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: 400,
-  },
-  recordButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  recordButtonActive: {
-    backgroundColor: colors.error,
-  },
-  recordButtonIcon: {
-    fontSize: 40,
-  },
-  emptyStateText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-  },
-  conversationHeader: {
-    marginBottom: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 2,
-    borderBottomColor: colors.border,
-  },
-  conversationHeaderText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  messageContainer: {
-    marginBottom: 16,
-    padding: 12,
-    borderRadius: 8,
-    minHeight: 44, // Ensure minimum touch target size
-  },
-  userMessage: {
-    backgroundColor: colors.backgroundLight,
-    alignSelf: 'flex-end',
-    maxWidth: '85%',
-  },
-  botMessage: {
-    backgroundColor: colors.background,
-    alignSelf: 'flex-start',
-    maxWidth: '85%',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  messageLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-  messageText: {
-    fontSize: 16,
-    color: colors.text,
-    lineHeight: 24,
-  },
-  highlightedText: {
-    fontWeight: '600',
-    color: colors.primary,
-  },
-  recordButtonSmall: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginTop: 16,
-  },
-  recordButtonSmallIcon: {
-    fontSize: 24,
-  },
-  recordingIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-    gap: 8,
-  },
-  recordingText: {
-    fontSize: 14,
-    color: colors.primary,
-    fontWeight: '600',
-  },
-  manualInputContainer: {
-    marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-  manualInputLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 8,
-  },
-  manualInput: {
-    backgroundColor: colors.backgroundLight,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    color: colors.text,
-    marginBottom: 8,
-  },
-  submitButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  actionButtons: {
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    gap: 12,
-  },
-  readButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  readButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  primaryButton: {
-    backgroundColor: colors.text,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  primaryButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    backgroundColor: colors.backgroundLight,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  secondaryButtonText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
-  },
+
+  // header: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  //   paddingHorizontal: 20,
+  //   paddingVertical: 16,
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: colors.border,
+  // },
+  // backButton: {
+  //   width: 40,
+  //   height: 40,
+  //   justifyContent: 'center',
+  //   alignItems: 'flex-start',
+  // },
+  // backIcon: {
+  //   fontSize: 32,
+  //   color: colors.text,
+  // },
+  // logo: {
+  //   fontSize: 24,
+  //   fontWeight: '600',
+  //   color: colors.text,
+  // },
+  // headerSpacer: {
+  //   width: 40,
+  // },
+  // promptContainer: {
+  //   paddingHorizontal: 20,
+  //   paddingVertical: 20,
+  // },
+  // prompt: {
+  //   fontSize: 20,
+  //   fontWeight: '600',
+  //   color: colors.text,
+  // },
+  // transcriptContainer: {
+  //   flex: 1,
+  // },
+  // transcriptContent: {
+  //   padding: 20,
+  // },
+  // emptyState: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   minHeight: 400,
+  // },
+  // recordButton: {
+  //   width: 80,
+  //   height: 80,
+  //   borderRadius: 40,
+  //   backgroundColor: colors.primary,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginBottom: 20,
+  // },
+  // recordButtonActive: {
+  //   backgroundColor: colors.error,
+  // },
+  // recordButtonIcon: {
+  //   fontSize: 40,
+  // },
+  // emptyStateText: {
+  //   fontSize: 16,
+  //   color: colors.textSecondary,
+  // },
+  // conversationHeader: {
+  //   marginBottom: 16,
+  //   paddingBottom: 12,
+  //   borderBottomWidth: 2,
+  //   borderBottomColor: colors.border,
+  // },
+  // conversationHeaderText: {
+  //   fontSize: 16,
+  //   fontWeight: '600',
+  //   color: colors.text,
+  // },
+  // messageContainer: {
+  //   marginBottom: 16,
+  //   padding: 12,
+  //   borderRadius: 8,
+  //   minHeight: 44, // Ensure minimum touch target size
+  // },
+  // userMessage: {
+  //   backgroundColor: colors.backgroundLight,
+  //   alignSelf: 'flex-end',
+  //   maxWidth: '85%',
+  // },
+  // botMessage: {
+  //   backgroundColor: colors.background,
+  //   alignSelf: 'flex-start',
+  //   maxWidth: '85%',
+  //   borderWidth: 1,
+  //   borderColor: colors.border,
+  // },
+  // messageLabel: {
+  //   fontSize: 12,
+  //   fontWeight: '600',
+  //   color: colors.textSecondary,
+  //   marginBottom: 4,
+  // },
+  // messageText: {
+  //   fontSize: 16,
+  //   color: colors.text,
+  //   lineHeight: 24,
+  // },
+  // highlightedText: {
+  //   fontWeight: '600',
+  //   color: colors.primary,
+  // },
+  // recordButtonSmall: {
+  //   width: 50,
+  //   height: 50,
+  //   borderRadius: 25,
+  //   backgroundColor: colors.primary,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   alignSelf: 'center',
+  //   marginTop: 16,
+  // },
+  // recordButtonSmallIcon: {
+  //   fontSize: 24,
+  // },
+  // recordingIndicator: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   marginTop: 16,
+  //   gap: 8,
+  // },
+  // recordingText: {
+  //   fontSize: 14,
+  //   color: colors.primary,
+  //   fontWeight: '600',
+  // },
+  // manualInputContainer: {
+  //   marginTop: 20,
+  //   paddingTop: 20,
+  //   borderTopWidth: 1,
+  //   borderTopColor: colors.border,
+  // },
+  // manualInputLabel: {
+  //   fontSize: 14,
+  //   color: colors.textSecondary,
+  //   marginBottom: 8,
+  // },
+  // manualInput: {
+  //   backgroundColor: colors.backgroundLight,
+  //   borderWidth: 1,
+  //   borderColor: colors.border,
+  //   borderRadius: 8,
+  //   padding: 12,
+  //   fontSize: 16,
+  //   color: colors.text,
+  //   marginBottom: 8,
+  // },
+  // submitButton: {
+  //   backgroundColor: colors.primary,
+  //   paddingVertical: 12,
+  //   paddingHorizontal: 24,
+  //   borderRadius: 8,
+  //   alignItems: 'center',
+  // },
+  // submitButtonText: {
+  //   color: colors.secondary,
+  //   fontSize: 16,
+  //   fontWeight: '600',
+  // },
+  // actionButtons: {
+  //   padding: 20,
+  //   borderTopWidth: 1,
+  //   borderTopColor: colors.border,
+  //   gap: 12,
+  // },
+  // readButton: {
+  //   backgroundColor: colors.primary,
+  //   paddingVertical: 12,
+  //   paddingHorizontal: 24,
+  //   borderRadius: 8,
+  //   alignItems: 'center',
+  // },
+  // readButtonText: {
+  //   color: colors.secondary,
+  //   fontSize: 16,
+  //   fontWeight: '600',
+  // },
+  // primaryButton: {
+  //   backgroundColor: colors.text,
+  //   paddingVertical: 14,
+  //   paddingHorizontal: 24,
+  //   borderRadius: 8,
+  //   alignItems: 'center',
+  // },
+  // primaryButtonText: {
+  //   color: colors.secondary,
+  //   fontSize: 16,
+  //   fontWeight: '600',
+  // },
+  // secondaryButton: {
+  //   backgroundColor: colors.backgroundLight,
+  //   paddingVertical: 14,
+  //   paddingHorizontal: 24,
+  //   borderRadius: 8,
+  //   alignItems: 'center',
+  //   borderWidth: 1,
+  //   borderColor: colors.border,
+  // },
+  // secondaryButtonText: {
+  //   color: colors.text,
+  //   fontSize: 16,
+  //   fontWeight: '600',
+  // },
 });
 
 export default VoiceInputScreen;

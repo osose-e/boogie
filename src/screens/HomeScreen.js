@@ -21,6 +21,7 @@ import Header from '../components/TabHeader';
 const HomeScreen = ({ navigation }) => {
   const headerRef = useRef(null);
   const nearbyHeaderRef = useRef(null);
+  const [justGranted, setJustGranted] = useState(false);
 
   // Focus on header when screen loads
   useFocusEffect(
@@ -61,12 +62,13 @@ const HomeScreen = ({ navigation }) => {
     setPermissionStatus(status);
 
     if (status === "granted") {
+      setJustGranted(true);
       loadNearbyLocations();
     }
   };
 
   useEffect(() => {
-    if (permissionStatus === "granted") {
+    if (justGranted) {
       const timeout = setTimeout(() => {
         const node = findNodeHandle(nearbyHeaderRef.current);
         if (node) {
@@ -77,6 +79,8 @@ const HomeScreen = ({ navigation }) => {
           "Location permission granted. Nearby locations loaded.",
         );
       }, 100); // small delay ensures element is rendered
+
+      setJustGranted(false);
       return () => clearTimeout(timeout);
     }
   }, [permissionStatus]);

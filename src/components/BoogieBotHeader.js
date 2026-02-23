@@ -9,7 +9,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function HomeStackHeader({ title }) {
+export default function BoogieBotHeader() {
   const insets = useSafeAreaInsets(); // dynamic safe area values
   const { theme } = useTheme();
   const navigation = useNavigation();
@@ -17,10 +17,10 @@ export default function HomeStackHeader({ title }) {
   return (
     <SafeAreaView
       edges={["top"]}
-      style={{
-        // flex: 0.1,
-        backgroundColor: theme.colors.background,
-      }}
+      // style={{
+      //   // flex: 0.1,
+      //   // backgroundColor: theme.colors.background,
+      // }}
     >
       <View
         style={{
@@ -40,20 +40,20 @@ export default function HomeStackHeader({ title }) {
           <Ionicons
             name="chevron-back-outline"
             size="40"
-            color={theme.colors.icons}
+            color="#FFFFFF"
           />
         </TouchableOpacity>
 
         <Text
           style={{
-            fontSize: theme.fontSizes.xl,
-            fontFamily: theme.fonts.header1,
-            color: "#09A6B8",
+            fontSize: theme.fontSizes.xxl,
+            fontFamily: theme.fonts.wordmark,
+            color: "#FFFFFF",
           }}
           accessibilityRole="header"
-          accessibilityLabel={title}
+          accessibilityLabel="BoogieBot"
         >
-          {title}
+          BoogieBot
         </Text>
       </View>
     </SafeAreaView>

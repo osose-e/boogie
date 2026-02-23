@@ -10,7 +10,7 @@ import Header from "../components/TabHeader";
 import { useTheme } from "../contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 // import Ionicons from "react-native-vector-icons/Ionicons";
-// import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,43 +29,33 @@ export default function MainTabNavigator() {
           },
         }}
       >
-        {/* <Tab.Screen
-          name="Home"
-          options={{
-            tabBarLabel: "Search",
-            tabBarIcon: ({ focused, color, size }) => {
-              const iconName = focused ? "search" : "search-outline";
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          }}
-        /> */}
-        {/* {({ route }) => {
-            // Get the name of the active screen in HomeStack
-            const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeMain";
-
-            // Only show global header on the main screen
-            const showHeader = routeName === "HomeMain";
-
-            return (
-              <View style={{ flex: 1 }}>
-                {showHeader && <Header />}
-                <HomeStackNavigator />
-              </View>
-            );
-          }} */}
-        {/* </Tab.Screen> */}
-
         <Tab.Screen
           name="Home"
           component={HomeStackNavigator}
-          options={{
-            tabBarLabel: "Search",
-            tabBarIcon: ({ focused, color, size }) => {
-              // Switch icon based on focus
-              const iconName = focused ? "search" : "search-outline";
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
+          options={({ route }) => {
+            // Get the currently active screen inside the stack
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeMain";
+
+            // Hide tab bar on "VoiceInput" screen
+            const hideTabBar = routeName === "VoiceInput";
+
+            return {
+              tabBarLabel: "Search",
+              tabBarStyle: hideTabBar ? { display: "none" } : undefined,
+              tabBarIcon: ({ focused, color, size }) => {
+                const iconName = focused ? "search" : "search-outline";
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+            };
           }}
+          //   options={{
+          //     tabBarLabel: "Search",
+          //     tabBarIcon: ({ focused, color, size }) => {
+          //       // Switch icon based on focus
+          //       const iconName = focused ? "search" : "search-outline";
+          //       return <Ionicons name={iconName} size={size} color={color} />;
+          //     },
+          //   }}
         />
         <Tab.Screen
           name="Profile"
