@@ -10,10 +10,14 @@ import {
   AccessibilityInfo,
   findNodeHandle,
 } from 'react-native';
-import { colors } from '../styles/colors';
+import { useTheme } from '../contexts/ThemeContext';
+import { lightColors } from '../styles/colors';
 import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 
+const fallbackColors = lightColors;
+
 const HomeScreen = ({ navigation }) => {
+  const { colors, isDark, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [mode, setMode] = useState('choose'); // 'choose' | 'search'
   const searchInputRef = useRef(null);
@@ -55,49 +59,75 @@ const HomeScreen = ({ navigation }) => {
   }, [mode]);
   
 
+  const themed = {
+    container: { backgroundColor: colors.background },
+    header: { borderBottomColor: colors.border },
+    logo: { color: colors.text },
+    title: { color: colors.text },
+    subtitle: { color: colors.textSecondary },
+    optionCard: { borderColor: colors.border, backgroundColor: colors.backgroundLight },
+    optionTitle: { color: colors.text },
+    optionDescription: { color: colors.textSecondary },
+    sectionTitle: { color: colors.text },
+    backLink: { color: colors.primary },
+    searchContainer: { backgroundColor: colors.backgroundLight, borderColor: colors.border },
+    searchInput: { color: colors.text },
+    helperText: { color: colors.textSecondary },
+    locationItem: { borderBottomColor: colors.border },
+    locationName: { color: colors.text },
+    locationArrow: { color: colors.textSecondary },
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <Text style={styles.logo} accessibilityRole="text">
+    <SafeAreaView style={[styles.container, themed.container]}>
+      <View style={[styles.header, themed.header]}>
+        <Text style={[styles.logo, themed.logo]} accessibilityRole="text">
           boogie
         </Text>
+        <TouchableOpacity
+          onPress={toggleTheme}
+          accessibilityRole="button"
+          accessibilityLabel={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={styles.themeToggle}
+        >
+          <Text style={{ fontSize: 22, color: colors.text }}>{isDark ? '☀️' : '🌙'}</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {mode === 'choose' ? (
           <>
-            <Text style={styles.title} accessibilityRole="header">
-              Pick a dropoff location
+            <Text style={[styles.title, themed.title]} accessibilityRole="header">
+              Book a ride
             </Text>
-            <Text style={styles.subtitle} accessibilityRole="text">
-              Select one of the options below.
+            <Text style={[styles.subtitle, themed.subtitle]} accessibilityRole="text">
+              Choose how you'd like to schedule your campus ride.
             </Text>
 
             <View style={styles.optionGroup}>
               <TouchableOpacity
-                style={styles.optionCard}
+                style={[styles.optionCard, themed.optionCard]}
                 onPress={() => setMode('search')}
                 accessibilityRole="button"
                 accessibilityLabel="Search locations"
                 accessibilityHint="Shows a search field and a list of locations"
               >
-                <Text style={styles.optionTitle}>Search locations</Text>
-                <Text style={styles.optionDescription}>
-                  Type a name and choose from a list.
+                <Text style={[styles.optionTitle, themed.optionTitle]}>Search locations</Text>
+                <Text style={[styles.optionDescription, themed.optionDescription]}>
+                  Type a building or place name and pick from the list.
                 </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.optionCard}
+                style={[styles.optionCard, themed.optionCard]}
                 onPress={goToVoice}
                 accessibilityRole="button"
-                accessibilityLabel="Use voice assistant"
-                accessibilityHint="Opens a voice assistant to choose your destination"
+                accessibilityLabel="Talk to dispatcher"
+                accessibilityHint="Opens the dispatcher chat to describe your drop-off using landmarks or voice"
               >
-                <Text style={styles.optionTitle}>Use voice assistant</Text>
-                <Text style={styles.optionDescription}>
-                  Speak your destination instead of browsing.
+                <Text style={[styles.optionTitle, themed.optionTitle]}>Talk to dispatcher</Text>
+                <Text style={[styles.optionDescription, themed.optionDescription]}>
+                  Chat with BoogieBot. Say your destination and entrance (e.g. "CoDa, north entrance by the Blend").
                 </Text>
               </TouchableOpacity>
             </View>
@@ -105,7 +135,7 @@ const HomeScreen = ({ navigation }) => {
         ) : (
           <>
             <View style={styles.searchHeaderRow}>
-              <Text style={styles.sectionTitle} accessibilityRole="header">
+              <Text style={[styles.sectionTitle, themed.sectionTitle]} accessibilityRole="header">
                 Search locations
               </Text>
 
@@ -115,15 +145,14 @@ const HomeScreen = ({ navigation }) => {
                 accessibilityLabel="Back to options"
                 accessibilityHint="Returns to the two booking options"
               >
-                <Text style={styles.backLink}>Back to options</Text>
+                <Text style={[styles.backLink, themed.backLink]}>Back to options</Text>
               </TouchableOpacity>
             </View>
 
-            {/* SEARCH */}
-            <View style={styles.searchContainer}>
+            <View style={[styles.searchContainer, themed.searchContainer]}>
               <TextInput
                 ref={searchInputRef}
-                style={styles.searchInput}
+                style={[styles.searchInput, themed.searchInput]}
                 placeholder="Find locations by name..."
                 placeholderTextColor={colors.textSecondary}
                 value={searchQuery}
@@ -141,7 +170,7 @@ const HomeScreen = ({ navigation }) => {
               </Text>
             </View>
 
-            <Text style={styles.helperText} accessibilityRole="text">
+            <Text style={[styles.helperText, themed.helperText]} accessibilityRole="text">
               Matching locations ({filteredLocations.length})
             </Text>
 
@@ -149,15 +178,15 @@ const HomeScreen = ({ navigation }) => {
               {filteredLocations.map((location) => (
                 <TouchableOpacity
                   key={location.id}
-                  style={styles.locationItem}
+                  style={[styles.locationItem, themed.locationItem]}
                   onPress={() => handleLocationSelect(location)}
                   accessibilityRole="button"
                   accessibilityLabel={location.name}
                   accessibilityHint="Double tap to set as dropoff location"
                 >
-                  <Text style={styles.locationName}>{location.name}</Text>
+                  <Text style={[styles.locationName, themed.locationName]}>{location.name}</Text>
                   <Text
-                    style={styles.locationArrow}
+                    style={[styles.locationArrow, themed.locationArrow]}
                     accessibilityElementsHidden
                     importantForAccessibility="no"
                   >
@@ -176,20 +205,21 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
-
   header: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+  },
+  themeToggle: {
+    padding: 8,
   },
   logo: {
     fontSize: 24,
     fontWeight: '600',
-    color: colors.text,
   },
 
   content: { flex: 1 },
@@ -198,12 +228,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: colors.text,
+    color: fallbackColors.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: colors.textSecondary,
+    color: fallbackColors.textSecondary,
     marginBottom: 16,
   },
 
@@ -214,18 +244,18 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
+    borderColor: fallbackColors.border,
+    backgroundColor: fallbackColors.backgroundLight,
   },
   optionTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: colors.text,
+    color: fallbackColors.text,
     marginBottom: 6,
   },
   optionDescription: {
     fontSize: 14,
-    color: colors.textSecondary,
+    color: fallbackColors.textSecondary,
   },
 
   searchHeaderRow: {
@@ -237,11 +267,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: colors.text,
+    color: fallbackColors.text,
   },
   backLink: {
     fontSize: 14,
-    color: colors.primary,
+    color: fallbackColors.primary,
     textDecorationLine: 'underline',
     fontWeight: '600',
   },
@@ -249,18 +279,18 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: fallbackColors.backgroundLight,
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: fallbackColors.border,
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: colors.text,
+    color: fallbackColors.text,
   },
   searchIcon: {
     fontSize: 20,
@@ -269,17 +299,17 @@ const styles = StyleSheet.create({
 
   helperText: {
     fontSize: 14,
-    color: colors.textSecondary,
+    color: fallbackColors.textSecondary,
     marginBottom: 12,
   },
 
   currentLocationContainer: { marginBottom: 12 },
-  currentLocationLabel: { fontSize: 14, color: colors.textSecondary },
+  currentLocationLabel: { fontSize: 14, color: fallbackColors.textSecondary },
 
   browseLink: { marginBottom: 20 },
   browseLinkText: {
     fontSize: 14,
-    color: colors.primary,
+    color: fallbackColors.primary,
     textDecorationLine: 'underline',
   },
 
@@ -291,16 +321,16 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 12,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderBottomColor: fallbackColors.border,
   },
   locationName: {
     fontSize: 16,
-    color: colors.text,
+    color: fallbackColors.text,
     flex: 1,
   },
   locationArrow: {
     fontSize: 24,
-    color: colors.textSecondary,
+    color: fallbackColors.textSecondary,
     marginLeft: 12,
   },
 });

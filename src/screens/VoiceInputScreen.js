@@ -11,19 +11,23 @@ import {
   Alert,
 } from 'react-native';
 import * as Speech from 'expo-speech';
-import { colors } from '../styles/colors';
+import { useTheme } from '../contexts/ThemeContext';
+import { lightColors } from '../styles/colors';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import { getBoogieBotResponse } from '../services/boogieBotApi';
 
 const VoiceInputScreen = ({ navigation, route }) => {
+  const { colors } = useTheme();
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState([]);
   const [recognizedLocation, setRecognizedLocation] = useState(null);
+  const [recognizedLocationName, setRecognizedLocationName] = useState(null);
+  const [recognizedEntranceDescriptor, setRecognizedEntranceDescriptor] = useState(null);
+  const [recognizedPickupLocation, setRecognizedPickupLocation] = useState(null);
   const [manualInput, setManualInput] = useState('');
+  const [isLoadingBot, setIsLoadingBot] = useState(false);
   const scrollViewRef = useRef(null);
   const textInputRef = useRef(null);
-
-  // Simulated voice input for Expo Go compatibility
-  // In a production app, you would integrate with a speech recognition API
 
   const addUserMessage = (text) => {
     setTranscript((prev) => [
@@ -43,82 +47,40 @@ const VoiceInputScreen = ({ navigation, route }) => {
   };
 
   const processVoiceInput = async (input) => {
-    const lowerInput = input.toLowerCase();
+    const trimmed = (input || '').trim();
+    if (!trimmed) return;
 
-    // Simulate AI processing - in a real app, this would call an API
-    if (lowerInput.includes("coda") || lowerInput.includes("computing")) {
-      const location =
-        "Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305";
-      setRecognizedLocation(location);
-      const botMessage1 =
-        "Okay, got it. You want to be dropped off at **CoDa, the Computing and Data Science building on the Stanford campus**.";
-      addBotMessage(botMessage1, [
-        "CoDa",
-        "Computing and Data Science building",
-        "Stanford campus",
-      ]);
-      speakResponse(botMessage1);
+    addUserMessage(trimmed);
+    setIsLoadingBot(true);
 
-      setTimeout(() => {
-        const botMessage2 =
-          "Is there a particular entrance that you would like to be dropped off at?";
-        addBotMessage(botMessage2);
-        speakResponse(botMessage2);
-      }, 1500);
-    } else if (
-      lowerInput.includes("stairs") ||
-      lowerInput.includes("fountain") ||
-      lowerInput.includes("gilbert") ||
-      lowerInput.includes("gates") ||
-      lowerInput.includes("basement")
-    ) {
-      const botMessage =
-        "Got it. You would like to be dropped at the **southwest entrance of CODA**. Any other specifications?";
-      addBotMessage(botMessage, ["southwest entrance of CODA"]);
-      speakResponse(botMessage);
-    } else if (
-      lowerInput.includes("blend") ||
-      lowerInput.includes("chemistry") ||
-      lowerInput.includes("north") ||
-      lowerInput.includes("sapp") ||
-      lowerInput.includes("stlc")
-    ) {
-      const botMessage =
-        "Got it. You would like to be dropped at the **north entrance of CoDa**. Any other specifications?";
-      addBotMessage(botMessage, ["north entrance of CoDa"]);
-      speakResponse(botMessage);
-    } else if (
-      lowerInput.includes("oval") ||
-      lowerInput.includes("bikes") ||
-      lowerInput.includes("main") ||
-      lowerInput.includes("voyager") ||
-      lowerInput.includes("coffee") ||
-      lowerInput.includes("east")
-    ) {
-      const botMessage =
-        "Got it. You would like to be dropped at the **east entrance of CoDa**. Any other specifications?";
-      addBotMessage(botMessage, ["north entrance of CODA"]);
-      speakResponse(botMessage);
-    } else if (
-      lowerInput.includes("that's it") ||
-      lowerInput.includes("no") ||
-      lowerInput.includes("done")
-    ) {
-      const botMessage1 =
-        "Great! Converting your location into a pinpoint for your driver.";
-      addBotMessage(botMessage1);
-      speakResponse(botMessage1);
-      setTimeout(() => {
-        const botMessage2 =
-          "Secured your dropoff location. Please proceed to complete your ride booking with Boogie!";
-        addBotMessage(botMessage2);
-        speakResponse(botMessage2);
-      }, 1500);
-    } else {
-      const botMessage =
-        "I understand. Could you provide more details about your dropoff location?";
-      addBotMessage(botMessage);
-      speakResponse(botMessage);
+    try {
+      const conversationHistory = transcript.map((m) => ({
+        type: m.type,
+        text: m.text,
+      }));
+      const { botMessage, location, pickup, conversationComplete } = await getBoogieBotResponse(
+        trimmed,
+        conversationHistory
+      );
+
+      if (location && location.address) {
+        setRecognizedLocation(location.address);
+        if (location.name) setRecognizedLocationName(location.name);
+        if (location.entranceDescriptor) setRecognizedEntranceDescriptor(location.entranceDescriptor);
+      }
+      if (pickup && pickup.address) {
+        setRecognizedPickupLocation(pickup.address);
+      }
+
+      const message = botMessage || "Got it. Anything else about your drop-off?";
+      const highlights = (message.match(/\*\*([^*]+)\*\*/g) || []).map((s) => s.replace(/\*\*/g, ''));
+      addBotMessage(message, highlights);
+      speakResponse(message);
+    } catch (err) {
+      console.warn('Boogie bot error:', err);
+      addBotMessage("Something went wrong. Please try again or describe your drop-off in another way.");
+    } finally {
+      setIsLoadingBot(false);
     }
   };
 
@@ -157,23 +119,24 @@ const VoiceInputScreen = ({ navigation, route }) => {
     }
   };
 
-  // Simulated voice responses - speak the bot's response
   const speakResponse = (text) => {
-    Speech.speak(text, {
-      language: 'en-US',
-      pitch: 1.0,
-      rate: 0.9,
-    });
+    const plain = (text || '').replace(/\*\*([^*]+)\*\*/g, '$1').trim();
+    if (!plain) return;
+    try {
+      Speech.speak(plain, { language: 'en-US', pitch: 1.0, rate: 0.9 });
+    } catch (e) {
+      console.warn('Speech.speak error:', e?.message);
+    }
   };
 
   const handleContinueToConfirmation = () => {
-    const dropoffLocation = recognizedLocation || 
-      'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305';
-    
+    const pickupAddr = recognizedPickupLocation || DEFAULT_PICKUP_LOCATION.fullAddress || DEFAULT_PICKUP_LOCATION.address;
+    const dropoffLocation = recognizedLocation || 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305';
     navigation.navigate('RideRegistration', {
-      pickupLocation: DEFAULT_PICKUP_LOCATION.fullAddress,
-      dropoffLocation: dropoffLocation,
-      dropoffLocationName: 'CoDa',
+      pickupLocation: pickupAddr,
+      dropoffLocation,
+      dropoffLocationName: recognizedLocationName || undefined,
+      dropoffEntranceDescriptor: recognizedEntranceDescriptor || undefined,
     });
   };
 
@@ -192,19 +155,24 @@ const VoiceInputScreen = ({ navigation, route }) => {
     return (
       <View
         key={message.timestamp}
-        style={[styles.messageContainer, isUser ? styles.userMessage : styles.botMessage]}
+        style={[
+          styles.messageContainer,
+          isUser
+            ? [styles.userMessage, { backgroundColor: colors.backgroundLight }]
+            : [styles.botMessage, { backgroundColor: colors.background, borderColor: colors.border }],
+        ]}
         accessible={true}
         accessibilityRole="text"
-        accessibilityLabel={isUser ? `You said: ${message.text}` : `BoogieBot: ${message.text}`}
+        accessibilityLabel={isUser ? `You said: ${message.text}` : `Dispatcher: ${message.text}`}
       >
-        <Text style={styles.messageLabel}>
-          {isUser ? 'User Name:' : 'BoogieBot:'}
+        <Text style={[styles.messageLabel, { color: colors.textSecondary }]}>
+          {isUser ? 'You' : 'Dispatcher'}
         </Text>
-        <Text style={styles.messageText}>
+        <Text style={[styles.messageText, { color: colors.text }]}>
           {displayText.split('**').map((part, index) => {
             if (index % 2 === 1) {
               return (
-                <Text key={index} style={styles.highlightedText}>
+                <Text key={index} style={[styles.highlightedText, { color: colors.primary }]}>
                   {part}
                 </Text>
               );
@@ -217,25 +185,28 @@ const VoiceInputScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { borderBottomColor: colors.border }]}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <Text style={styles.backIcon}>‹</Text>
+          <Text style={[styles.backIcon, { color: colors.text }]}>‹</Text>
         </TouchableOpacity>
-        <Text style={styles.logo} accessibilityRole="text">
+        <Text style={[styles.logo, { color: colors.text }]} accessibilityRole="text">
           boogie
         </Text>
         <View style={styles.headerSpacer} />
       </View>
 
       <View style={styles.promptContainer}>
-        <Text style={styles.prompt} accessibilityRole="header">
-          Where would you like to be dropped off?
+        <Text style={[styles.prompt, { color: colors.text }]} accessibilityRole="header">
+          Tell the dispatcher where you'd like to be dropped off
+        </Text>
+        <Text style={[styles.promptSub, { color: colors.textSecondary }]} accessibilityRole="text">
+          Use landmarks like "north entrance", "by the bike racks", or "near the Blend".
         </Text>
       </View>
 
@@ -249,7 +220,11 @@ const VoiceInputScreen = ({ navigation, route }) => {
         {transcript.length === 0 ? (
           <View style={styles.emptyState}>
             <TouchableOpacity
-              style={[styles.recordButton, isRecording && styles.recordButtonActive]}
+              style={[
+                styles.recordButton,
+                { backgroundColor: colors.primary },
+                isRecording && [styles.recordButtonActive, { backgroundColor: colors.error }],
+              ]}
               onPress={isRecording ? stopRecording : startRecording}
               accessibilityRole="button"
               accessibilityLabel={isRecording ? 'Stop recording' : 'Start voice recording'}
@@ -261,19 +236,26 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 <Text style={styles.recordButtonIcon}>🎤</Text>
               )}
             </TouchableOpacity>
-            <Text style={styles.emptyStateText}>
-              Tap the microphone button, then use your keyboard's voice input (🎤 icon) or type your message
+            <Text style={[styles.emptyStateText, { color: colors.textSecondary }]}>
+              Type below or use your keyboard's voice input (🎤) to chat with the dispatcher.
             </Text>
-            <View style={styles.manualInputContainer}>
-              <Text style={styles.manualInputLabel}>
-                Tap the microphone button above, then use your keyboard's voice input (🎤 icon) or type:
+            <View style={[styles.manualInputContainer, { borderTopColor: colors.border }]}>
+              <Text style={[styles.manualInputLabel, { color: colors.textSecondary }]}>
+                Say or type your destination (e.g. "CoDa, north entrance by the Blend"):
               </Text>
               <TextInput
                 ref={textInputRef}
-                style={styles.manualInput}
+                style={[
+                  styles.manualInput,
+                  {
+                    backgroundColor: colors.backgroundLight,
+                    borderColor: colors.border,
+                    color: colors.text,
+                  },
+                ]}
                 value={manualInput}
                 onChangeText={setManualInput}
-                placeholder="Say or type: 'I want to go to coda'..."
+                placeholder="e.g. CoDa, north entrance by the Blend"
                 placeholderTextColor={colors.textSecondary}
                 onSubmitEditing={handleManualSubmit}
                 accessibilityLabel="Type or use voice input for your destination message"
@@ -282,12 +264,12 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 returnKeyType="send"
               />
               <TouchableOpacity
-                style={styles.submitButton}
+                style={[styles.submitButton, { backgroundColor: colors.primary }]}
                 onPress={handleManualSubmit}
                 accessibilityRole="button"
-                accessibilityLabel="Submit message"
+                accessibilityLabel="Send message"
               >
-                <Text style={styles.submitButtonText}>Send</Text>
+                <Text style={[styles.submitButtonText, { color: colors.secondary }]}>Send</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -297,10 +279,17 @@ const VoiceInputScreen = ({ navigation, route }) => {
             <View style={styles.manualInputContainer}>
               <TextInput
                 ref={textInputRef}
-                style={styles.manualInput}
+                style={[
+                  styles.manualInput,
+                  {
+                    backgroundColor: colors.backgroundLight,
+                    borderColor: colors.border,
+                    color: colors.text,
+                  },
+                ]}
                 value={manualInput}
                 onChangeText={setManualInput}
-                placeholder="Continue conversation... (use keyboard 🎤 for voice)"
+                placeholder="Continue conversation… (use keyboard 🎤 for voice)"
                 placeholderTextColor={colors.textSecondary}
                 onSubmitEditing={handleManualSubmit}
                 accessibilityLabel="Continue conversation using voice or text"
@@ -309,18 +298,20 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 returnKeyType="send"
               />
               <TouchableOpacity
-                style={styles.submitButton}
+                style={[styles.submitButton, { backgroundColor: colors.primary }]}
                 onPress={handleManualSubmit}
                 accessibilityRole="button"
                 accessibilityLabel="Send message"
               >
-                <Text style={styles.submitButtonText}>Send</Text>
+                <Text style={[styles.submitButtonText, { color: colors.secondary }]}>Send</Text>
               </TouchableOpacity>
             </View>
             {(isRecording || isLoadingBot) && (
               <View style={styles.recordingIndicator}>
                 <ActivityIndicator size="small" color={colors.primary} />
-                <Text style={styles.recordingText}>Listening...</Text>
+                <Text style={[styles.recordingText, { color: colors.primary }]}>
+                  {isLoadingBot ? 'Dispatcher is thinking…' : 'Listening…'}
+                </Text>
               </View>
             )}
           </>
@@ -328,25 +319,25 @@ const VoiceInputScreen = ({ navigation, route }) => {
       </ScrollView>
 
       {transcript.length > 0 && (
-        <View style={styles.actionButtons}>
+        <View style={[styles.actionButtons, { borderTopColor: colors.border }]}>
           <TouchableOpacity
-            style={styles.secondaryButton}
+            style={[styles.secondaryButton, { backgroundColor: colors.backgroundLight, borderColor: colors.border }]}
             onPress={() => startRecording()}
             accessibilityRole="button"
-            accessibilityLabel="Continue conversing with BoogieBot"
+            accessibilityLabel="Continue chatting with dispatcher"
           >
-            <Text style={styles.secondaryButtonText}>
-              Continue conversing with BoogieBot
+            <Text style={[styles.secondaryButtonText, { color: colors.text }]}>
+              Keep chatting
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.primaryButton}
+            style={[styles.primaryButton, { backgroundColor: colors.primary }]}
             onPress={handleContinueToConfirmation}
             accessibilityRole="button"
-            accessibilityLabel="Continue to ride confirmation"
+            accessibilityLabel="Continue to ride details"
           >
-            <Text style={styles.primaryButtonText}>
-              Continue to ride confirmation
+            <Text style={[styles.primaryButtonText, { color: colors.secondary }]}>
+              Continue to ride details
             </Text>
           </TouchableOpacity>
         </View>
@@ -354,13 +345,10 @@ const VoiceInputScreen = ({ navigation, route }) => {
     </SafeAreaView>
   );
 };
-};
 
+const fallbackColors = lightColors;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  container: { flex: 1, backgroundColor: fallbackColors.background },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -368,7 +356,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderBottomColor: fallbackColors.border,
   },
   backButton: {
     width: 40,
@@ -376,33 +364,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  backIcon: {
-    fontSize: 32,
-    color: colors.text,
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  headerSpacer: {
-    width: 40,
-  },
-  promptContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
-  prompt: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  transcriptContainer: {
-    flex: 1,
-  },
-  transcriptContent: {
-    padding: 20,
-  },
+  backIcon: { fontSize: 32, color: fallbackColors.text },
+  logo: { fontSize: 24, fontWeight: '600', color: fallbackColors.text },
+  headerSpacer: { width: 40 },
+  promptContainer: { paddingHorizontal: 20, paddingVertical: 20 },
+  prompt: { fontSize: 20, fontWeight: '600' },
+  promptSub: { fontSize: 14, marginTop: 6 },
+  transcriptContainer: { flex: 1 },
+  transcriptContent: { padding: 20 },
   emptyState: {
     flex: 1,
     justifyContent: 'center',
@@ -413,66 +382,46 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: colors.primary,
+    backgroundColor: fallbackColors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
   },
-  recordButtonActive: {
-    backgroundColor: colors.error,
-  },
-  recordButtonIcon: {
-    fontSize: 40,
-  },
-  emptyStateText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-  },
-  messageContainer: {
-    marginBottom: 16,
-    padding: 12,
-    borderRadius: 8,
-  },
+  recordButtonActive: { backgroundColor: fallbackColors.error },
+  recordButtonIcon: { fontSize: 40 },
+  emptyStateText: { fontSize: 16, color: fallbackColors.textSecondary },
+  messageContainer: { marginBottom: 16, padding: 12, borderRadius: 8 },
   userMessage: {
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: fallbackColors.backgroundLight,
     alignSelf: 'flex-end',
     maxWidth: '85%',
   },
   botMessage: {
-    backgroundColor: colors.background,
+    backgroundColor: fallbackColors.background,
     alignSelf: 'flex-start',
     maxWidth: '85%',
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: fallbackColors.border,
   },
   messageLabel: {
     fontSize: 12,
     fontWeight: '600',
-    color: colors.textSecondary,
+    color: fallbackColors.textSecondary,
     marginBottom: 4,
   },
-  messageText: {
-    fontSize: 16,
-    color: colors.text,
-    lineHeight: 24,
-  },
-  highlightedText: {
-    fontWeight: '600',
-    color: colors.primary,
-  },
+  messageText: { fontSize: 16, color: fallbackColors.text, lineHeight: 24 },
+  highlightedText: { fontWeight: '600', color: fallbackColors.primary },
   recordButtonSmall: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: colors.primary,
+    backgroundColor: fallbackColors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     marginTop: 16,
   },
-  recordButtonSmallIcon: {
-    fontSize: 24,
-  },
+  recordButtonSmallIcon: { fontSize: 24 },
   recordingIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -480,73 +429,65 @@ const styles = StyleSheet.create({
     marginTop: 16,
     gap: 8,
   },
-  recordingText: {
-    fontSize: 14,
-    color: colors.primary,
-    fontWeight: '600',
-  },
+  recordingText: { fontSize: 14, color: fallbackColors.primary, fontWeight: '600' },
   manualInputContainer: {
     marginTop: 20,
     paddingTop: 20,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
+    borderTopColor: fallbackColors.border,
   },
-  manualInputLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 8,
-  },
+  manualInputLabel: { fontSize: 14, color: fallbackColors.textSecondary, marginBottom: 8 },
   manualInput: {
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: fallbackColors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: fallbackColors.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: colors.text,
+    color: fallbackColors.text,
     marginBottom: 8,
   },
   submitButton: {
-    backgroundColor: colors.primary,
+    backgroundColor: fallbackColors.primary,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
     alignItems: 'center',
   },
   submitButtonText: {
-    color: colors.secondary,
+    color: fallbackColors.secondary,
     fontSize: 16,
     fontWeight: '600',
   },
   actionButtons: {
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
+    borderTopColor: fallbackColors.border,
     gap: 12,
   },
   primaryButton: {
-    backgroundColor: colors.text,
+    backgroundColor: fallbackColors.primary,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
     alignItems: 'center',
   },
   primaryButtonText: {
-    color: colors.secondary,
+    color: fallbackColors.secondary,
     fontSize: 16,
     fontWeight: '600',
   },
   secondaryButton: {
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: fallbackColors.backgroundLight,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: fallbackColors.border,
   },
   secondaryButtonText: {
-    color: colors.text,
+    color: fallbackColors.text,
     fontSize: 16,
     fontWeight: '600',
   },

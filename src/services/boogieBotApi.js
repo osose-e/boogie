@@ -8,6 +8,7 @@
 
 import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import { getCampusContextForPrompt } from './campusContext';
+import { getStanfordOverpassContext } from './overpass';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
@@ -15,40 +16,44 @@ function getApiKey() {
   return process.env.EXPO_PUBLIC_OPENAI_API_KEY || process.env.OPENAI_API_KEY || '';
 }
 
-function buildSystemPrompt(campusContext) {
+function buildSystemPrompt(campusContext, overpassContext) {
   const locationList = STANFORD_LOCATIONS.map(
     (loc) => `- ${loc.name}: ${loc.address} (full: ${loc.fullAddress})`
   ).join('\n');
 
-  return `You are BoogieBot, a friendly voice dispatcher for DisGo (Stanford's disability golf-cart ride service). You help riders, especially BLV (blind and low vision) users, book rides by understanding where they want to be picked up and dropped off using landmarks and mental maps.
+  const defaultPickup = DEFAULT_PICKUP_LOCATION.fullAddress || DEFAULT_PICKUP_LOCATION.address || '518 Memorial Way, Stanford, CA 94305';
+  const extraContext = [campusContext, overpassContext].filter(Boolean).join('\n\n');
 
-Your goals:
-1. Understand drop-off (and pickup if mentioned) in natural language: building names, entrances (north, south, east, west, southwest, etc.), and landmarks (e.g. "near the Blend", "by the stairs", "at the bike racks", "east entrance of CoDa", "across from the fountain").
-2. Confirm the location and, when relevant, the specific entrance or landmark so the driver can find the rider.
-3. Keep replies concise and natural for voice; avoid long paragraphs.
-4. When the user confirms they're done ("that's it", "no", "done"), wrap up and confirm their spot is secured.
+  return `You are BoogieBot, the voice of DisGo — Stanford's disability golf-cart ride service. You are a digital dispatcher for blind and low vision (BLV) students. Riders describe where they want to be dropped off using landmarks and mental maps: building names, entrances (north, south, east, west), and landmarks like parking lots, bike racks, and nearby establishments (e.g. "near the Blend", "by the bike racks", "east entrance of CoDa"). Your job is to resolve these into a specific building, address, and entrance/landmark so drivers can find the rider easily.
 
-Known Stanford campus locations (use these for addresses when you resolve a building):
+Goals:
+1. Understand drop-off (and pickup if they mention it) in natural language. Use the campus context below to match landmarks and entrances to buildings.
+2. Confirm back the specific entrance or landmark (e.g. "north entrance", "by the bike racks", "near the Blend") so the driver knows exactly where to go.
+3. Keep replies short and natural for voice (1–3 sentences). Use contractions. Sound warm and clear.
+4. When they say they're done ("that's it", "no", "done"), confirm their spot is secured and they can complete the booking.
+
+Known Stanford locations (use for official names and addresses):
 ${locationList}
 
-Current default pickup (if user doesn't specify): ${DEFAULT_PICKUP_LOCATION.buildingName}, ${DEFAULT_PICKUP_LOCATION.address}
+Default pickup if not specified: ${defaultPickup}
 
-${campusContext ? `Campus context (buildings, entrances, landmarks — use this to match what users say):\n${campusContext}\n` : ''}
+${extraContext ? `Campus context (entrances, landmarks, parking, bike racks, establishments — use to resolve user descriptions):\n${extraContext}\n` : ''}
 
-Always respond with valid JSON only, no markdown or extra text. Use this exact shape:
+Respond with valid JSON only. Shape:
 {
-  "message": "Your natural-language reply to the user (1-3 short sentences). Use **bold** only for building names or key phrases like entrance names.",
+  "message": "Your reply (spoken style). Use **bold** for building names or entrance/landmark phrases.",
   "location": {
     "name": "Building or place name if resolved, else null",
     "address": "Full address if resolved, else null",
     "coordinates": { "lat": number, "lon": number } or null,
-    "entranceDescriptor": "e.g. north entrance, near the stairs, by bike racks, or null"
+    "entranceDescriptor": "e.g. north entrance, by bike racks, near the Blend, or null"
   },
+  "pickup": null or { "name": "...", "address": "...", "coordinates": null, "entranceDescriptor": "..." },
   "conversationComplete": false
 }
-- If the user is just chatting or you're asking a clarifying question, set "location" to null and "conversationComplete" to false.
-- When you resolve a specific drop-off, set name, address, and optionally coordinates and entranceDescriptor; set "conversationComplete" to false.
-- When the user says they're done (e.g. "that's it", "no", "done", "that's all") and you have already confirmed their drop-off location, reply that their spot is secured and they can proceed to complete the booking, and set "conversationComplete" to true.`;
+- "location" = drop-off. Set "pickup" only if user said where to be picked up; else null.
+- If asking a clarifying question, set location and pickup to null, conversationComplete false.
+- When they're done and you have their drop-off, say their spot is secured and set "conversationComplete" to true.`;
 }
 
 /**
@@ -62,12 +67,19 @@ export async function getBoogieBotResponse(userMessage, conversationHistory = []
     return {
       botMessage: "I'm having trouble connecting right now. Please check that the app is configured with an API key and try again.",
       location: null,
+      pickup: null,
       conversationComplete: false,
     };
   }
 
   const campusContext = getCampusContextForPrompt();
-  const systemPrompt = buildSystemPrompt(campusContext);
+  let overpassContext = '';
+  try {
+    overpassContext = await getStanfordOverpassContext();
+  } catch (e) {
+    console.warn('Overpass context skipped:', e?.message);
+  }
+  const systemPrompt = buildSystemPrompt(campusContext, overpassContext);
 
   const messages = [
     { role: 'system', content: systemPrompt },
@@ -99,6 +111,7 @@ export async function getBoogieBotResponse(userMessage, conversationHistory = []
       return {
         botMessage: "I couldn't process that right now. Please try again in a moment.",
         location: null,
+        pickup: null,
         conversationComplete: false,
       };
     }
@@ -109,6 +122,7 @@ export async function getBoogieBotResponse(userMessage, conversationHistory = []
       return {
         botMessage: "I didn't get a clear response. Could you repeat where you'd like to be dropped off?",
         location: null,
+        pickup: null,
         conversationComplete: false,
       };
     }
@@ -116,11 +130,13 @@ export async function getBoogieBotResponse(userMessage, conversationHistory = []
     const parsed = JSON.parse(content);
     const message = typeof parsed.message === 'string' ? parsed.message : '';
     const location = parsed.location && typeof parsed.location === 'object' ? parsed.location : null;
+    const pickup = parsed.pickup && typeof parsed.pickup === 'object' ? parsed.pickup : null;
     const conversationComplete = Boolean(parsed.conversationComplete);
 
     return {
       botMessage: message || "Got it. Anything else about your drop-off?",
       location,
+      pickup,
       conversationComplete,
     };
   } catch (e) {
@@ -128,6 +144,7 @@ export async function getBoogieBotResponse(userMessage, conversationHistory = []
     return {
       botMessage: "Something went wrong on my end. Please try again or describe your drop-off in another way.",
       location: null,
+      pickup: null,
       conversationComplete: false,
     };
   }

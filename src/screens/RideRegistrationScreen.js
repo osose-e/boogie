@@ -9,11 +9,13 @@ import {
   SafeAreaView,
   Switch,
 } from 'react-native';
-import { colors } from '../styles/colors';
+import { useTheme } from '../contexts/ThemeContext';
+import { lightColors } from '../styles/colors';
 import CancelConfirmationModal from '../components/CancelConfirmationModal';
 import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
 
 const RideRegistrationScreen = ({ navigation, route }) => {
+  const { colors } = useTheme();
   const {
     pickupLocation = '518 Memorial Way, Stanford, CA 94305',
     dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
@@ -56,17 +58,17 @@ const RideRegistrationScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { borderBottomColor: colors.border }]}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
         >
-          <Text style={styles.backIcon}>‹</Text>
+          <Text style={[styles.backIcon, { color: colors.text }]}>‹</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle} accessibilityRole="header">
+        <Text style={[styles.headerTitle, { color: colors.text }]} accessibilityRole="header">
           Complete Ride Booking
         </Text>
         <View style={styles.headerSpacer} />
@@ -74,8 +76,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.currentLocationContainer}>
-          <Text style={styles.currentLocationLabel} accessibilityRole="text">
-            Current location: {pickupLocation.substring(0, 40)}...
+          <Text style={[styles.currentLocationLabel, { color: colors.textSecondary }]} accessibilityRole="text">
+            Pickup: {pickupLocation.substring(0, 50)}{pickupLocation.length > 50 ? '…' : ''}
           </Text>
         </View>
 
@@ -168,11 +170,21 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionLabel} accessibilityRole="text">
+          <Text style={[styles.sectionLabel, { color: colors.text }]} accessibilityRole="text">
             Dropoff Location
           </Text>
-          <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{dropoffLocation}</Text>
+          <View style={[styles.locationContainer, { backgroundColor: colors.backgroundLight }]}>
+            <View style={{ flex: 1 }}>
+              {dropoffLocationName && (
+                <Text style={[styles.locationText, { color: colors.text }]}>{dropoffLocationName}</Text>
+              )}
+              {dropoffEntranceDescriptor && (
+                <Text style={[styles.locationSubtext, { color: colors.textSecondary }]}>
+                  {dropoffEntranceDescriptor}
+                </Text>
+              )}
+              <Text style={[styles.locationText, { color: colors.text }]}>{dropoffLocation}</Text>
+            </View>
             <Text style={styles.editIcon}>✏️</Text>
           </View>
         </View>
@@ -270,11 +282,9 @@ const RideRegistrationScreen = ({ navigation, route }) => {
   );
 };
 
+const c = lightColors;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  container: { flex: 1, backgroundColor: c.background },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -282,7 +292,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   backButton: {
     width: 40,
@@ -290,127 +300,66 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  backIcon: {
-    fontSize: 32,
-    color: colors.text,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  headerSpacer: {
-    width: 40,
-  },
-  content: {
-    flex: 1,
-  },
-  contentContainer: {
-    padding: 20,
-  },
-  currentLocationContainer: {
-    marginBottom: 24,
-  },
-  currentLocationLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 12,
-  },
-  timeToggleContainer: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 16,
-  },
+  backIcon: { fontSize: 32, color: c.text },
+  headerTitle: { fontSize: 18, fontWeight: '600', color: c.text },
+  headerSpacer: { width: 40 },
+  content: { flex: 1 },
+  contentContainer: { padding: 20 },
+  currentLocationContainer: { marginBottom: 24 },
+  currentLocationLabel: { fontSize: 14, color: c.textSecondary },
+  section: { marginBottom: 24 },
+  sectionLabel: { fontSize: 16, fontWeight: '600', color: c.text, marginBottom: 12 },
+  timeToggleContainer: { flexDirection: 'row', gap: 12, marginBottom: 16 },
   timeToggle: {
     flex: 1,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: c.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     alignItems: 'center',
   },
-  timeToggleActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  timeToggleText: {
-    fontSize: 16,
-    color: colors.text,
-    fontWeight: '600',
-  },
-  timeToggleTextActive: {
-    color: colors.secondary,
-  },
-  dateTimeContainer: {
-    gap: 16,
-  },
-  dateTimeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dateTimeLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  dateTimeInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
+  timeToggleActive: { backgroundColor: c.primary, borderColor: c.primary },
+  timeToggleText: { fontSize: 16, color: c.text, fontWeight: '600' },
+  timeToggleTextActive: { color: c.secondary },
+  dateTimeContainer: { gap: 16 },
+  dateTimeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  dateTimeLabel: { fontSize: 14, color: c.textSecondary },
+  dateTimeInputContainer: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   dateTimeInput: {
     fontSize: 16,
-    color: colors.text,
+    color: c.text,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: c.backgroundLight,
     borderRadius: 6,
     minWidth: 120,
   },
-  editIcon: {
-    fontSize: 16,
-  },
+  editIcon: { fontSize: 16 },
   locationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingVertical: 12,
     paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: c.backgroundLight,
     borderRadius: 8,
   },
-  locationText: {
-    flex: 1,
-    fontSize: 16,
-    color: colors.text,
-  },
+  locationText: { fontSize: 16, color: c.text },
+  locationSubtext: { fontSize: 14, fontStyle: 'italic', marginBottom: 4 },
   notesInput: {
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: c.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: colors.text,
+    color: c.text,
     minHeight: 80,
     textAlignVertical: 'top',
   },
-  notesCounter: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    textAlign: 'right',
-    marginTop: 4,
-  },
+  notesCounter: { fontSize: 12, color: c.textSecondary, textAlign: 'right', marginTop: 4 },
   switchContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -418,16 +367,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     marginBottom: 8,
   },
-  switchLabel: {
-    fontSize: 16,
-    color: colors.text,
-    flex: 1,
-  },
+  switchLabel: { fontSize: 16, color: c.text, flex: 1 },
   actionButtons: {
     flexDirection: 'row',
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
+    borderTopColor: c.border,
     gap: 12,
   },
   cancelButton: {
@@ -435,29 +380,21 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: c.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     alignItems: 'center',
   },
-  cancelButtonText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  cancelButtonText: { color: c.text, fontSize: 16, fontWeight: '600' },
   requestButton: {
     flex: 1,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.text,
+    backgroundColor: c.primary,
     alignItems: 'center',
   },
-  requestButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  requestButtonText: { color: c.secondary, fontSize: 16, fontWeight: '600' },
 });
 
 export default RideRegistrationScreen;

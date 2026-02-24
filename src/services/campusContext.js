@@ -1,23 +1,35 @@
 /**
- * Loads human-editable campus context from src/data/campusContext.json
- * and formats it for the Boogie bot system prompt. No Overpass calls at runtime.
+ * Campus context for the Boogie bot: buildings, entrances, landmarks (parking, bike racks,
+ * nearby establishments) so the digital dispatcher can resolve specific entrances for drivers.
+ * Loaded lazily with limits to avoid parsing a very large JSON at once (can cause native crashes).
  */
 
-import campusContextData from '../data/campusContext.json';
+let cachedContext = null;
 
 /**
  * @returns {string} Formatted campus context for the LLM prompt
  */
 export function getCampusContextForPrompt() {
-  const buildings = campusContextData.buildings || [];
-  const humanAdditions = campusContextData.humanAdditions || [];
-  const amenities = campusContextData.amenities || [];
+  if (cachedContext !== null) return cachedContext;
+
+  let campusContextData;
+  try {
+    campusContextData = require('../data/campusContext.json');
+  } catch (e) {
+    console.warn('campusContext: could not load JSON', e?.message);
+    cachedContext = '';
+    return '';
+  }
+
+  const buildings = (campusContextData.buildings || []).slice(0, 50);
+  const humanAdditions = (campusContextData.humanAdditions || []).slice(0, 15);
+  const amenities = (campusContextData.amenities || []).slice(0, 25);
   const landmarkContext = campusContextData.landmarkContext || {};
 
   const lines = [];
 
   if (landmarkContext.bikeRacks || landmarkContext.parkingLots || landmarkContext.establishments) {
-    lines.push('Key landmarks (bike racks, parking, nearby establishments):');
+    lines.push('Key landmarks for finding riders: bike racks, parking lots, nearby establishments:');
     if (landmarkContext.bikeRacks) lines.push(`- Bike racks: ${landmarkContext.bikeRacks}`);
     if (landmarkContext.parkingLots) lines.push(`- Parking lots: ${landmarkContext.parkingLots}`);
     if (landmarkContext.establishments) lines.push(`- Nearby establishments: ${landmarkContext.establishments}`);
@@ -25,7 +37,7 @@ export function getCampusContextForPrompt() {
   }
 
   if (buildings.length > 0) {
-    lines.push('Buildings and locations (with human-added entrances and landmarks):');
+    lines.push('Buildings with entrances and landmarks (use to match user descriptions):');
     for (const b of buildings) {
       const aliasStr = Array.isArray(b.alternateNames) && b.alternateNames.length > 0
         ? ` (aka ${b.alternateNames.join(', ')})`
@@ -50,7 +62,7 @@ export function getCampusContextForPrompt() {
   }
 
   if (Array.isArray(humanAdditions) && humanAdditions.length > 0) {
-    lines.push('\nAdditional human context:');
+    lines.push('\nAdditional context:');
     for (const h of humanAdditions) {
       const parts = [];
       if (h.buildingOrArea) parts.push(h.buildingOrArea);
@@ -62,8 +74,9 @@ export function getCampusContextForPrompt() {
   }
 
   if (amenities.length > 0) {
-    lines.push('\nAmenities in area: ' + amenities.slice(0, 30).join(', '));
+    lines.push('\nAmenities in area: ' + amenities.join(', '));
   }
 
-  return lines.length ? lines.join('\n') : '';
+  cachedContext = lines.length ? lines.join('\n') : '';
+  return cachedContext;
 }
