@@ -13,7 +13,7 @@ import { colors } from '../styles/colors';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 
 const EntranceSelectScreen = ({ navigation, route }) => {
-  const { location } = route?.params ?? {};
+  const { building } = route?.params ?? {};
   const titleRef = useRef(null);
 
   useEffect(() => {
@@ -25,27 +25,40 @@ const EntranceSelectScreen = ({ navigation, route }) => {
   }, []);
 
   // Hardcoded entrances for now (same for every location)
-  const entrances = [
-    { id: 'north', label: 'North entrance' },
-    { id: 'south', label: 'South entrance' },
-    { id: 'west', label: 'West entrance' },
-    { id: 'main', label: 'Main entrance' },
-  ];
+  const entrances = building?.entrances ?? [];
 
+  // const onPickEntrance = (entrance) => {
+  //   navigation.navigate('RideRegistration', {
+  //     pickupLocation: DEFAULT_PICKUP_LOCATION?.displayText ?? 'Pickup location',
+
+  //     // From campusData JSON
+  //     dropoffLocation: building?.address ?? '',
+  //     dropoffLocationName: building?.name ?? 'Dropoff location',
+
+  //     // New params
+  //     dropoffEntrance: entrance.label,
+  //     dropoffEntranceId: entrance.id,
+  //     dropoffBuildingId: building?.id ?? null,
+  //   });
+  // };
   const onPickEntrance = (entrance) => {
     navigation.navigate('RideRegistration', {
-      pickupLocation: DEFAULT_PICKUP_LOCATION.displayText,
-      dropoffLocation: location?.fullAddress ?? '',
-      dropoffLocationName: location?.name ?? 'Dropoff location',
-      dropoffEntrance: entrance.label, // new param
+      pickupLocation: DEFAULT_PICKUP_LOCATION?.displayText ?? 'Pickup location',
+      dropoffLocation: building?.address ?? '',
+      dropoffLocationName: building?.name ?? 'Dropoff location',
+      dropoffEntrance: entrance?.name ?? 'Entrance',
+      dropoffEntranceId: entrance?.id ?? null,
+      dropoffBuildingId: building?.id ?? null,
+      dropoffEntranceDirection: entrance?.direction ?? null,
+      dropoffEntranceRoad: entrance?.roadSidewalk ?? null,
     });
   };
 
   const onChatbot = () => {
-    // Placeholder: if you don’t have a chatbot screen yet, this can go to VoiceInput for now
     navigation.navigate('VoiceInput', {
       context: 'entrance_help',
-      locationName: location?.name ?? '',
+      locationName: building?.name ?? '',
+      buildingId: building?.id ?? null,
     });
   };
 
@@ -66,12 +79,15 @@ const EntranceSelectScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+      >
         <Text style={styles.subtitle} accessibilityRole="text">
-          Choose one of the entrances below for {location?.name ?? 'this location'}.
+          Choose one of the entrances below for {building?.name ?? 'this location'}.
         </Text>
 
-        <View style={styles.optionGroup}>
+        {/* <View style={styles.optionGroup}>
           {entrances.map((e) => (
             <TouchableOpacity
               key={e.id}
@@ -84,22 +100,25 @@ const EntranceSelectScreen = ({ navigation, route }) => {
               <Text style={styles.optionTitle}>{e.label}</Text>
             </TouchableOpacity>
           ))}
+        </View> */}
+        <View style={styles.optionGroup}>
+          {entrances.map((e) => {
+            const entranceLabel = e?.name || 'Entrance';
+            return (
+              <TouchableOpacity
+                key={e.id}
+                style={styles.optionCard}
+                onPress={() => onPickEntrance(e)}
+                accessibilityRole="button"
+                accessibilityLabel={entranceLabel}
+                accessibilityHint="Select this entrance and continue to ride registration"
+              >
+                <Text style={styles.optionTitle}>{entranceLabel}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
-        {/* <View style={styles.helpBox}>
-          <Text style={styles.helpText} accessibilityRole="text">
-            Having trouble selecting the entrance?
-          </Text>
-          <TouchableOpacity
-            style={styles.chatButton}
-            onPress={onChatbot}
-            accessibilityRole="button"
-            accessibilityLabel="Use our chatbot"
-            accessibilityHint="Opens help to choose the correct entrance"
-          >
-            <Text style={styles.chatButtonText}>Use our chatbot</Text>
-          </TouchableOpacity>
-        </View> */}
         <TouchableOpacity
           style={styles.helpBox}
           onPress={onChatbot}
@@ -168,16 +187,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   helpText: { fontSize: 14, color: colors.textSecondary },
-  chatButton: {
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-    backgroundColor: colors.primary,
-  },
   chatInlineText: {
     fontSize: 16,
     fontWeight: '700',
     color: colors.primary,
   },
-  chatButtonText: { color: 'white', fontWeight: '700', fontSize: 16 },
 });

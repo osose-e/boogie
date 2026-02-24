@@ -208,25 +208,28 @@ const SearchScreen = ({ navigation }) => {
       .replace(/\s+/g, ' ')   // collapse whitespace
       .trim();
 
-  const filteredLocations = useMemo(() => {
-    if (!searchQuery) return STANFORD_LOCATIONS;
-    const q = searchQuery.toLowerCase();
-    return STANFORD_LOCATIONS.filter((location) =>
-      location.name.toLowerCase().includes(q)
-    );
-  }, [searchQuery]);
+//   const filteredLocations = useMemo(() => {
+//     if (!searchQuery) return STANFORD_LOCATIONS;
+//     const q = searchQuery.toLowerCase();
+//     return STANFORD_LOCATIONS.filter((location) =>
+//       location.name.toLowerCase().includes(q)
+//     );
+//   }, [searchQuery]);
+    const filteredLocations = useMemo(() => {
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return STANFORD_LOCATIONS;
+        return STANFORD_LOCATIONS.filter((item) => item.searchBlob.includes(q));
+    }, [searchQuery]);
 
-  const handleLocationSelect = (location) => {
-    navigation.navigate('EntranceSelect', {
-      location, // pass the whole object for now
-    });
-  };
+    const handleLocationSelect = (item) => {
+        navigation.navigate('EntranceSelect', {
+          building: item.building, // full building object from JSON
+        });
+      };
 
 //   const handleLocationSelect = (location) => {
-//     navigation.navigate('RideRegistration', {
-//       pickupLocation: DEFAULT_PICKUP_LOCATION.displayText,
-//       dropoffLocation: location.fullAddress,
-//       dropoffLocationName: location.name,
+//     navigation.navigate('EntranceSelect', {
+//       location, // pass the whole object for now
 //     });
 //   };
 
