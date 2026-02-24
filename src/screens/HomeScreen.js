@@ -17,6 +17,7 @@ import { theme } from '../styles/themes';
 import { useTheme } from "../contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import Header from '../components/TabHeader';
+import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 
 const HomeScreen = ({ navigation }) => {
   const headerRef = useRef(null);
@@ -188,9 +189,15 @@ const HomeScreen = ({ navigation }) => {
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.row}
-                  onPress={() =>
-                    navigation.navigate("LocationDetails", { id: item.id })
-                  }
+                  onPress={() => {
+                    const found = STANFORD_LOCATIONS.find((loc) => loc.name === item.name);
+                    const fullAddress = found ? found.fullAddress : `${item.name}, Stanford, CA 94305`;
+                    navigation.navigate("RideRegistration", {
+                      pickupLocation: DEFAULT_PICKUP_LOCATION.fullAddress,
+                      dropoffLocation: fullAddress,
+                      dropoffLocationName: item.name,
+                    });
+                  }}
                   accessibilityRole="button"
                   accessibilityLabel={item.name}
                 >

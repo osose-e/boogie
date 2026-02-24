@@ -1,11 +1,12 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import VoiceInputScreen from "../screens/VoiceInputScreen";
 import RideRegistrationScreen from "../screens/RideRegistrationScreen";
+import RideConfirmationScreen from "../screens/RideConfirmationScreen";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function HomeStackNavigator() {
   return (
@@ -33,6 +34,11 @@ export default function HomeStackNavigator() {
         name="RideRegistration"
         component={RideRegistrationScreen}
         options={{ title: "RideRegistration", tabBarStyle: { display: "none" } }}
+      />
+      <Stack.Screen
+        name="RideConfirmation"
+        component={RideConfirmationScreen}
+        options={{ title: "RideConfirmation" }}
       />
     </Stack.Navigator>
   );

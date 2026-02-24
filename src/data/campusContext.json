@@ -1,0 +1,5551 @@
+{
+  "generatedAt": "2026-02-23T23:47:20.946Z",
+  "source": "Overpass + OpenAI + web-researched seed data. Edit to refine.",
+  "buildings": [
+    {
+      "name": "Computing and Data Science (CoDa)",
+      "address": "385 Serra St., Stanford, CA 94305",
+      "alternateNames": [
+        "CoDa",
+        "Computing & Data Science"
+      ],
+      "entrances": [
+        "north",
+        "east",
+        "southwest"
+      ],
+      "landmarks": [
+        "near the Blend",
+        "Blend cafe",
+        "Gilbert Hall",
+        "stairs",
+        "Hive staircase",
+        "bike racks",
+        "Oval",
+        "Main Quad"
+      ],
+      "establishments": [
+        "coffee bar"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Computing & Data Science",
+      "address": "385 Serra St., Stanford, CA 94305",
+      "alternateNames": [
+        "CoDa",
+        "Computing & Data Science"
+      ],
+      "entrances": [
+        "north",
+        "east",
+        "southwest"
+      ],
+      "landmarks": [
+        "near the Blend",
+        "Blend cafe",
+        "Gilbert Hall",
+        "stairs",
+        "Hive staircase",
+        "bike racks",
+        "Oval",
+        "Main Quad"
+      ],
+      "establishments": [
+        "coffee bar"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Wallenberg Hall",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 160",
+        "Bldg 160"
+      ],
+      "entrances": [
+        "north",
+        "Outer Quad side"
+      ],
+      "landmarks": [
+        "Main Quad",
+        "ramp to right of steps",
+        "Outer Quad arcade"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "McLatchy Hall",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 120",
+        "Bldg 120"
+      ],
+      "entrances": [
+        "north",
+        "Outer Quad"
+      ],
+      "landmarks": [
+        "Main Quad",
+        "Outer Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Gates Computer Science",
+      "address": "353 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Gates",
+        "Gates Building",
+        "Building 07-450"
+      ],
+      "entrances": [
+        "north",
+        "Serra Mall side"
+      ],
+      "landmarks": [
+        "corner Serra Mall and North-South Axis",
+        "stairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Gilbert Hall",
+      "address": "371 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Gilbert Biological Sciences",
+        "Building 07-420"
+      ],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "stairs",
+        "near CoDa",
+        "near Blend"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Tresidder Memorial Union",
+      "address": "459 Lagunita Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Tresidder",
+        "TMU",
+        "Building 02-300"
+      ],
+      "entrances": [
+        "east (White Plaza)",
+        "west (Humanities)",
+        "south ramp"
+      ],
+      "landmarks": [
+        "White Plaza",
+        "Dinkelspiel Auditorium",
+        "Old Union",
+        "Treehouse",
+        "patio seating",
+        "ramp south side",
+        "elevator west near Treehouse"
+      ],
+      "establishments": [
+        "CoHo",
+        "Campus Bike Shop",
+        "food court",
+        "Starbucks",
+        "Panda Express",
+        "Jamba Juice",
+        "Subway",
+        "Decadence",
+        "package center"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Bookstore",
+      "address": "519 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Bookstore",
+        "Building 02-001"
+      ],
+      "entrances": [
+        "White Plaza east",
+        "Lasuen Mall"
+      ],
+      "landmarks": [
+        "White Plaza",
+        "Post Office nearby",
+        "bike racks"
+      ],
+      "establishments": [
+        "bookstore",
+        "cardinal gear"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Lathrop Library",
+      "address": "518 Memorial Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Lathrop",
+        "Building 08-350"
+      ],
+      "entrances": [
+        "Memorial Way",
+        "Lasuen Mall"
+      ],
+      "landmarks": [
+        "Memorial Auditorium nearby",
+        "Lasuen Mall",
+        "stairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Memorial Church",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Memorial Church"
+      ],
+      "entrances": [
+        "Main Quad",
+        "Memorial Court"
+      ],
+      "landmarks": [
+        "Memorial Court",
+        "Main Quad",
+        "fountain",
+        "Memorial fountain"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Memorial Court",
+      "address": "Memorial Court, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad"
+      ],
+      "landmarks": [
+        "Main Quad",
+        "Memorial Church",
+        "fountain"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Oval",
+      "address": "Stanford Oval, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [
+        "Palm Drive",
+        "central emblem garden",
+        "benches",
+        "oak trees"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Dinkelspiel Memorial Music Auditorium",
+      "address": "471 Lagunita Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Dinkelspiel",
+        "Dinkelspiel Auditorium"
+      ],
+      "entrances": [
+        "Lagunita Drive"
+      ],
+      "landmarks": [
+        "near Tresidder",
+        "White Plaza",
+        "stairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sapp Center for Science Teaching & Learning",
+      "address": "376 Lomita Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Sapp Center",
+        "Sapp",
+        "Old Chemistry",
+        "Building 07-200"
+      ],
+      "entrances": [
+        "Lomita Drive"
+      ],
+      "landmarks": [
+        "stairs",
+        "near Gates",
+        "near CoDa"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Green Library",
+      "address": "557 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Green"
+      ],
+      "entrances": [
+        "Escondido Mall",
+        "Main Quad"
+      ],
+      "landmarks": [
+        "fountain",
+        "Main Quad",
+        "stairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Old Union",
+      "address": "520 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Lasuen Mall",
+        "White Plaza"
+      ],
+      "landmarks": [
+        "fountain",
+        "White Plaza",
+        "near Tresidder"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Haas Center for Public Service",
+      "address": "562 Salvatierra Walk, Stanford, CA 94305",
+      "alternateNames": [
+        "Haas"
+      ],
+      "entrances": [
+        "Salvatierra Walk"
+      ],
+      "landmarks": [
+        "stairs",
+        "near White Plaza"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hoover Tower",
+      "address": "550 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Hoover"
+      ],
+      "entrances": [
+        "Serra Mall"
+      ],
+      "landmarks": [
+        "landmark tower",
+        "observation deck",
+        "stairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mirrielees",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "near the Graduate Community Center",
+        "bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Fire Truck House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Fire Department"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Graduate Community Center",
+      "address": "750 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "near the Graduate Housing",
+        "bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Vaden Health Center",
+      "address": "900 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "near the Medical Center",
+        "parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Terra House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Graduate Housing"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Pi Beta Phi House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Graduate Housing"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mechanical Engineering Laboratory",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Product Realization Lab",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Fine Arts Building",
+      "address": "500 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Arts Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Language building",
+      "address": "500 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Arts Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "English Building",
+      "address": "500 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Arts Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Science Building",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Science Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Tower Building",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Science Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Theater",
+      "address": "500 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Arts Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Building 1",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Building 3",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Frances C. Arrillaga Alumni Center",
+      "address": "326 Galvez St, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "near the Alumni Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Fairchild Building",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Clubhouse",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Nitery",
+      "address": "459 Lagunita Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "east"
+      ],
+      "landmarks": [
+        "near Tresidder"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Otero",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Soto",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Press",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Vi at Palo Alto",
+      "address": "620 San Antonio Rd, Palo Alto, CA 94303",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Trader Joe's",
+      "address": "700 E. El Camino Real, Palo Alto, CA 94303",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Nordstrom",
+      "address": "180 El Camino Real, Palo Alto, CA 94304",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Cancer Center",
+      "address": "875 Blake Wilbur Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Jen-Hsun Huang Engineering",
+      "address": "475 Via Ortega, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 550"
+      ],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Jerry Yang & Akiko Yamazaki Environment & Energy Building",
+      "address": "473 Via Ortega, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 551"
+      ],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Spilker Engineering and Applied Sciences",
+      "address": "475 Via Ortega, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 552"
+      ],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Paul G. Allen",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Shop Building",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Small Gym",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 100"
+      ],
+      "entrances": [
+        "east"
+      ],
+      "landmarks": [
+        "near the Arrillaga Outdoor Education and Recreation Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Woodshop",
+      "address": "500 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Engineering Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "General Ed Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "PAMF Parking Structure",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Beckman Center for Molecular and Genetic Medicine",
+      "address": "343 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Falk Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "east"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Palo Alto Unified School District",
+      "address": "25 Churchill Ave, Palo Alto, CA 94306",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Li Ka Shing Center",
+      "address": "291 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Stanford Medical Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Wells Fargo",
+      "address": "180 El Camino Real, Palo Alto, CA 94304",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Chipotle",
+      "address": "900 E. El Camino Real, Palo Alto, CA 94303",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Coronet Motel",
+      "address": "3901 El Camino Real, Palo Alto, CA 94306",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sleep Number",
+      "address": "180 El Camino Real, Palo Alto, CA 94304",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Auto Pride",
+      "address": "180 El Camino Real, Palo Alto, CA 94304",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "PAMF Encina Bldg",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "PAMF Jamplis Bldg",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "PAMF Lee Bldg",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Domino's",
+      "address": "900 E. El Camino Real, Palo Alto, CA 94303",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Maximart Pharmacy",
+      "address": "900 E. El Camino Real, Palo Alto, CA 94303",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Children's Health Council",
+      "address": "650 Clark Way, Palo Alto, CA 94304",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Blake Wilbur Building",
+      "address": "875 Blake Wilbur Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Stanford Cancer Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lucile Packard Children's Hospital West",
+      "address": "725 Welch Rd, Stanford, CA 94304",
+      "alternateNames": [],
+      "entrances": [
+        "south"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Barnes Midrise",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Blackwelder Highrise",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Studio 5",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Abrams Midrise",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hoskins Midrise",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "McFarland Midrise",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Quillen Highrise",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Studio 6",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Studio 3",
+      "address": "211 Quarry Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north"
+      ],
+      "landmarks": [
+        "near the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hulme Midrise",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 200"
+      ],
+      "entrances": [
+        "Main Quad side",
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Studio 4",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 400"
+      ],
+      "entrances": [
+        "east entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Studio 2",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 200"
+      ],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Anne T. & Robert M. Bass Center",
+      "address": "655 Knight Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Bass Center"
+      ],
+      "entrances": [
+        "south entrance",
+        "north entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "W. Carter McClelland Building",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 300"
+      ],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lorenzo H. Zambrano Hall",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Zambrano Hall"
+      ],
+      "entrances": [
+        "Main Quad side",
+        "southwest entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "John A. & Cynthia Fry Gunn Building",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Gunn Building"
+      ],
+      "entrances": [
+        "north entrance",
+        "south entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Faculty Building West",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 100"
+      ],
+      "entrances": [
+        "west entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Faculty Building East",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 101"
+      ],
+      "entrances": [
+        "east entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "MBA Class of 1968 Building",
+      "address": "655 Knight Way, Stanford, CA 94305",
+      "alternateNames": [
+        "MBA Building"
+      ],
+      "entrances": [
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Addison Antiques",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Clark Auditorium",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "auditorium seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "James H. Clark Center",
+      "address": "318 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Clark Center"
+      ],
+      "entrances": [
+        "north entrance",
+        "south entrance"
+      ],
+      "landmarks": [
+        "near bike racks",
+        "outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Richard M. Lucas Center for Imaging",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "School of Medicine Loading Dock",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "loading dock entrance"
+      ],
+      "landmarks": [
+        "near the School of Medicine"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lorry I. Lokey Stem Cell Research Building",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Lokey Building"
+      ],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Center for Clinical Sciences Research",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Merck",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "RR Donnelley",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Genome Technology Center",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Studio 1",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 100"
+      ],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Citibank",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "La Bodeguita Del Medio",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ume Go",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Toyon Hall",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 300"
+      ],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "College Terrace Children's Center",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "College Terrace Library",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Country Sun",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Delta Delta Delta",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Kappa Alpha Theta",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "ZAP",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Terún Pizzeria",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Jin Sho",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Rains, Building 228",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 228"
+      ],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Timoshenko Lounge",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Fairclough Lounge",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Antonio's Nut House",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hotel California",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Norge Village Cleaners",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Palo Alto Mind Body",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Willis Lounge",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 420"
+      ],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to Green Library"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bailey",
+      "address": "650 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 300"
+      ],
+      "entrances": [
+        "north entrance",
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to the Old Union"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hacienda Commons",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "east entrance",
+        "west entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "outdoor seating area"
+      ],
+      "establishments": [
+        "Hacienda Cafe"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Buttery",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to the Old Union"
+      ],
+      "establishments": [
+        "The Buttery Cafe"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "William H. Neukom Building",
+      "address": "559 Nathan Abbott Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 500"
+      ],
+      "entrances": [
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Law School",
+        "adjacent to the Crown Quadrangle"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Grove",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "outdoor seating area"
+      ],
+      "establishments": [
+        "The Grove Cafe"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Kairos",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to the Old Union"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lasuen HFD",
+      "address": "650 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "adjacent to the Law School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Phi Kappa Psi",
+      "address": "650 Lasuen Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the fraternity row",
+        "adjacent to other Greek houses"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Alpha Kappa Delta Phi Chi Omega",
+      "address": "650 Lasuen Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the fraternity row",
+        "adjacent to other Greek houses"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Okada",
+      "address": "650 Lasuen Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the fraternity row",
+        "adjacent to other Greek houses"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Rinconada",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north entrance",
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "adjacent to the Law School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Trancos",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north entrance",
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "adjacent to the Law School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bing Concert Hall",
+      "address": "327 Lasuen Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Cantor Arts Center",
+        "outdoor performance area"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Bike Connection",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to the Old Union"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Coin Wash",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to the Old Union"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Grace Presbyterian Church",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other religious buildings"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Dental Arts Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical Center",
+        "adjacent to other health facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Elizabeth Gamble Garden Center",
+      "address": "1431 Waverley Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "historic garden",
+        "outdoor event space"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ithaka",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to the Old Union"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Carriage House",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "historic building",
+        "adjacent to the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Diffbot HQ",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other tech startups"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "AT&T",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other tech companies"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Summit Bicycles",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to bike paths"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ananda Church of Self-Realization",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other religious buildings"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bay IVF Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical Center",
+        "adjacent to other health facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Cambridge Branch, Palo Alto",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other educational facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Cardinal Bike Shop",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to bike paths"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Carrasco and Associates Architects",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other architectural firms"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Visa",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other tech companies"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Good Salad",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other food options"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Palo Alto Pathology",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical Center",
+        "adjacent to other health facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Fiber Internet Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other tech startups"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ivy Park at Palo Alto",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other recreational facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Tugboat Ventures",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other tech startups"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "ebrary",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other educational facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Family & Children Services",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical Center",
+        "adjacent to other health facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Dalgaard Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other educational facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Elliott Singer D.D.S.",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical Center",
+        "adjacent to other health facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "AJ Tutoring",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad",
+        "adjacent to other educational facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Embarcadero Media",
+      "address": "450 Broadway St, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 100"
+      ],
+      "entrances": [
+        "Main entrance on Broadway St"
+      ],
+      "landmarks": [
+        "Nearby bike racks",
+        "Adjacent to other media offices"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Jerusalem Baptist Church",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Parking lot",
+        "Nearby residential areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lot 3",
+      "address": "Stanford Ave, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance from Stanford Ave"
+      ],
+      "landmarks": [
+        "Adjacent to other parking lots",
+        "Close to campus buildings"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ted Thompson Parking Garage",
+      "address": "450 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Campus Dr"
+      ],
+      "landmarks": [
+        "Close to the main quad",
+        "Nearby bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lux",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby shopping areas",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mayfield Manor",
+      "address": "12345 Mayfield Ave, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Mayfield Ave"
+      ],
+      "landmarks": [
+        "Residential area",
+        "Nearby parks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mollie Stone's",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Grocery store",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mulcahy Family Dentistry",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby residential areas",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Palo Alto Chiropractic Offices",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby medical offices",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Medicine Imaging Center",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby medical facilities",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Animal Doctors",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby veterinary services",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Valero",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Gas station",
+        "Convenience store"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Verizon",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby shopping areas",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Viveve",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby medical offices",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Wesley United Methodist Church",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Parking lot",
+        "Nearby residential areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Wu Orthodontics",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby dental offices",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Rivian",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby automotive services",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "cclc",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby childcare facilities",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Escondido Elementary School",
+      "address": "12345 Escondido Rd, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Escondido Rd"
+      ],
+      "landmarks": [
+        "Playground",
+        "Nearby residential areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mancini’s Sleepworld",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby shopping areas",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Terrace Inn",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Hotel",
+        "Nearby restaurants"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "555 Stanford Ave",
+      "address": "555 Stanford Ave, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Stanford Ave"
+      ],
+      "landmarks": [
+        "Nearby residential areas",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bolivar House",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby residential areas",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hammarskjöld",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby academic buildings",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Jack in the Box",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Fast food restaurant",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Panda Express",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Fast food restaurant",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Provident Credit Union",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby banking services",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Palo Alto Shell",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Gas station",
+        "Convenience store"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Starbucks",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Coffee shop",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Church of Jesus Christ of Latter-day Saints",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Parking lot",
+        "Nearby residential areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Gould Center",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby academic buildings",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Student Housing Management Office",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby student housing",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Arrillaga Family Sports Center",
+      "address": "340 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Campus Dr"
+      ],
+      "landmarks": [
+        "Gym",
+        "Nearby sports fields"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Comprehensive ENT Clinic",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby medical facilities",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Avery Competition Pool",
+      "address": "12345 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Campus Dr"
+      ],
+      "landmarks": [
+        "Swimming pool",
+        "Nearby sports facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Cordura Hall",
+      "address": "12345 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Campus Dr"
+      ],
+      "landmarks": [
+        "Academic building",
+        "Nearby lecture halls"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ventura Hall",
+      "address": "12345 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Campus Dr"
+      ],
+      "landmarks": [
+        "Academic building",
+        "Nearby lecture halls"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Nora Suppes Hall",
+      "address": "12345 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Campus Dr"
+      ],
+      "landmarks": [
+        "Academic building",
+        "Nearby lecture halls"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "288",
+      "address": "12345 El Camino Real, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing El Camino Real"
+      ],
+      "landmarks": [
+        "Nearby shopping areas",
+        "Parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Maintenance Shops (09-100)",
+      "address": "12345 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance on Campus Dr"
+      ],
+      "landmarks": [
+        "Maintenance area",
+        "Nearby facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "LBRE Office (09-105)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 105"
+      ],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "nearby buildings: LBRE Building, Greenhouses"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Warehouse, Maps & Records Offices (09-110)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 110"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: LBRE Office"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Murray House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "North entrance",
+        "South entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Wilbur Hall"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Barn",
+      "address": "600 Oak Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Stanford Golf Course"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Federal Credit Union",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Tresidder Memorial Union"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Maples Pavilion",
+      "address": "655 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance",
+        "East entrance"
+      ],
+      "landmarks": [
+        "basketball court",
+        "nearby buildings: Arrillaga Family Sports Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Palo Alto Fire Station 6",
+      "address": "2500 El Camino Real, Palo Alto, CA 94306",
+      "alternateNames": [],
+      "entrances": [],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sam McDonald Track House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Track side entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Stanford Stadium"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Auxiliary Library",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Green Library"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Peninsula Sanitary Service (09-950)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 950"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Elliott Program Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Steamfitters Shop (09-130)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 130"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "IT Offices (09-190)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 190"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Mausoleum",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Memorial Church"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Maintenance Shops (09-140)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 140"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Carpenters Shop (09-135)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 135"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Storage Shed (09-150)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 150"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Fire Training Tower (09-210)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 210"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "BOB (Robert S Moore S)",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bechtel International Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Bechtel International Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Branner Hall",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Wilbur Hall"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Burnham Pavilion",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Knoll",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Stanford Stadium"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "East Wing",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Columbae House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Wilbur Hall"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Coupa Café",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Tresidder Memorial Union"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Cubberly Education Building",
+      "address": "485 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Education School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Drell House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Wilbur Hall"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Arrillaga Center for Sports and Recreation",
+      "address": "340 Galvez Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Maples Pavilion"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ford Center For Sports & Recreation",
+      "address": "340 Galvez Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Arrillaga Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Herbert Hoover Memorial Building",
+      "address": "550 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Hoover"
+      ],
+      "entrances": [
+        "Serra Mall"
+      ],
+      "landmarks": [
+        "landmark tower",
+        "observation deck",
+        "stairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Kappa Sigma",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Fraternity Row"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bambi",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Fraternity Row"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Montag Hall",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Wilbur Hall"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Art Gallery",
+      "address": "419 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Cantor Arts Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bing Wing",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Green Library"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Galvez Modular",
+      "address": "450 Galvez Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "HEPL South",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Barnum Center",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Wilbur Hall"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Harmony House",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "nearby buildings: Wilbur Hall"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "William J. Patterson Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 420"
+      ],
+      "entrances": [
+        "Main Quad side",
+        "southwest"
+      ],
+      "landmarks": [
+        "nearby buildings: Green Library",
+        "bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Alpha Phi Kappa Kappa Gamma",
+      "address": "550 Alvarado Row, Stanford, CA 94305",
+      "alternateNames": [
+        "Kappa Kappa Gamma"
+      ],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other sorority houses",
+        "bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lantana",
+      "address": "650 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "east",
+        "west"
+      ],
+      "landmarks": [
+        "nearby buildings: Munger Graduate Residences",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Jerry",
+      "address": "650 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Jerry House"
+      ],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Kennedy Grove",
+      "address": "350 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Kennedy Hall",
+        "picnic areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Kimball Hall",
+      "address": "550 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "east",
+        "west"
+      ],
+      "landmarks": [
+        "nearby buildings: Hoover Tower",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Koret Pavillion",
+      "address": "340 Santa Teresa Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "south",
+        "east"
+      ],
+      "landmarks": [
+        "nearby buildings: Arrillaga Family Sports Center",
+        "gym facilities"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Well House (Robert S Moore N)",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Green Library",
+        "fountains"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Landau Economics Building",
+      "address": "579 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 120"
+      ],
+      "entrances": [
+        "south",
+        "north"
+      ],
+      "landmarks": [
+        "nearby buildings: other economics buildings",
+        "bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Littlefield Center",
+      "address": "365 Lasuen Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other academic buildings",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lou Henry Hoover Building",
+      "address": "550 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Hoover"
+      ],
+      "entrances": [
+        "Serra Mall"
+      ],
+      "landmarks": [
+        "landmark tower",
+        "observation deck",
+        "stairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Castaño",
+      "address": "200 Castaño Avenue, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mariposa",
+      "address": "300 Mariposa Avenue, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "east",
+        "west"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mars",
+      "address": "400 Mars Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Memorial Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main Quad side",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Green Library",
+        "memorial features"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Munger Building 1",
+      "address": "650 Munger Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Munger Graduate Residences",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Munger Building 2",
+      "address": "660 Munger Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Munger Graduate Residences",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Munger Building 3",
+      "address": "670 Munger Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Munger Graduate Residences",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Munger Building 4",
+      "address": "680 Munger Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Munger Graduate Residences",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Munger Building 5",
+      "address": "690 Munger Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: Munger Graduate Residences",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Muwekmah-tah-ruk",
+      "address": "100 Muwekmah-tah-ruk Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Narnia",
+      "address": "200 Narnia Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Owen House",
+      "address": "300 Owen House Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Roble Hall",
+      "address": "500 Roble Avenue, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Rogers",
+      "address": "600 Rogers Street, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "School of Law",
+      "address": "559 Nathan Abbott Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Law School"
+      ],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other law buildings",
+        "library"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Attneave",
+      "address": "700 Attneave Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other academic buildings",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sigma Phi Epsilon",
+      "address": "800 Sigma Phi Epsilon Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other fraternity houses",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sigma Chi",
+      "address": "900 Sigma Chi Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other fraternity houses",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sigma Nu",
+      "address": "1000 Sigma Nu Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other fraternity houses",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Center for Research and Development in Education",
+      "address": "200 Education Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other academic buildings",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Station Post Office",
+      "address": "100 Stanford Station, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other campus facilities",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Storey",
+      "address": "300 Storey Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other academic buildings",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sweet Hall",
+      "address": "400 Sweet Hall Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other academic buildings",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Xanadu",
+      "address": "500 Xanadu Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Thornton Center",
+      "address": "600 Thornton Center Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other academic buildings",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Black Community Service Center",
+      "address": "700 Black Community Service Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other community centers",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lake House",
+      "address": "800 Lake House Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Acacia",
+      "address": "900 Acacia Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other fraternity houses",
+        "courtyard"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Birch",
+      "address": "1000 Birch Lane, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "north",
+        "south"
+      ],
+      "landmarks": [
+        "nearby buildings: other residence halls",
+        "landscaped areas"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Blume Earthquake Engineering Center",
+      "address": "420 Escondido Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 500"
+      ],
+      "entrances": [
+        "southwest entrance",
+        "northeast entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "adjacent to the Center for Turbulence Research"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Cedar Hall",
+      "address": "650 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 550"
+      ],
+      "entrances": [
+        "main entrance facing the quad",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Graduate School of Business"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Durand Building",
+      "address": "496 Lomita Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 450"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby parking lot",
+        "adjacent to the Huang Engineering Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Encina Commons",
+      "address": "615 Crothers Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 600"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "dining hall",
+        "nearby bike racks",
+        "close to Crothers Hall"
+      ],
+      "establishments": [
+        "Encina Dining"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Forsythe Data Center",
+      "address": "350 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 700"
+      ],
+      "entrances": [
+        "main entrance",
+        "service entrance"
+      ],
+      "landmarks": [
+        "nearby parking lot",
+        "adjacent to the Stanford Research Park"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hagey Laboratory for Pediatric Regenerative Medicine",
+      "address": "269 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 800"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "adjacent to the Lucile Packard Children's Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hewlett Teaching Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 900"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Polya Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1000"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mathematics"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Via Ortega Garage",
+      "address": "Via Ortega, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "main entrance",
+        "exit"
+      ],
+      "landmarks": [
+        "adjacent to bike racks",
+        "nearby parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lorry Lokey Labs",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1100"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Chemistry"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Roth Way Garage",
+      "address": "Roth Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "main entrance",
+        "exit"
+      ],
+      "landmarks": [
+        "adjacent to bike racks",
+        "nearby parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stauffer I",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1200"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Statistics"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stauffer II",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1300"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Statistics"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Keck Science",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1400"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Chemistry"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Bank of America",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mechanical Engineering, TSG",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1500"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Physics and Astrophysics",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1600"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Physics"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Moore Material Research",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1700"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Materials Science"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Cypress Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1800"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Statistics"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Spruce Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1900"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Statistics"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Center for Turbulence Research",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2000"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Blume Earthquake Engineering Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Juniper",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2100"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Laurel",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2200"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "McCullough",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2300"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mechanical Engineering Administration",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2400"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mitchell Earth Science Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2500"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Earth System Science"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mudd Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2600"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Computer Science"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Oak",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2700"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Peterson Laboratory",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2800"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Pine Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 2900"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Poplar",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3000"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Redwood Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3100"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sequoia Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3200"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Skilling Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3300"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Varian Physics Laboratory",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3400"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Physics"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Packard",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3500"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mark Taper Student Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3600"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Student Affairs"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "CineArts Palo Alto Square",
+      "address": "3000 El Camino Real, Palo Alto, CA 94306",
+      "alternateNames": [],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby parking lot",
+        "close to the Stanford Shopping Center"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Arrillaga Outdoor Education and Recreation Center",
+      "address": "285 Santa Teresa Street, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3700"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "adjacent to the Stanford Golf Course"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lieberman",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 3800"
+      ],
+      "entrances": [
+        "main entrance",
+        "side entrance"
+      ],
+      "landmarks": [
+        "nearby bike racks",
+        "close to the Department of Mechanical Engineering"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Miller",
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 200"
+      ],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near Green Library",
+        "near Memorial Church"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Hastorf",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 420"
+      ],
+      "entrances": [
+        "southwest entrance"
+      ],
+      "landmarks": [
+        "near the Psychology Department",
+        "near the Old Chemistry Building"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Rosse",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 300"
+      ],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near the Psychology Department",
+        "near the Old Chemistry Building"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Kennedy Commons",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 600"
+      ],
+      "entrances": [
+        "Main Quad side"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "outdoor seating area"
+      ],
+      "establishments": [
+        "Kennedy Commons Dining Hall"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Shriram Center for Bioengineering & Chemical Engineering",
+      "address": "443 Via Ortega, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 500"
+      ],
+      "entrances": [
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Bioengineering Department",
+        "near the Chemical Engineering Department"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Arrillaga Family Dining Commons",
+      "address": "326 Galvez Street, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 700"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Escondido Village",
+        "outdoor seating area"
+      ],
+      "establishments": [
+        "Dining Commons"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "Arroyo",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 800"
+      ],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near the Escondido Village",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Cedro",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 900"
+      ],
+      "entrances": [
+        "south entrance"
+      ],
+      "landmarks": [
+        "near the Escondido Village",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Junipero",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1000"
+      ],
+      "entrances": [
+        "east entrance"
+      ],
+      "landmarks": [
+        "near the Escondido Village",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Math and Social Studies Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1100"
+      ],
+      "entrances": [
+        "north entrance"
+      ],
+      "landmarks": [
+        "near the Math Department",
+        "near the Social Science Department"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Media Arts Center",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1200"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Art Department",
+        "near outdoor art installations"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Comparative Medicine Pavilion",
+      "address": "450 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1300"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near the Veterinary School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Mulberry House Madera Grove Children's Center",
+      "address": "450 Madera Grove, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near playground",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Sapp Center for Science Teaching and Learning",
+      "address": "376 Lomita Drive, Stanford, CA 94305",
+      "alternateNames": [
+        "Sapp Center",
+        "Sapp",
+        "Old Chemistry",
+        "Building 07-200"
+      ],
+      "entrances": [
+        "Lomita Drive"
+      ],
+      "landmarks": [
+        "stairs",
+        "near Gates",
+        "near CoDa"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Anderson Collection at Stanford University",
+      "address": "314 Lomita Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near Cantor Arts Center",
+        "outdoor sculpture garden"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Meier Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 1400"
+      ],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Windhover",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Art Department",
+        "near outdoor art installations"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "David & Joan Traitel Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Jack McDonald Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "PAHS Library",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near the Veterinary School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Anne T. and Robert M. Bass Biology Research Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Biology Department",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Annette's Cafe",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "near outdoor seating"
+      ],
+      "establishments": [
+        "Annette's Cafe"
+      ],
+      "notes": ""
+    },
+    {
+      "name": "North Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near the Veterinary School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Escondido Village, EVGR Bldg A",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near Escondido Village",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Escondido Village, EVGR Bldg B",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near Escondido Village",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Escondido Village, EVGR Bldg C",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near Escondido Village",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Escondido Village, EVGR Bldg D",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near Escondido Village",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lucile Packard Children's Hospital Main",
+      "address": "725 Welch Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near the Children's Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lasuen Restroom",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Main Quad"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Children's Center of the Stanford Community",
+      "address": "450 Escondido Road, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near playground",
+        "near bike racks"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford ChEM-H Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Chemistry Department",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Neurosciences Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Neuroscience Department",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lorry I. Lokey Stanford Daily Building",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Stanford Daily offices",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Pasteur Staff Garage",
+      "address": "450 Pasteur Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near parking lot"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Stanford Hospital",
+      "address": "300 Pasteur Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near the Children's Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Norcliffe",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "District Work Center, Campus Drive",
+      "address": "450 Campus Drive, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near the Veterinary School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Denning House",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Memorial Way District Work Center",
+      "address": "450 Memorial Way, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Medical School",
+        "near the Veterinary School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Arrillaga Hall",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance"
+      ],
+      "landmarks": [
+        "near the Graduate School of Business",
+        "near outdoor seating"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Center for Academic Medicine",
+      "address": "300 Pasteur Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 300"
+      ],
+      "entrances": [
+        "Main entrance on Pasteur Drive"
+      ],
+      "landmarks": [
+        "Nearby Stanford Hospital",
+        "Adjacent to the School of Medicine"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Medical School Office Building",
+      "address": "117 Encina Commons, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 117"
+      ],
+      "entrances": [
+        "Main entrance on Encina Commons"
+      ],
+      "landmarks": [
+        "Close to the School of Medicine",
+        "Adjacent to the Medical School"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ujamaa B",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 650"
+      ],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near Ujamaa Residential Center",
+        "Adjacent to Ujamaa A"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Granada",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 650"
+      ],
+      "entrances": [
+        "Main entrance on Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Adelfa",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 650"
+      ],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Part of the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Naranja",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 650"
+      ],
+      "entrances": [
+        "Main entrance on Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Admin",
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 450"
+      ],
+      "entrances": [
+        "Main entrance facing Serra Mall"
+      ],
+      "landmarks": [
+        "Near the Main Quad",
+        "Adjacent to the Stanford Bookstore"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Ujamaa A",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 650"
+      ],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Part of the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Eucalipto",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 650"
+      ],
+      "entrances": [
+        "Main entrance on Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Lakeside Dining",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 650"
+      ],
+      "entrances": [
+        "Main entrance facing the lake"
+      ],
+      "landmarks": [
+        "Near the lakeside",
+        "Adjacent to the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "The Palomino",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Kappa Alpha",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Breer Library",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "LBRE District Work Center",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "EVGR Pub & Beer Garden",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "EVGR Tower",
+      "address": "650 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Ujamaa Residential Complex"
+      ],
+      "establishments": [],
+      "notes": ""
+    },
+    {
+      "name": "Public Safety Building",
+      "address": "360 Campus Dr, Stanford, CA 94305",
+      "alternateNames": [
+        "Building 360"
+      ],
+      "entrances": [
+        "Main entrance facing Campus Drive"
+      ],
+      "landmarks": [
+        "Near the Stanford Police Department",
+        "Adjacent to the Stanford Hospital"
+      ],
+      "establishments": [],
+      "notes": ""
+    }
+  ],
+  "amenities": [
+    "Stern Dining",
+    "CoHo",
+    "Treehouse",
+    "Jamba",
+    "Union Square",
+    "The Axe & Palm",
+    "Bytes Cafe",
+    "Cafe Cool",
+    "CVS Pharmacy",
+    "Ray's Grill",
+    "clock",
+    "Rara",
+    "Homma’s Brown Rice Sushi",
+    "Palo Alto Sol",
+    "Ramen Kowa",
+    "Cafe Pro Bono",
+    "Sekoya",
+    "Vitality Bowls",
+    "Zareen's",
+    "parking_entrance",
+    "Peet's Coffee",
+    "Decadence",
+    "Olives",
+    "bench",
+    "fountain",
+    "recycling",
+    "post_box",
+    "Free Will Baptist Church",
+    "bicycle_parking",
+    "Telefèric Barcelona",
+    "Douce France",
+    "Bistro Elan",
+    "Stanford Federal Credit Union",
+    "parking",
+    "ZombieRunner Coffee",
+    "California Avenue Farmer's Market",
+    "Kali Greek Kitchen",
+    "Anatolian Kitchen",
+    "Fisher Conference Center",
+    "Alumni Café",
+    "toilets",
+    "Mamahuhu",
+    "drinking_water",
+    "telephone",
+    "Joanie's Cafe",
+    "Mediterranean Wraps",
+    "Izzy's Brooklyn Bagels",
+    "Technology Credit Union",
+    "Pop Tea Bar",
+    "Cafe Riace",
+    "Naschmarkt",
+    "McKenna Family Dentistry",
+    "Odori Sushi",
+    "First Republic Bank",
+    "The UPS Store",
+    "First Tech Federal Credit Union",
+    "Cafe Buttery (serving Peet's Coffee)",
+    "Market Square Cafeteria",
+    "Med Cafe",
+    "Lutticken's Deli"
+  ],
+  "landmarkContext": {
+    "bikeRacks": "CoDa north entrance; Tresidder; Stanford Bookstore; Gates; Lathrop Library; near Memorial Church. Cardinal Bike Shop, The Bike Connection.",
+    "parkingLots": "Roth Way Garage; Via Ortega Garage; PAMF Parking Structure; Ted Thompson Garage; Lot 3; Pasteur Staff Garage. Parking near Tresidder, Stanford Hospital.",
+    "establishments": "Tresidder: Starbucks, Panda Express, Jamba Juice, Subway, food court, Decadence. CoHo, Axe & Palm, Bytes Cafe, Coupa Café, Peet's Coffee. Stanford Bookstore. CVS, Trader Joe's, Mollie's."
+  },
+  "humanAdditions": []
+}

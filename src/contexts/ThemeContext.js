@@ -1,27 +1,39 @@
 import React, { createContext, useState, useContext } from "react";
-import { theme } from "../styles/themes"; // your theme object
+import { DefaultTheme } from "@react-navigation/native";
+import { theme } from "../styles/themes";
 
-// 1️⃣ Create context
 const ThemeContext = createContext();
 
-// 2️⃣ Create provider
 export const ThemeProvider = ({ children }) => {
-  const [themeMode, setThemeMode] = useState("light"); // default
+  const [themeMode, setThemeMode] = useState("light");
 
-  // toggle between light and dark
   const toggleTheme = () => {
     setThemeMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  // pick the color palette based on mode
+  const c = theme.colors[themeMode];
   const currentTheme = {
     ...theme,
-    colors: theme.colors[themeMode],
+    colors: c,
+  };
+
+  const navTheme = {
+    ...DefaultTheme,
+    dark: themeMode === "dark",
+    colors: {
+      ...DefaultTheme.colors,
+      primary: c.header1,
+      background: c.background,
+      card: c.background,
+      text: c.bodyDark,
+      border: c.separator,
+      notification: c.header1,
+    },
   };
 
   return (
     <ThemeContext.Provider
-      value={{ themeMode, theme: currentTheme, toggleTheme }}
+      value={{ themeMode, theme: currentTheme, navTheme, toggleTheme }}
     >
       {children}
     </ThemeContext.Provider>

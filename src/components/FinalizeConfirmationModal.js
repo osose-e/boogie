@@ -8,7 +8,7 @@ import {
   AccessibilityInfo,
   findNodeHandle,
 } from 'react-native';
-import { colors } from '../styles/colors';
+import { legacyColors as colors } from '../styles/colors';
 
 const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails }) => {
   const titleRef = useRef(null);

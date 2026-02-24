@@ -1,3 +1,15 @@
+// Flat light theme for screens that use colors.background, colors.text, etc.
+export const legacyColors = {
+  primary: "#09A6B8",
+  secondary: "#FFFFFF",
+  text: "#000000",
+  textSecondary: "#6E6E6E",
+  background: "#FFFFFF",
+  backgroundLight: "#F5F5F5",
+  border: "#CFCFCF",
+  error: "#EF4444",
+};
+
 export const colors = {
   light: {
     header1: "#09A6B8",
