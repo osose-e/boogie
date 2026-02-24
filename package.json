@@ -9,6 +9,9 @@
     "web": "expo start --web",
     "generate:campus": "node scripts/generateCampusData.mjs",
     "generate:campus:overpass-only": "node scripts/generateCampusData.mjs --overpass-only",
+    "enhance:campus": "node scripts/generateCampusData.mjs --enhance-web",
+    "enhance:campus:test": "ENHANCE_LIMIT=20 node scripts/generateCampusData.mjs --enhance-web",
+    "enhance:campus:ai": "node scripts/generateCampusData.mjs --enhance-only",
     "fix:building-numbers": "node scripts/fixBuildingNumbers.mjs"
   },
   "dependencies": {

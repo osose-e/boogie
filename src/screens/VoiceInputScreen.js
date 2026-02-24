@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -12,6 +13,8 @@ import {
   AccessibilityInfo,
   findNodeHandle,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import * as Speech from 'expo-speech';
 import * as Location from 'expo-location';
@@ -73,16 +76,16 @@ const VoiceInputScreen = ({ navigation, route }) => {
     }
   }, []);
 
-  // Focus on logo when screen loads
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(logoRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
+  // Focus screen reader on Boogie header when screen is focused (e.g. after navigating to this page)
+  useFocusEffect(
+    useCallback(() => {
+      const t = setTimeout(() => {
+        const node = findNodeHandle(logoRef.current);
+        if (node) AccessibilityInfo.setAccessibilityFocus(node);
+      }, 400);
+      return () => clearTimeout(t);
+    }, [])
+  );
 
   // Focus on conversation header when messages are added (but not on initial load)
   useEffect(() => {
@@ -97,14 +100,10 @@ const VoiceInputScreen = ({ navigation, route }) => {
     }
   }, [transcript.length]);
 
-  // Dismiss keyboard when tapping outside
+  // Dismiss keyboard when it hides (e.g. user switched apps or tapped outside)
   useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      Keyboard.dismiss();
-    });
-    return () => {
-      keyboardDidHideListener.remove();
-    };
+    const sub = Keyboard.addListener('keyboardDidHide', () => Keyboard.dismiss());
+    return () => sub.remove();
   }, []);
 
   // Simulated voice input for Expo Go compatibility
@@ -296,7 +295,8 @@ const VoiceInputScreen = ({ navigation, route }) => {
     const type = message.type === 'user' ? 'user' : 'bot';
     const isUser = type === 'user';
     const highlights = message.highlights || [];
-    
+    const isLastMessage = index === transcript.length - 1;
+
     let displayText = message.text;
     highlights.forEach((highlight) => {
       displayText = displayText.replace(
@@ -305,8 +305,10 @@ const VoiceInputScreen = ({ navigation, route }) => {
       );
     });
 
-    // Clean text for accessibility (remove markdown formatting)
-    const cleanText = (message.text || '').replace(/\*\*/g, '');
+    // Clean text for VoiceOver/screen readers (no markdown)
+    const cleanText = (message.text || '').replace(/\*\*/g, '').trim() || 'No content';
+    const roleLabel = isUser ? 'You' : 'BoogieBot';
+    const positionLabel = transcript.length > 1 ? `Message ${index + 1} of ${transcript.length}. ` : '';
 
     return (
       <View
@@ -317,8 +319,10 @@ const VoiceInputScreen = ({ navigation, route }) => {
         style={[styles.messageContainer, isUser ? styles.userMessage : styles.botMessage]}
         accessible={true}
         accessibilityRole="text"
-        accessibilityLabel={isUser ? `You said: ${cleanText}` : `BoogieBot said: ${cleanText}`}
+        accessibilityLabel={`${positionLabel}${roleLabel}: ${cleanText}`}
+        accessibilityHint={isUser ? 'Your message.' : 'BoogieBot message.'}
         importantForAccessibility="yes"
+        accessibilityLiveRegion={isLastMessage ? 'polite' : undefined}
       >
         <Text 
           style={styles.messageLabel}
@@ -332,10 +336,10 @@ const VoiceInputScreen = ({ navigation, route }) => {
           accessibilityElementsHidden={true}
           importantForAccessibility="no"
         >
-          {displayText.split('**').map((part, index) => {
-            if (index % 2 === 1) {
+          {displayText.split('**').map((part, idx) => {
+            if (idx % 2 === 1) {
               return (
-                <Text key={index} style={styles.highlightedText}>
+                <Text key={idx} style={styles.highlightedText}>
                   {part}
                 </Text>
               );
@@ -371,159 +375,150 @@ const VoiceInputScreen = ({ navigation, route }) => {
         <View style={styles.headerSpacer} />
       </View>
 
-      <View style={styles.promptContainer}>
-        <Text style={styles.prompt} accessibilityRole="header">
+      <View style={styles.promptContainer} accessible={true} accessibilityRole="header" accessibilityLabel="Book a DisGo ride: pickup and dropoff. BoogieBot will ask where you want to be picked up, then where you want to be dropped off. Use building names and landmarks, for example north entrance or near the Oval." importantForAccessibility="yes">
+        <Text style={styles.prompt} accessibilityElementsHidden={true}>
           Book a DisGo ride: pickup and dropoff
         </Text>
-        <Text style={styles.promptSubtext}>
+        <Text style={styles.promptSubtext} accessibilityElementsHidden={true}>
           BoogieBot will ask where you want to be picked up, then where you want to be dropped off. Use building names and landmarks (e.g. north entrance, near the Oval).
         </Text>
       </View>
 
-      <ScrollView
-        ref={scrollViewRef}
-        style={styles.transcriptContainer}
-        contentContainerStyle={styles.transcriptContent}
-        accessible={false}
-        importantForAccessibility="no"
-        keyboardShouldPersistTaps="handled"
-        onScrollBeginDrag={() => Keyboard.dismiss()}
+      <KeyboardAvoidingView
+        style={styles.chatWrapper}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       >
-        {transcript.length === 0 ? (
-          <View style={styles.emptyState}>
-            <TouchableOpacity
-              style={[styles.recordButton, isRecording && styles.recordButtonActive]}
-              onPress={isRecording ? stopRecording : startRecording}
-              accessibilityRole="button"
-              accessibilityLabel={isRecording ? 'Stop recording' : 'Start voice recording'}
-              accessibilityHint="Double tap to start or stop voice input"
-            >
-              {isRecording ? (
-                <ActivityIndicator size="large" color={colors.secondary} />
-              ) : (
-                <Text style={styles.recordButtonIcon}>🎤</Text>
-              )}
-            </TouchableOpacity>
-            <Text style={styles.emptyStateText}>
-              Tap the microphone button, then use your keyboard's voice input (🎤 icon) or type your message
-            </Text>
-            <View style={styles.manualInputContainer}>
-              <Text style={styles.manualInputLabel}>
-                Tap the microphone button above, then use your keyboard's voice input (🎤 icon) or type:
-              </Text>
-              <TextInput
-                ref={textInputRef}
-                style={styles.manualInput}
-                value={manualInput}
-                onChangeText={setManualInput}
-                placeholder="Say or type: 'I want to go to coda'..."
-                placeholderTextColor={colors.textSecondary}
-                onSubmitEditing={handleManualSubmit}
-                onBlur={() => Keyboard.dismiss()}
-                accessibilityLabel="Type or use voice input for your destination message"
-                accessibilityRole="textbox"
-                accessibilityHint="You can use your device's voice input by tapping the microphone icon on your keyboard"
-                returnKeyType="send"
-              />
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.transcriptContainer}
+          contentContainerStyle={styles.transcriptContent}
+          keyboardShouldPersistTaps="always"
+          onScrollBeginDrag={() => Keyboard.dismiss()}
+          accessible={false}
+          importantForAccessibility="no"
+        >
+          {transcript.length === 0 ? (
+            <View style={styles.emptyState} accessible={false} importantForAccessibility="no">
               <TouchableOpacity
-                style={styles.submitButton}
-                onPress={handleManualSubmit}
+                style={[styles.recordButton, isRecording && styles.recordButtonActive]}
+                onPress={isRecording ? stopRecording : startRecording}
                 accessibilityRole="button"
-                accessibilityLabel="Submit message"
+                accessibilityLabel={isRecording ? 'Stop recording' : 'Start voice recording'}
+                accessibilityHint="Double tap to start or stop voice input"
               >
-                <Text style={styles.submitButtonText}>Send</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <>
-            <View 
-              ref={conversationHeaderRef}
-              accessible={true}
-              accessibilityRole="header"
-              accessibilityLabel={`Conversation with ${transcript.length} message${transcript.length !== 1 ? 's' : ''}`}
-              style={styles.conversationHeader}
-              importantForAccessibility="yes"
-            >
-              <Text 
-                style={styles.conversationHeaderText}
-                accessibilityElementsHidden={true}
-                importantForAccessibility="no"
-              >
-                Conversation ({transcript.length} message{transcript.length !== 1 ? 's' : ''})
-              </Text>
-            </View>
-            {transcript.map((message, index) => renderMessage(message, index))}
-            <View style={styles.manualInputContainer}>
-              <TextInput
-                ref={textInputRef}
-                style={styles.manualInput}
-                value={manualInput}
-                onChangeText={setManualInput}
-                placeholder="Continue conversation... (use keyboard 🎤 for voice)"
-                placeholderTextColor={colors.textSecondary}
-                onSubmitEditing={handleManualSubmit}
-                onBlur={() => Keyboard.dismiss()}
-                editable={true}
-                accessibilityLabel="Continue conversation using voice or text"
-                accessibilityRole="textbox"
-                accessibilityHint="Use your keyboard's microphone icon for voice input"
-                returnKeyType="send"
-              />
-              <TouchableOpacity
-                style={[styles.submitButton, isProcessing && styles.submitButtonDisabled]}
-                onPress={handleManualSubmit}
-                accessibilityRole="button"
-                accessibilityLabel={isProcessing ? 'BoogieBot is thinking' : 'Send message'}
-              >
-                {isProcessing ? (
-                  <ActivityIndicator size="small" color={colors.secondary} />
+                {isRecording ? (
+                  <ActivityIndicator size="large" color={colors.secondary} />
                 ) : (
-                  <Text style={styles.submitButtonText}>Send</Text>
+                  <Text style={styles.recordButtonIcon}>🎤</Text>
                 )}
               </TouchableOpacity>
+              <Text
+                style={styles.emptyStateText}
+                accessible={true}
+                accessibilityRole="text"
+                accessibilityLabel="Start the conversation by typing in the message box below, or use your keyboard microphone for voice. Tap the microphone button above to begin."
+                importantForAccessibility="yes"
+              >
+                Type your message in the box below, or use your keyboard's microphone (🎤) for voice.
+              </Text>
             </View>
-            {isProcessing && (
-              <View style={styles.recordingIndicator}>
-                <Text style={styles.recordingText}>BoogieBot is thinking...</Text>
+          ) : (
+            <>
+              <View
+                ref={conversationHeaderRef}
+                accessible={true}
+                accessibilityRole="header"
+                accessibilityLabel={`Conversation with BoogieBot, ${transcript.length} message${transcript.length !== 1 ? 's' : ''}. Swipe right to read each message.`}
+                style={styles.conversationHeader}
+                importantForAccessibility="yes"
+              >
+                <Text style={styles.conversationHeaderText} accessibilityElementsHidden={true}>
+                  Conversation ({transcript.length} message{transcript.length !== 1 ? 's' : ''})
+                </Text>
               </View>
-            )}
-            {isRecording && (
-              <View style={styles.recordingIndicator}>
-                <ActivityIndicator size="small" color={colors.primary} />
-                <Text style={styles.recordingText}>Listening...</Text>
+              <View
+                accessible={false}
+                importantForAccessibility="no"
+                style={styles.messageListWrapper}
+              >
+                {transcript.map((message, index) => renderMessage(message, index))}
               </View>
-            )}
-          </>
-        )}
-      </ScrollView>
+            </>
+          )}
+        </ScrollView>
+
+        <View style={styles.inputSection} pointerEvents="box-none" accessible={false} importantForAccessibility="no" collapsable={false}>
+          <View style={styles.inputRow} pointerEvents="box-none" collapsable={false}>
+            <TextInput
+              ref={textInputRef}
+              style={styles.manualInput}
+              value={manualInput}
+              onChangeText={setManualInput}
+              placeholder={transcript.length === 0 ? "e.g. I want to go to CoDa" : "Type or say your next message..."}
+              placeholderTextColor={colors.textSecondary}
+              onSubmitEditing={handleManualSubmit}
+              onBlur={() => Keyboard.dismiss()}
+              editable={true}
+              accessibilityLabel={transcript.length === 0 ? "Message to BoogieBot. Type or use keyboard voice input." : "Your reply. Type or use keyboard voice input."}
+              accessibilityRole="textbox"
+              accessibilityHint="Double tap to edit. Use keyboard microphone for voice."
+              returnKeyType="send"
+            />
+            <TouchableOpacity
+              style={[styles.sendButton, isProcessing && styles.submitButtonDisabled]}
+              onPress={handleManualSubmit}
+              accessibilityRole="button"
+              accessibilityLabel={isProcessing ? 'BoogieBot is thinking' : 'Send message'}
+              accessibilityState={{ disabled: isProcessing }}
+            >
+              {isProcessing ? (
+                <ActivityIndicator size="small" color={colors.secondary} />
+              ) : (
+                <Text style={styles.submitButtonText}>Send</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+          {isProcessing && (
+            <View style={styles.statusBar} accessible={true} accessibilityLiveRegion="polite" accessibilityLabel="BoogieBot is thinking">
+              <Text style={styles.statusText}>BoogieBot is thinking…</Text>
+            </View>
+          )}
+          {isRecording && (
+            <View style={styles.statusBar} accessible={true} accessibilityLiveRegion="polite" accessibilityLabel="Listening">
+              <ActivityIndicator size="small" color={colors.primary} />
+              <Text style={styles.statusText}>Listening…</Text>
+            </View>
+          )}
+        </View>
+
+      </KeyboardAvoidingView>
 
       {transcript.length > 0 && (
-        <View style={styles.actionButtons}>
+        <View style={styles.actionButtonsOuter} accessible={false} importantForAccessibility="no" collapsable={false}>
           <TouchableOpacity
             style={styles.readButton}
             onPress={readAllMessages}
+            accessible={true}
             accessibilityRole="button"
             accessibilityLabel={`Read all ${transcript.length} messages aloud`}
-            accessibilityHint="Announces all conversation messages. For screen reader users, this will announce each message sequentially."
-            accessible={true}
+            accessibilityHint="Double tap to hear each message in the conversation read aloud."
             importantForAccessibility="yes"
           >
-            <Text 
-              style={styles.readButtonText}
-              accessibilityElementsHidden={true}
-              importantForAccessibility="no"
-            >
+            <Text style={styles.readButtonText} accessibilityElementsHidden={true} importantForAccessibility="no">
               🔊 Read Messages
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.primaryButton}
             onPress={handleContinueToConfirmation}
+            accessible={true}
             accessibilityRole="button"
             accessibilityLabel="Continue to ride confirmation"
+            accessibilityHint="Double tap to go to the next step and complete your ride booking."
+            importantForAccessibility="yes"
           >
-            <Text style={styles.primaryButtonText}>
+            <Text style={styles.primaryButtonText} accessibilityElementsHidden={true} importantForAccessibility="no">
               Continue to ride confirmation
             </Text>
           </TouchableOpacity>
@@ -580,17 +575,21 @@ const styles = StyleSheet.create({
     marginTop: 8,
     lineHeight: 20,
   },
+  chatWrapper: {
+    flex: 1,
+  },
   transcriptContainer: {
     flex: 1,
   },
   transcriptContent: {
     padding: 20,
+    paddingBottom: 16,
   },
   emptyState: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 400,
+    minHeight: 280,
   },
   recordButton: {
     width: 80,
@@ -617,6 +616,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: colors.border,
   },
+  messageListWrapper: {},
   conversationHeaderText: {
     fontSize: 16,
     fontWeight: '600',
@@ -668,38 +668,53 @@ const styles = StyleSheet.create({
   recordButtonSmallIcon: {
     fontSize: 24,
   },
-  recordingIndicator: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-    gap: 8,
-  },
-  recordingText: {
-    fontSize: 14,
-    color: colors.primary,
-    fontWeight: '600',
-  },
-  manualInputContainer: {
-    marginTop: 20,
-    paddingTop: 20,
+  inputSection: {
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: 12,
     borderTopWidth: 1,
     borderTopColor: colors.border,
+    backgroundColor: colors.background,
+    zIndex: 10,
   },
-  manualInputLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 8,
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   manualInput: {
+    flex: 1,
     backgroundColor: colors.backgroundLight,
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 8,
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     fontSize: 16,
     color: colors.text,
-    marginBottom: 8,
+    minHeight: 48,
+  },
+  sendButton: {
+    backgroundColor: colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 72,
+    minHeight: 48,
+  },
+  statusBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+    gap: 8,
+  },
+  statusText: {
+    fontSize: 14,
+    color: colors.primary,
+    fontWeight: '600',
   },
   submitButton: {
     backgroundColor: colors.primary,
@@ -721,6 +736,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.border,
     gap: 12,
+  },
+  actionButtonsOuter: {
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    gap: 12,
+    backgroundColor: colors.background,
   },
   readButton: {
     backgroundColor: colors.primary,

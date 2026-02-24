@@ -72,17 +72,17 @@ Boogie/
 - High contrast colors and clear visual hierarchy
 - Keyboard navigation support
 
-## Voice Input
+## Voice Input & Boogie Bot
 
-The app includes a simulated voice input interface that works with Expo Go. In production, you would integrate with:
-- Web Speech API (for web)
-- Native speech recognition APIs (for iOS/Android)
-- Third-party services like Google Cloud Speech-to-Text
+The voice input screen is wired to **BoogieBot**, a conversational dispatcher that understands Stanford campus locations, entrances (north, south, east, west, etc.), and landmarks (e.g. “near the Blend”, “by the stairs”, “bike racks”) so drivers can find riders precisely.
 
-Currently, the voice input screen includes:
-- Text input fallback for Expo Go compatibility
-- Simulated conversation flow
-- Text-to-speech responses using Expo Speech
+- **OpenAI**: Bot uses the OpenAI API for natural language. Set `EXPO_PUBLIC_OPENAI_API_KEY` in `.env` (same value as `OPENAI_API_KEY`; Expo only exposes `EXPO_PUBLIC_*` in the client).
+- **Overpass (optional)**: Campus building/amenity context from OpenStreetMap is fetched once per session to improve location understanding.
+- **Flow**: User types or uses the keyboard mic; BoogieBot replies with confirmations and asks about entrances/landmarks when needed. Resolved drop-off is passed to the ride registration screen.
+
+The app also supports:
+- Text input fallback for Expo Go
+- Text-to-speech and “Read Messages” for accessibility
 
 ## Notes
 

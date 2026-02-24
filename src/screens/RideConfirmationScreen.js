@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -46,16 +47,15 @@ const RideConfirmationScreen = ({ navigation, route }) => {
 
   const logoRef = useRef(null);
 
-  // Focus on logo when screen loads
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(logoRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const t = setTimeout(() => {
+        const node = findNodeHandle(logoRef.current);
+        if (node) AccessibilityInfo.setAccessibilityFocus(node);
+      }, 400);
+      return () => clearTimeout(t);
+    }, [])
+  );
 
   // Dismiss keyboard when tapping outside
   useEffect(() => {

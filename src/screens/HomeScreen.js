@@ -349,7 +349,8 @@
 // });
 
 // export default HomeScreen;
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -366,17 +367,27 @@ import { colors } from '../styles/colors';
 const HomeScreen = ({ navigation }) => {
   const logoRef = useRef(null);
 
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
+  // When app first opens, this is the initial screen — focus Boogie header after layout
+  React.useEffect(() => {
+    const t = setTimeout(() => {
       const node = findNodeHandle(logoRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
+      if (node) AccessibilityInfo.setAccessibilityFocus(node);
+    }, 600);
+    return () => clearTimeout(t);
   }, []);
 
-  useEffect(() => {
+  // When navigating back to Home, focus Boogie header again
+  useFocusEffect(
+    useCallback(() => {
+      const t = setTimeout(() => {
+        const node = findNodeHandle(logoRef.current);
+        if (node) AccessibilityInfo.setAccessibilityFocus(node);
+      }, 400);
+      return () => clearTimeout(t);
+    }, [])
+  );
+
+  React.useEffect(() => {
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       Keyboard.dismiss();
     });

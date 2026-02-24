@@ -24,24 +24,36 @@ function extractHighlights(text) {
  * @returns {Promise<{ botMessage: string, highlights: string[] }>}
  */
 async function generateBotReplyWithOpenAI(context, conversationHistory, userMessage, apiKey) {
-  const { phase, resolvedPickup, resolvedDropoff, currentLocation } = context;
+  const { phase, resolvedPickup, resolvedDropoff, awaitingEntrance, pendingBuildingName, currentLocation } = context;
   const currentLocationStr = currentLocation
     ? (currentLocation.displayName || `Current location (${currentLocation.latitude?.toFixed(5)}, ${currentLocation.longitude?.toFixed(5)})`)
     : 'Not provided';
   const pickupStr = resolvedPickup ? resolvedPickup.displayName || resolvedPickup.displayText : 'Not set';
   const dropoffStr = resolvedDropoff ? resolvedDropoff.displayName || resolvedDropoff.displayText : 'Not set';
+  const pickupEntrance = resolvedPickup?.entranceHint || null;
+  const pickupLandmark = resolvedPickup?.landmarkHint || null;
+  const dropoffEntrance = resolvedDropoff?.entranceHint || null;
+  const dropoffLandmark = resolvedDropoff?.landmarkHint || null;
+  const entrancePrompt = awaitingEntrance && pendingBuildingName
+    ? `You are currently asking which entrance at ${pendingBuildingName}. Ask for the entrance (e.g. north entrance, by the bike racks, near the stairs, or main).`
+    : '';
 
   const systemContent = `You are BoogieBot, a friendly assistant for the DisGo ride app at Stanford. You help users set their pickup and dropoff on campus. Be warm and concise (1-3 sentences). Use **bold** only for building or place names. Do not mention coordinates or raw addresses in the reply.
 
-Make it clear that users can use landmarks or nearby features to describe the entrance (e.g. "north entrance," "by the bike racks," "near the stairs") for both pickup and dropoff.
+CRITICAL: When the user has just given a location or entrance (e.g. "north entrance", "by the bike racks"), your reply MUST:
+1. Reflect their words back so they know they were heard (e.g. "You said north entrance" or "I heard by the bike racks").
+2. Confirm the inferred entrance/landmark clearly (e.g. "I've got pickup at **CoDa** at the **north entrance** near **bike racks**").
+This makes it clear we matched their descriptor to the best entrance.
 
 Current context:
 - Phase: ${phase}
 - User's current location: ${currentLocationStr}
-- Resolved pickup: ${pickupStr}
-- Resolved dropoff: ${dropoffStr}
+- Resolved pickup: ${pickupStr}${pickupEntrance ? ` (entrance: ${pickupEntrance}${pickupLandmark ? `, landmark: ${pickupLandmark}` : ''})` : ''}
+- Resolved dropoff: ${dropoffStr}${dropoffEntrance ? ` (entrance: ${dropoffEntrance}${dropoffLandmark ? `, landmark: ${dropoffLandmark}` : ''})` : ''}
+${entrancePrompt ? `- ${entrancePrompt}` : ''}
+- User just said: "${userMessage}"
 
-Reply in first person as BoogieBot. Keep the same intent: confirm locations, ask for dropoff, or ask for clarification.`;
+Reply in first person as BoogieBot. Reflect the user's descriptors back and confirm the inferred entrance so they feel heard. Keep the same intent: ask for entrance, confirm locations, ask for dropoff, or clarify.`;
 
   const messages = [
     { role: 'system', content: systemContent },
@@ -155,6 +167,8 @@ async function maybeOpenAIReply(state, fallbackMessage, fallbackHighlights, opti
     phase: state.phase,
     resolvedPickup: state.resolvedPickup ?? null,
     resolvedDropoff: state.resolvedDropoff ?? null,
+    awaitingEntrance: state.awaitingEntrance ?? null,
+    pendingBuildingName: state.pendingBuildingName ?? null,
     currentLocation: options?.currentLocation ?? null,
   };
   try {
@@ -168,8 +182,9 @@ async function maybeOpenAIReply(state, fallbackMessage, fallbackHighlights, opti
 
 /**
  * Single turn: process user message and return bot reply and updated state.
+ * State can include awaitingEntrance ('pickup'|'dropoff') and pendingBuildingName when we've accepted a place and are asking for entrance.
  *
- * @param {Object} state - { phase: 'pickup'|'dropoff', resolvedPickup, resolvedDropoff }
+ * @param {Object} state - { phase, resolvedPickup, resolvedDropoff, awaitingEntrance?, pendingBuildingName? }
  * @param {string} userMessage - Raw user input
  * @param {{ openAiApiKey?: string, currentLocation?: { latitude, longitude, displayName? }, conversationHistory?: { role, content }[] }} options
  * @returns {Promise<{ botMessage: string, highlights?: string[], state: Object }>}
@@ -180,6 +195,8 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
   let phase = state?.phase ?? 'pickup';
   let resolvedPickup = state?.resolvedPickup ?? null;
   let resolvedDropoff = state?.resolvedDropoff ?? null;
+  let awaitingEntrance = state?.awaitingEntrance ?? null;
+  let pendingBuildingName = state?.pendingBuildingName ?? null;
   const currentLocation = options?.currentLocation ?? null;
 
   /** Use current location for "here" when provided; else default. */
@@ -198,63 +215,95 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
     };
   }
 
+  // ----- Awaiting entrance for pickup -----
+  if (phase === 'pickup' && awaitingEntrance === 'pickup' && pendingBuildingName) {
+    const combined = `${pendingBuildingName} ${input}`.trim();
+    const pickupResolved = await resolveLocation(combined);
+    if (pickupResolved) {
+      resolvedPickup = toDisplayLocation(pickupResolved);
+      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+      const entrance = pickupResolved.entranceHint ? ` at the **${pickupResolved.entranceHint}**` : '';
+      const landmark = pickupResolved.landmarkHint ? ` near **${pickupResolved.landmarkHint}**` : '';
+      const reflect = input ? `You said "${input}" — I have that as ` : 'I have ';
+      const fallback = `${reflect}pickup at **${resolvedPickup.displayName}**${entrance}${landmark}. Where would you like to be dropped off? Name a building, then I'll ask which entrance.`;
+      return maybeOpenAIReply(nextState, fallback, [resolvedPickup.displayName], options, input);
+    }
+    const nextState = { phase: 'pickup', resolvedPickup, resolvedDropoff, awaitingEntrance: 'pickup', pendingBuildingName };
+    const fallback = `Which entrance at **${pendingBuildingName}**? You can say north entrance, by the bike racks, near the stairs, or main.`;
+    return maybeOpenAIReply(nextState, fallback, [pendingBuildingName], options, input);
+  }
+
+  // ----- Awaiting entrance for dropoff -----
+  if (phase === 'dropoff' && awaitingEntrance === 'dropoff' && pendingBuildingName) {
+    const combined = `${pendingBuildingName} ${input}`.trim();
+    const dropoffResolved = await resolveLocation(combined);
+    if (dropoffResolved) {
+      resolvedDropoff = toDisplayLocation(dropoffResolved);
+      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+      const entrance = dropoffResolved.entranceHint ? ` at the **${dropoffResolved.entranceHint}**` : '';
+      const landmark = dropoffResolved.landmarkHint ? ` near **${dropoffResolved.landmarkHint}**` : '';
+      const reflect = input ? `You said "${input}" — I have dropoff at ` : 'Dropoff at ';
+      const fallback = `${reflect}**${resolvedDropoff.displayName}**${entrance}${landmark}. Say "that's it" to confirm, or tell me another detail.`;
+      return maybeOpenAIReply(nextState, fallback, [resolvedDropoff.displayName].filter(Boolean), options, input);
+    }
+    const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: 'dropoff', pendingBuildingName };
+    const fallback = `Which entrance at **${pendingBuildingName}**? Say north entrance, by the bike racks, near the stairs, or main.`;
+    return maybeOpenAIReply(nextState, fallback, [pendingBuildingName], options, input);
+  }
+
   // ----- Pickup phase -----
   if (phase === 'pickup') {
     if (isConfirmation(input) && resolvedPickup) {
-      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff };
-      const fallback = `Got it, pickup at **${resolvedPickup.displayName}**. Where would you like to be dropped off? You can name a building and use landmarks or nearby features for the entrance—e.g. "CoDa near the north entrance" or "Memorial Church by the Oval."`;
+      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+      const fallback = `Got it, pickup at **${resolvedPickup.displayName}**. Where would you like to be dropped off? Name a building and I'll ask which entrance.`;
       return maybeOpenAIReply(nextState, fallback, [resolvedPickup.displayName], options, input);
     }
     if (isCurrentLocation(input) || (isConfirmation(input) && !resolvedPickup)) {
       resolvedPickup = resolveCurrentLocationAsPickup();
-      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff };
-      const fallback = `Sounds good. I have your pickup as **${resolvedPickup.displayName}**. Where would you like to be dropped off? You can use landmarks or nearby features (e.g. "north entrance," "by the bike racks") to describe the spot.`;
+      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+      const fallback = `Sounds good. I have your pickup as **${resolvedPickup.displayName}**. Where would you like to be dropped off? Name a building and I'll ask which entrance.`;
       return maybeOpenAIReply(nextState, fallback, [resolvedPickup.displayName], options, input);
     }
     const pickupResolved = await resolveLocation(input);
     if (pickupResolved) {
-      resolvedPickup = toDisplayLocation(pickupResolved);
-      const entrance = pickupResolved.entranceHint ? ` at the **${pickupResolved.entranceHint}**` : '';
-      const landmark = pickupResolved.landmarkHint ? ` near **${pickupResolved.landmarkHint}**` : '';
-      const nextState = { phase: 'pickup', resolvedPickup, resolvedDropoff };
-      const fallback = `I have you getting picked up at **${resolvedPickup.displayName}**${entrance}${landmark}. Is that right, or would you prefer your current location?`;
-      return maybeOpenAIReply(nextState, fallback, [resolvedPickup.displayName], options, input);
+      const buildingName = pickupResolved.name || resolvedPickup?.displayName || input;
+      const nextState = { phase: 'pickup', resolvedPickup, resolvedDropoff, awaitingEntrance: 'pickup', pendingBuildingName: buildingName };
+      const fallback = `You said **${buildingName}** — got it. Which entrance do you want? You can say north entrance, by the bike racks, near the stairs, or main.`;
+      return maybeOpenAIReply(nextState, fallback, [buildingName], options, input);
     }
-    const nextState = { phase: 'pickup', resolvedPickup, resolvedDropoff };
-    const fallback = "I can set your pickup as your **current location** (Memorial Way)—just say \"here\" or \"current location.\" Or tell me a building and use landmarks or nearby features for the entrance (e.g. \"Tressider by the bike racks\" or \"near the Oval, north side\").";
-    return maybeOpenAIReply(nextState, fallback, ['current location', 'Memorial Way'], options, input);
+    const nextState = { phase: 'pickup', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+    const fallback = "I can set your pickup as your **current location**—say \"here\" or \"current location.\" Or name a building (e.g. **CoDa**, **Tressider**); I'll then ask which entrance.";
+    return maybeOpenAIReply(nextState, fallback, ['current location'], options, input);
   }
 
   // ----- Dropoff phase -----
   if (phase === 'dropoff') {
     if (isConfirmation(input) && resolvedDropoff) {
-      const nextState = { phase: 'done', resolvedPickup, resolvedDropoff };
-      const fallback = "Great, I've got both your pickup and dropoff. Converting your locations into precise pins for your driver. Secured—please tap \"Continue to ride confirmation\" to complete your Boogie booking.";
+      const nextState = { phase: 'done', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+      const fallback = "Great, I've got both your pickup and dropoff. Tap \"Continue to ride confirmation\" to complete your Boogie booking.";
       return maybeOpenAIReply(nextState, fallback, [], options, input);
     }
     if (isConfirmation(input) && !resolvedDropoff) {
-      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff };
-      const fallback = "No problem. When you know your dropoff, name the building and use landmarks or nearby features for the entrance—e.g. \"CoDa, north entrance\" or \"Memorial Church by the Oval.\"";
+      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+      const fallback = "When you know your dropoff, name the building and I'll ask which entrance—e.g. \"CoDa\" or \"Memorial Church.\"";
       return maybeOpenAIReply(nextState, fallback, [], options, input);
     }
 
     const dropoffResolved = await resolveLocation(input);
     if (dropoffResolved) {
-      resolvedDropoff = toDisplayLocation(dropoffResolved);
-      const entrance = dropoffResolved.entranceHint ? ` at the **${dropoffResolved.entranceHint}**` : '';
-      const landmark = dropoffResolved.landmarkHint ? ` near **${dropoffResolved.landmarkHint}**` : '';
-      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff };
-      const fallback = `Got it. Dropoff at **${resolvedDropoff.displayName}**${entrance}${landmark}. You can always add a landmark or nearby feature (e.g. "by the bike racks") if you want a specific entrance. Say "that's it" to confirm.`;
-      return maybeOpenAIReply(nextState, fallback, [resolvedDropoff.displayName].filter(Boolean), options, input);
+      const buildingName = dropoffResolved.name || resolvedDropoff?.displayName || input;
+      const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: 'dropoff', pendingBuildingName: buildingName };
+      const fallback = `You said **${buildingName}** — got it. Which entrance? You can say north entrance, by the bike racks, near the stairs, or main.`;
+      return maybeOpenAIReply(nextState, fallback, [buildingName], options, input);
     }
 
-    const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff };
-    const fallback = "I didn't quite catch that. Name a building—like **CoDa**, **Memorial Church**, **Tressider**, or **the Oval**—and you can use **landmarks or nearby features** for the entrance, e.g. \"north entrance,\" \"near the bike racks,\" or \"by the stairs.\"";
-    return maybeOpenAIReply(nextState, fallback, ['CoDa', 'Memorial Church', 'Tressider', 'the Oval'], options, input);
+    const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
+    const fallback = "Name a building—like **CoDa**, **Memorial Church**, or **Tressider**—and I'll ask which entrance.";
+    return maybeOpenAIReply(nextState, fallback, ['CoDa', 'Memorial Church', 'Tressider'], options, input);
   }
 
   // phase === 'done'
-  const nextState = { phase: 'done', resolvedPickup, resolvedDropoff };
+  const nextState = { phase: 'done', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
   const fallback = "Your ride details are set. Tap \"Continue to ride confirmation\" to finish booking with Boogie.";
   return maybeOpenAIReply(nextState, fallback, [], options, input);
 }

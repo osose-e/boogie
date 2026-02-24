@@ -1,15 +1,17 @@
 {
   "metadata": {
     "description": "Stanford campus buildings with entrances and landmarks for Boogie/DisGo pickup and dropoff. Edit this file to add human context. Landmarks map to specific entrances.",
-    "source": "Overpass API + OpenAI",
+    "source": "Web enhancement (named locations only)",
     "generatedAt": "2026-02-24"
   },
   "buildings": [
     {
       "id": "mirrielees",
       "name": "Mirrielees",
-      "alternateNames": [],
-      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Mirrielees House"
+      ],
+      "address": "730 Escondido Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
         "lat": 37.42348923,
@@ -20,7 +22,7 @@
           "id": "main",
           "direction": "main",
           "name": "Main entrance",
-          "roadSidewalk": "Jane Stanford Way",
+          "roadSidewalk": "Escondido Road",
           "coordinates": {
             "lat": 37.42348923,
             "lon": -122.15982359
@@ -32,15 +34,95 @@
             "fountain": false,
             "other": [],
             "establishmentsInside": [],
-            "nextToBuilding": "White Plaza",
+            "nextToBuilding": "Gerhard Casper Quad",
             "acrossFromBuilding": null,
-            "notes": "Main entrance with bike racks and stairs."
+            "notes": "East campus; main entrance with bike racks and stairs."
           },
           "landmarkKeywords": [
             "main entrance",
             "bike racks",
             "stairs",
-            "White Plaza"
+            "Escondido"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sapp-center",
+      "name": "Sapp Center for Science Teaching and Learning",
+      "alternateNames": [
+        "STLC",
+        "SAPP",
+        "Chemistry building",
+        "Sapp Center for Teaching and Learning",
+        "Science Teaching and Learning Center",
+        "Old Chemistry"
+      ],
+      "address": "376 Lomita Drive, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.4306557,
+        "lon": -122.1714144
+      },
+      "entrances": [
+        {
+          "id": "east-main",
+          "direction": "east",
+          "name": "East entrance (main accessible)",
+          "roadSidewalk": "Lomita Drive",
+          "coordinates": {
+            "lat": 37.4306,
+            "lon": -122.1712
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "West Oval Grove",
+              "Cantor Arts Center"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "West Oval Grove",
+            "acrossFromBuilding": null,
+            "notes": "Accessible entrances on east side; near Cantor Arts Center. Building 07-200."
+          },
+          "landmarkKeywords": [
+            "east entrance",
+            "main",
+            "Lomita",
+            "West Oval",
+            "Cantor",
+            "STLC",
+            "SAPP",
+            "chemistry"
+          ]
+        },
+        {
+          "id": "lomita",
+          "direction": null,
+          "name": "Lomita Drive entrance",
+          "roadSidewalk": "Lomita Drive",
+          "coordinates": {
+            "lat": 37.4307,
+            "lon": -122.1714
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": null,
+            "notes": "Entrance from Lomita Drive; disabled parking nearby at Roth Way and Lomita."
+          },
+          "landmarkKeywords": [
+            "Lomita",
+            "Roth Way",
+            "parking"
           ]
         }
       ]
@@ -48,8 +130,10 @@
     {
       "id": "stock-farm-garage",
       "name": "Stock Farm Garage",
-      "alternateNames": [],
-      "address": "Stock Farm Garage, 450 Jane Stanford Way, Stanford, CA 94305",
+      "alternateNames": [
+        "Stock"
+      ],
+      "address": "450 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
         "lat": 37.43174126363636,
@@ -68,7 +152,7 @@
           "landmarks": {
             "bikeRacks": true,
             "stairs": false,
-            "parkingLot": false,
+            "parkingLot": true,
             "fountain": false,
             "other": [],
             "establishmentsInside": [],
@@ -79,6 +163,56 @@
           "landmarkKeywords": [
             "bike racks",
             "main entrance",
+            "Stock Farm Garage"
+          ]
+        },
+        {
+          "id": "north-1",
+          "direction": "north",
+          "name": "North parking entrance",
+          "roadSidewalk": "Jane Stanford Way",
+          "coordinates": {
+            "lat": 37.4320569,
+            "lon": -122.1824846
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": [],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": null,
+            "notes": "North entrance to the parking garage."
+          },
+          "landmarkKeywords": [
+            "north parking entrance",
+            "Stock Farm Garage"
+          ]
+        },
+        {
+          "id": "north-east-1",
+          "direction": "north",
+          "name": "North-East parking entrance",
+          "roadSidewalk": "Jane Stanford Way",
+          "coordinates": {
+            "lat": 37.432236,
+            "lon": -122.1821224
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": [],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": null,
+            "notes": "Another entrance to the parking garage on the north-east side."
+          },
+          "landmarkKeywords": [
+            "north-east parking entrance",
             "Stock Farm Garage"
           ]
         }
@@ -99,8 +233,8 @@
       "address": "459 Lagunita Drive, Stanford, CA 94305",
       "buildingNumber": "02-300",
       "coordinates": {
-        "lat": 37.42388102142858,
-        "lon": -122.17209955000003
+        "lat": 37.426683399999995,
+        "lon": -122.16961158
       },
       "entrances": [
         {
@@ -207,7 +341,8 @@
       "id": "graduate-community-center",
       "name": "Graduate Community Center",
       "alternateNames": [
-        "GCC"
+        "GCC",
+        "Graduate"
       ],
       "address": "750 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
@@ -250,7 +385,9 @@
     {
       "id": "vaden-health-center",
       "name": "Vaden Health Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Vaden"
+      ],
       "address": "855 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -292,7 +429,9 @@
     {
       "id": "terra-house",
       "name": "Terra House",
-      "alternateNames": [],
+      "alternateNames": [
+        "Terra"
+      ],
       "address": "450 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -332,7 +471,8 @@
       "id": "pi-beta-phi-house",
       "name": "Pi Beta Phi House",
       "alternateNames": [
-        "Pi Phi"
+        "Pi Phi",
+        "Pi"
       ],
       "address": "550 Alvarado Row, Stanford, CA 94305",
       "buildingNumber": null,
@@ -375,7 +515,7 @@
       "alternateNames": [
         "TMU"
       ],
-      "address": "450 Jane Stanford Way, Stanford, CA 94305",
+      "address": "385 Serra Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
         "lat": 37.42604974705882,
@@ -414,12 +554,14 @@
     {
       "id": "mechanical-engineering-laboratory",
       "name": "Mechanical Engineering Laboratory",
-      "alternateNames": [],
+      "alternateNames": [
+        "Mechanical"
+      ],
       "address": "418 Panama Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.42569035555556,
-        "lon": -122.1722407
+        "lat": 37.42557214,
+        "lon": -122.17172852000002
       },
       "entrances": [
         {
@@ -452,61 +594,11 @@
       ]
     },
     {
-      "id": "gilbert",
-      "name": "Gilbert Biological Sciences Building",
-      "alternateNames": [
-        "Gilbert",
-        "Gilbert Biological Sciences",
-        "Charles H. Gilbert",
-        "Building 07-420"
-      ],
-      "address": "371 Serra Mall, Stanford, CA 94305",
-      "buildingNumber": "07-420",
-      "coordinates": {
-        "lat": 37.42594331333333,
-        "lon": -122.17252185999999
-      },
-      "entrances": [
-        {
-          "id": "main",
-          "direction": "west",
-          "name": "Main entrance",
-          "roadSidewalk": "Serra Mall",
-          "coordinates": {
-            "lat": 37.4262,
-            "lon": -122.1712
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": true,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [
-              "North-South Axis",
-              "near CoDa"
-            ],
-            "establishmentsInside": [
-              "Biology department"
-            ],
-            "nextToBuilding": "CoDa",
-            "acrossFromBuilding": "Gates Building",
-            "notes": "Biological Sciences; across from Gates."
-          },
-          "landmarkKeywords": [
-            "gilbert",
-            "biology",
-            "stairs",
-            "gates",
-            "coda"
-          ]
-        }
-      ]
-    },
-    {
       "id": "arrillaga-golf-shop",
       "name": "Arrillaga Golf Shop",
       "alternateNames": [
-        "Golf Shop"
+        "Golf Shop",
+        "Arrillaga"
       ],
       "address": "51 Campus Drive West, Stanford, CA 94305",
       "buildingNumber": null,
@@ -547,7 +639,8 @@
       "id": "frances-c-arrillaga-alumni-center",
       "name": "Frances C. Arrillaga Alumni Center",
       "alternateNames": [
-        "Alumni Center"
+        "Alumni Center",
+        "Frances"
       ],
       "address": "326 Galvez Street, Stanford, CA 94305",
       "buildingNumber": null,
@@ -587,7 +680,10 @@
     {
       "id": "fairchild-building",
       "name": "Fairchild Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Fairchild",
+        "Fairchild Center"
+      ],
       "address": "450 Serra Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -626,7 +722,9 @@
     {
       "id": "otero",
       "name": "Otero",
-      "alternateNames": [],
+      "alternateNames": [
+        "Otero House"
+      ],
       "address": "450 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -782,7 +880,9 @@
     {
       "id": "building-31711622",
       "name": "Huang Engineering Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Huang"
+      ],
       "address": "475 Via Ortega, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -821,7 +921,9 @@
     {
       "id": "jen-hsun-huang-engineering",
       "name": "Jen-Hsun Huang Engineering",
-      "alternateNames": [],
+      "alternateNames": [
+        "Jen-Hsun"
+      ],
       "address": "475 Via Ortega, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -885,7 +987,9 @@
     {
       "id": "jerry-yang-akiko-yamazaki-environment-energy-building",
       "name": "Jerry Yang & Akiko Yamazaki Environment & Energy Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Jerry"
+      ],
       "address": "473 Via Ortega, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -924,7 +1028,9 @@
     {
       "id": "spilker-engineering-and-applied-sciences",
       "name": "Spilker Engineering and Applied Sciences",
-      "alternateNames": [],
+      "alternateNames": [
+        "Spilker"
+      ],
       "address": "348 Via Pueblo, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -963,7 +1069,9 @@
     {
       "id": "paul-g-allen",
       "name": "Paul G. Allen",
-      "alternateNames": [],
+      "alternateNames": [
+        "Paul"
+      ],
       "address": "420 Via Palou, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1003,7 +1111,8 @@
       "id": "small-gym",
       "name": "Arrillaga Family Sports Center",
       "alternateNames": [
-        "Small Gym"
+        "Small Gym",
+        "Arrillaga"
       ],
       "address": "341 Galvez Street, Stanford, CA 94305",
       "buildingNumber": null,
@@ -1073,7 +1182,10 @@
     {
       "id": "beckman-center-for-molecular-and-genetic-medicine",
       "name": "Beckman Center for Molecular and Genetic Medicine",
-      "alternateNames": [],
+      "alternateNames": [
+        "Beckman Center",
+        "beckman"
+      ],
       "address": "279 Campus Drive West, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1111,7 +1223,9 @@
     {
       "id": "falk-center",
       "name": "Falk Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "falk"
+      ],
       "address": "450 Serra Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1151,7 +1265,9 @@
     {
       "id": "palo-alto-unified-school-district",
       "name": "Palo Alto Unified School District",
-      "alternateNames": [],
+      "alternateNames": [
+        "Palo"
+      ],
       "address": "25 Churchill Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1190,7 +1306,9 @@
     {
       "id": "li-ka-shing-center",
       "name": "Li Ka Shing Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Li"
+      ],
       "address": "291 Campus Drive West, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1229,7 +1347,9 @@
     {
       "id": "blackwelder-highrise",
       "name": "Blackwelder Highrise",
-      "alternateNames": [],
+      "alternateNames": [
+        "Blackwelder"
+      ],
       "address": "781 Escondido Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1268,7 +1388,9 @@
     {
       "id": "comstock-circle",
       "name": "Comstock Circle",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comstock"
+      ],
       "address": "3 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1348,7 +1470,9 @@
     {
       "id": "hoskins-midrise",
       "name": "Hoskins Midrise",
-      "alternateNames": [],
+      "alternateNames": [
+        "Hoskins"
+      ],
       "address": "102 Hoskins Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1428,7 +1552,9 @@
     {
       "id": "mcfarland-midrise",
       "name": "McFarland Midrise",
-      "alternateNames": [],
+      "alternateNames": [
+        "McFarland"
+      ],
       "address": "109 McFarland Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1467,7 +1593,9 @@
     {
       "id": "comstock-circle-131355215",
       "name": "Comstock Circle",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comstock"
+      ],
       "address": "160 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1506,7 +1634,9 @@
     {
       "id": "comstock-circle-131355217",
       "name": "Comstock Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comstock"
+      ],
       "address": "2 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1545,7 +1675,9 @@
     {
       "id": "comstock-circle-131355218",
       "name": "Comstock Circle",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comstock"
+      ],
       "address": "16 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1584,7 +1716,9 @@
     {
       "id": "quillen-highrise",
       "name": "Quillen Highrise",
-      "alternateNames": [],
+      "alternateNames": [
+        "Quillen"
+      ],
       "address": "119 Quillen Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1623,7 +1757,9 @@
     {
       "id": "comstock-circle-131355223",
       "name": "Comstock Circle",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comstock"
+      ],
       "address": "7 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1662,7 +1798,9 @@
     {
       "id": "studio-3",
       "name": "Studio 3",
-      "alternateNames": [],
+      "alternateNames": [
+        "Studio"
+      ],
       "address": "38 Angell Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1741,7 +1879,9 @@
     {
       "id": "comstock-circle-131355228",
       "name": "Comstock Circle",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comstock"
+      ],
       "address": "15 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1779,7 +1919,9 @@
     {
       "id": "studio-2",
       "name": "Studio 2",
-      "alternateNames": [],
+      "alternateNames": [
+        "Studio"
+      ],
       "address": "729 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1819,7 +1961,8 @@
       "id": "anne-t-robert-m-bass-center",
       "name": "Anne T. & Robert M. Bass Center",
       "alternateNames": [
-        "Bass Center"
+        "Bass Center",
+        "Anne"
       ],
       "address": "645 Knight Way, Stanford, CA 94305",
       "buildingNumber": null,
@@ -1859,7 +2002,19 @@
     {
       "id": "w-carter-mcclelland-building",
       "name": "W. Carter McClelland Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "W3",
+        "ww",
+        "wi",
+        "W.",
+        "wr",
+        "w\"",
+        "We",
+        "wo",
+        "W1",
+        "wh",
+        "Wa"
+      ],
       "address": "643 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1898,7 +2053,9 @@
     {
       "id": "lorenzo-h-zambrano-hall",
       "name": "Lorenzo H. Zambrano Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lorenzo"
+      ],
       "address": "641 Knight Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1937,7 +2094,9 @@
     {
       "id": "john-a-cynthia-fry-gunn-building",
       "name": "John A. & Cynthia Fry Gunn Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "John"
+      ],
       "address": "635 Knight Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -1976,7 +2135,10 @@
     {
       "id": "faculty-building-west",
       "name": "Faculty Building West",
-      "alternateNames": [],
+      "alternateNames": [
+        "Faculty Building",
+        "faculty"
+      ],
       "address": "655 Knight Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2015,7 +2177,10 @@
     {
       "id": "faculty-building-east",
       "name": "Faculty Building East",
-      "alternateNames": [],
+      "alternateNames": [
+        "Faculty Building",
+        "faculty"
+      ],
       "address": "655 Knight Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2055,7 +2220,9 @@
     {
       "id": "mba-class-of-1968-building",
       "name": "MBA Class of 1968 Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "MBA"
+      ],
       "address": "653 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2094,7 +2261,10 @@
     {
       "id": "clark-auditorium",
       "name": "Clark Auditorium",
-      "alternateNames": [],
+      "alternateNames": [
+        "Clark",
+        "Clark Center"
+      ],
       "address": "450 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2133,7 +2303,9 @@
     {
       "id": "james-h-clark-center",
       "name": "James H. Clark Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "James"
+      ],
       "address": "318 Campus Drive West, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2172,7 +2344,9 @@
     {
       "id": "richard-m-lucas-center-for-imaging",
       "name": "Richard M. Lucas Center for Imaging",
-      "alternateNames": [],
+      "alternateNames": [
+        "Richard"
+      ],
       "address": "1201 Welch Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2211,7 +2385,8 @@
       "id": "school-of-medicine-loading-dock",
       "name": "School of Medicine Loading Dock",
       "alternateNames": [
-        "Med School Loading Dock"
+        "Med School Loading Dock",
+        "School"
       ],
       "address": "259 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
@@ -2251,7 +2426,9 @@
     {
       "id": "lorry-i-lokey-stem-cell-research-building",
       "name": "Lorry I. Lokey Stem Cell Research Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lorry"
+      ],
       "address": "265 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2291,7 +2468,8 @@
       "id": "center-for-clinical-sciences-research",
       "name": "Center for Clinical Sciences Research",
       "alternateNames": [
-        "CCSR"
+        "CCSR",
+        "Center"
       ],
       "address": "269 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
@@ -2331,7 +2509,9 @@
     {
       "id": "studio-1",
       "name": "Studio 1",
-      "alternateNames": [],
+      "alternateNames": [
+        "Studio"
+      ],
       "address": "450 Serra Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2370,7 +2550,9 @@
     {
       "id": "toyon-hall",
       "name": "Toyon Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "toyon"
+      ],
       "address": "455 Arguello Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2409,7 +2591,9 @@
     {
       "id": "comstock-circle-160507067",
       "name": "Comstock Circle",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comstock"
+      ],
       "address": "150 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2448,7 +2632,9 @@
     {
       "id": "angell-court",
       "name": "Angell Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Angell"
+      ],
       "address": "32 Angell Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2486,7 +2672,9 @@
     {
       "id": "angell-court-160523238",
       "name": "Angell Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Angell"
+      ],
       "address": "35 Angell Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2524,7 +2712,9 @@
     {
       "id": "angell-court-160523239",
       "name": "Angell Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Angell"
+      ],
       "address": "33 Angell Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2562,7 +2752,9 @@
     {
       "id": "angell-court-160523240",
       "name": "Angell Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Angell"
+      ],
       "address": "36 Angell Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2600,7 +2792,9 @@
     {
       "id": "angell-court-160524727",
       "name": "Angell Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Angell"
+      ],
       "address": "34 Angell Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2639,7 +2833,9 @@
     {
       "id": "thoburn-court",
       "name": "Thoburn Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Thoburn"
+      ],
       "address": "91 Thoburn Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2677,7 +2873,9 @@
     {
       "id": "hulme-court",
       "name": "Hulme Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Hulme"
+      ],
       "address": "90 Hulme Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2715,7 +2913,9 @@
     {
       "id": "thoburn-court-160679013",
       "name": "Thoburn Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Thoburn"
+      ],
       "address": "92 Thoburn Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2753,7 +2953,9 @@
     {
       "id": "hulme-court-160679021",
       "name": "Hulme Court",
-      "alternateNames": [],
+      "alternateNames": [
+        "Hulme"
+      ],
       "address": "89 Hulme Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -2792,7 +2994,8 @@
       "id": "delta-delta-delta",
       "name": "Delta Delta Delta",
       "alternateNames": [
-        "Delta Delta Delta Sorority"
+        "Delta Delta Delta Sorority",
+        "Delta"
       ],
       "address": "550 Alvarado Row, Stanford, CA 94305",
       "buildingNumber": null,
@@ -2833,7 +3036,8 @@
       "id": "kappa-alpha-theta",
       "name": "Kappa Alpha Theta",
       "alternateNames": [
-        "KAT"
+        "KAT",
+        "Kappa"
       ],
       "address": "550 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
@@ -2874,7 +3078,8 @@
       "id": "zap",
       "name": "Zapata Engineering Building",
       "alternateNames": [
-        "ZAP"
+        "ZAP",
+        "Zapata"
       ],
       "address": "450 Serra Mall, Stanford, CA 94305",
       "buildingNumber": null,
@@ -2914,7 +3119,10 @@
     {
       "id": "rains-building-228",
       "name": "Rains, Building 228",
-      "alternateNames": [],
+      "alternateNames": [
+        "Rains, Building",
+        "Rains,"
+      ],
       "address": "228 Ayrshire Farm Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3084,7 +3292,8 @@
       "alternateNames": [
         "Life Sciences Building",
         "Bldg 01-001",
-        "Building 001"
+        "Building 001",
+        "Biology"
       ],
       "address": "450 Serra Mall, Stanford, CA 94305",
       "buildingNumber": "01-001",
@@ -3248,7 +3457,9 @@
     {
       "id": "timoshenko-lounge",
       "name": "Timoshenko Lounge",
-      "alternateNames": [],
+      "alternateNames": [
+        "Timoshenko"
+      ],
       "address": "217;220;222;224;226;230 Ayrshire Farm Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3260,7 +3471,9 @@
     {
       "id": "fairclough-lounge",
       "name": "Fairclough Lounge",
-      "alternateNames": [],
+      "alternateNames": [
+        "Fairclough"
+      ],
       "address": "227;229;232;234;236 Ayrshire Farm Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3521,7 +3734,9 @@
     {
       "id": "willis-lounge",
       "name": "Willis Lounge",
-      "alternateNames": [],
+      "alternateNames": [
+        "Willis"
+      ],
       "address": "219 Ayrshire Farm Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3602,7 +3817,9 @@
     {
       "id": "hacienda-commons",
       "name": "Hacienda Commons",
-      "alternateNames": [],
+      "alternateNames": [
+        "Hacienda"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -3626,12 +3843,14 @@
     {
       "id": "william-h-neukom-building",
       "name": "William H. Neukom Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "William"
+      ],
       "address": "555 Nathan Abbott Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.42362305777779,
-        "lon": -122.16812634666664
+        "lat": 37.42455198571429,
+        "lon": -122.16878695714286
       },
       "entrances": []
     },
@@ -3640,7 +3859,8 @@
       "name": "John A. & Cynthia Fry Gunn Building",
       "alternateNames": [
         "Bldg 01-001",
-        "Building 001"
+        "Building 001",
+        "John"
       ],
       "address": "366 Galvez Street, Stanford, CA 94305",
       "buildingNumber": "01-001",
@@ -3653,7 +3873,9 @@
     {
       "id": "durand",
       "name": "Durand",
-      "alternateNames": [],
+      "alternateNames": [
+        "Durand Building"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -3677,7 +3899,10 @@
     {
       "id": "the-warehaus",
       "name": "The Warehaus",
-      "alternateNames": [],
+      "alternateNames": [
+        "The",
+        "the house"
+      ],
       "address": "620 Mayfield Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3701,7 +3926,9 @@
     {
       "id": "toussaint-louverture",
       "name": "Toussaint Louverture",
-      "alternateNames": [],
+      "alternateNames": [
+        "Toussaint"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -3713,7 +3940,10 @@
     {
       "id": "lasuen-hfd",
       "name": "Lasuen HFD",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lasuen",
+        "Lasuen house"
+      ],
       "address": "572 Mayfield Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3725,7 +3955,9 @@
     {
       "id": "phi-kappa-psi",
       "name": "Phi Kappa Psi",
-      "alternateNames": [],
+      "alternateNames": [
+        "Phi"
+      ],
       "address": "592 Mayfield Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3737,7 +3969,9 @@
     {
       "id": "alpha-kappa-delta-phi-chi-omega",
       "name": "Alpha Kappa Delta Phi Chi Omega",
-      "alternateNames": [],
+      "alternateNames": [
+        "Alpha"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -3761,7 +3995,10 @@
     {
       "id": "okada",
       "name": "Okada",
-      "alternateNames": [],
+      "alternateNames": [
+        "Okada House",
+        "okadahouse"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -3773,7 +4010,9 @@
     {
       "id": "rinconada",
       "name": "Rinconada",
-      "alternateNames": [],
+      "alternateNames": [
+        "Rinconada House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -3785,7 +4024,9 @@
     {
       "id": "trancos",
       "name": "Trancos",
-      "alternateNames": [],
+      "alternateNames": [
+        "Trancos House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -3842,7 +4083,9 @@
     {
       "id": "bing-concert-hall",
       "name": "Bing Concert Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Bing"
+      ],
       "address": "327 Lasuen Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3854,7 +4097,9 @@
     {
       "id": "center-for-advanced-study-in-the-behavioral-sciences",
       "name": "Center for Advanced Study in the Behavioral Sciences",
-      "alternateNames": [],
+      "alternateNames": [
+        "Center"
+      ],
       "address": "75 Alta Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -3890,7 +4135,9 @@
     {
       "id": "horse-stall-barn",
       "name": "Horse Stall Barn",
-      "alternateNames": [],
+      "alternateNames": [
+        "Horse"
+      ],
       "address": "131 Fremont Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -4118,7 +4365,9 @@
     {
       "id": "red-barn",
       "name": "Red Barn",
-      "alternateNames": [],
+      "alternateNames": [
+        "Red"
+      ],
       "address": "119 Fremont Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -4142,7 +4391,9 @@
     {
       "id": "carnegie-foundation",
       "name": "Carnegie Foundation",
-      "alternateNames": [],
+      "alternateNames": [
+        "Carnegie"
+      ],
       "address": "51 Vista Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -4286,7 +4537,9 @@
     {
       "id": "escondido-elementary-school",
       "name": "Escondido Elementary School",
-      "alternateNames": [],
+      "alternateNames": [
+        "Escondido"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -4922,7 +5175,9 @@
     {
       "id": "bolivar-house",
       "name": "Bolivar House",
-      "alternateNames": [],
+      "alternateNames": [
+        "Bolivar"
+      ],
       "address": "582 Alvarado Row, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -4970,7 +5225,9 @@
     {
       "id": "hammarskj-ld",
       "name": "Hammarskjöld",
-      "alternateNames": [],
+      "alternateNames": [
+        "Hammarskjöld House"
+      ],
       "address": "592 Alvarado Row, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -5354,7 +5611,9 @@
     {
       "id": "roth",
       "name": "Roth",
-      "alternateNames": [],
+      "alternateNames": [
+        "Roth House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -5366,7 +5625,9 @@
     {
       "id": "synergy-house",
       "name": "Synergy House",
-      "alternateNames": [],
+      "alternateNames": [
+        "Synergy"
+      ],
       "address": "550 San Juan Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -5378,7 +5639,9 @@
     {
       "id": "university-lutheran-church",
       "name": "University Lutheran Church",
-      "alternateNames": [],
+      "alternateNames": [
+        "University"
+      ],
       "address": "1611 Stanford Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -5846,7 +6109,9 @@
     {
       "id": "gould-center",
       "name": "Gould Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "gould"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -6146,7 +6411,9 @@
     {
       "id": "student-housing-management-office",
       "name": "Student Housing Management Office",
-      "alternateNames": [],
+      "alternateNames": [
+        "Student"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -6350,7 +6617,9 @@
     {
       "id": "pluto",
       "name": "Pluto",
-      "alternateNames": [],
+      "alternateNames": [
+        "Pluto House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -8246,7 +8515,9 @@
     {
       "id": "arrillaga-family-sports-center",
       "name": "Arrillaga Family Sports Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Arrillaga"
+      ],
       "address": "641 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8258,7 +8529,9 @@
     {
       "id": "avery-competition-pool",
       "name": "Avery Competition Pool",
-      "alternateNames": [],
+      "alternateNames": [
+        "Avery"
+      ],
       "address": "235 Sam McDonald Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8330,7 +8603,9 @@
     {
       "id": "puichon",
       "name": "Puichon",
-      "alternateNames": [],
+      "alternateNames": [
+        "Puichon Building"
+      ],
       "address": "169 Searsville Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8342,7 +8617,9 @@
     {
       "id": "barnes-hall",
       "name": "Barnes Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "barnes"
+      ],
       "address": "173 Searsville Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8354,7 +8631,9 @@
     {
       "id": "bleeker-hall",
       "name": "Bleeker Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "bleeker"
+      ],
       "address": "175 Searsville Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8366,7 +8645,9 @@
     {
       "id": "wadsworth-hall",
       "name": "Wadsworth Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "wadsworth"
+      ],
       "address": "177 Searsville Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8378,7 +8659,9 @@
     {
       "id": "price-hall",
       "name": "Price Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "price"
+      ],
       "address": "179 Searsville Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8390,7 +8673,9 @@
     {
       "id": "cordura-hall",
       "name": "Cordura Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Cordura"
+      ],
       "address": "210 Panama Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8402,7 +8687,9 @@
     {
       "id": "ventura-hall",
       "name": "Ventura Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Ventura"
+      ],
       "address": "220 Panama Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8414,7 +8701,9 @@
     {
       "id": "nora-suppes-hall",
       "name": "Nora Suppes Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Nora"
+      ],
       "address": "224 Panama Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8558,7 +8847,9 @@
     {
       "id": "maintenance-shops-09-100",
       "name": "Maintenance Shops (09-100)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Maintenance"
+      ],
       "address": "315 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8570,7 +8861,9 @@
     {
       "id": "lbre-office-09-105",
       "name": "LBRE Office (09-105)",
-      "alternateNames": [],
+      "alternateNames": [
+        "LBRE"
+      ],
       "address": "327 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8582,7 +8875,9 @@
     {
       "id": "warehouse-maps-records-offices-09-110",
       "name": "Warehouse, Maps & Records Offices (09-110)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Warehouse,"
+      ],
       "address": "340 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8606,7 +8901,9 @@
     {
       "id": "environmental-safety-facility-annex",
       "name": "Environmental Safety Facility Annex",
-      "alternateNames": [],
+      "alternateNames": [
+        "Environmental"
+      ],
       "address": "472 Oak Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8618,7 +8915,9 @@
     {
       "id": "automotive-innovation-facility",
       "name": "Automotive Innovation Facility",
-      "alternateNames": [],
+      "alternateNames": [
+        "Automotive"
+      ],
       "address": "473 Oak Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8702,7 +9001,9 @@
     {
       "id": "murray-house",
       "name": "Murray House",
-      "alternateNames": [],
+      "alternateNames": [
+        "Murray"
+      ],
       "address": "566 Governors Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8762,7 +9063,9 @@
     {
       "id": "stanford-federal-credit-union",
       "name": "Stanford Federal Credit Union",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stanford"
+      ],
       "address": "694 Pampas Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8774,7 +9077,9 @@
     {
       "id": "maples-pavilion",
       "name": "Maples Pavilion",
-      "alternateNames": [],
+      "alternateNames": [
+        "Maples"
+      ],
       "address": "655 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8786,7 +9091,9 @@
     {
       "id": "palo-alto-fire-station-6",
       "name": "Palo Alto Fire Station 6",
-      "alternateNames": [],
+      "alternateNames": [
+        "Palo"
+      ],
       "address": "711 Serra Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8798,7 +9105,9 @@
     {
       "id": "sam-mcdonald-track-house",
       "name": "Sam McDonald Track House",
-      "alternateNames": [],
+      "alternateNames": [
+        "Sam"
+      ],
       "address": "295 Galvez Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8810,7 +9119,9 @@
     {
       "id": "stanford-auxiliary-library",
       "name": "Stanford Auxiliary Library",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stanford"
+      ],
       "address": "691 Pampas Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8858,7 +9169,9 @@
     {
       "id": "peninsula-sanitary-service-09-950",
       "name": "Peninsula Sanitary Service (09-950)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Peninsula"
+      ],
       "address": "343 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8870,7 +9183,9 @@
     {
       "id": "middle-earth",
       "name": "Middle Earth",
-      "alternateNames": [],
+      "alternateNames": [
+        "Middle"
+      ],
       "address": "591 Los Arboles Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8966,7 +9281,9 @@
     {
       "id": "elliott-program-center",
       "name": "Elliott Program Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Elliott"
+      ],
       "address": "589 Governors Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -8978,7 +9295,9 @@
     {
       "id": "ricker-dining-hall",
       "name": "Ricker Dining Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Ricker"
+      ],
       "address": "238 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9146,7 +9465,9 @@
     {
       "id": "steamfitters-shop-09-130",
       "name": "Steamfitters Shop (09-130)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Steamfitters"
+      ],
       "address": "321 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9170,7 +9491,9 @@
     {
       "id": "it-offices-09-190",
       "name": "IT Offices (09-190)",
-      "alternateNames": [],
+      "alternateNames": [
+        "IT"
+      ],
       "address": "333 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9542,7 +9865,9 @@
     {
       "id": "maintenance-shops-09-140",
       "name": "Maintenance Shops (09-140)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Maintenance"
+      ],
       "address": "341 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9710,7 +10035,9 @@
     {
       "id": "carpenters-shop-09-135",
       "name": "Carpenters Shop (09-135)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Carpenters"
+      ],
       "address": "319 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9830,7 +10157,9 @@
     {
       "id": "storage-shed-09-150",
       "name": "Storage Shed (09-150)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Storage"
+      ],
       "address": "357 Bonair Siding, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9842,7 +10171,9 @@
     {
       "id": "fire-training-tower-09-210",
       "name": "Fire Training Tower (09-210)",
-      "alternateNames": [],
+      "alternateNames": [
+        "Fire"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -9890,7 +10221,10 @@
     {
       "id": "lyman-building-3",
       "name": "Lyman Building 3",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lyman Building",
+        "Lyman"
+      ],
       "address": "121 Campus Drive West, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9904,7 +10238,9 @@
       "name": "Lyman Building 1",
       "alternateNames": [
         "Bldg 01-001",
-        "Building 001"
+        "Building 001",
+        "Lyman Building",
+        "Lyman"
       ],
       "address": "121 Campus Drive, Stanford, CA 94305",
       "buildingNumber": "01-001",
@@ -9917,7 +10253,9 @@
     {
       "id": "bob-robert-s-moore-s",
       "name": "BOB (Robert S Moore S)",
-      "alternateNames": [],
+      "alternateNames": [
+        "BOB"
+      ],
       "address": "566 Mayfield Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9929,19 +10267,23 @@
     {
       "id": "bechtel-international-center",
       "name": "Bechtel International Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Bechtel"
+      ],
       "address": "584 Capistrano Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.42322221200001,
-        "lon": -122.17250439200002
+        "lat": 37.42388102142858,
+        "lon": -122.17209955000003
       },
       "entrances": []
     },
     {
       "id": "branner-hall",
       "name": "Branner Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "branner"
+      ],
       "address": "655 Escondido Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9953,7 +10295,9 @@
     {
       "id": "burnham-pavilion",
       "name": "Burnham Pavilion",
-      "alternateNames": [],
+      "alternateNames": [
+        "Burnham"
+      ],
       "address": "615 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9965,7 +10309,9 @@
     {
       "id": "the-knoll",
       "name": "The Knoll",
-      "alternateNames": [],
+      "alternateNames": [
+        "The"
+      ],
       "address": "660 Lomita Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -9977,19 +10323,23 @@
     {
       "id": "east-wing",
       "name": "East Wing",
-      "alternateNames": [],
+      "alternateNames": [
+        "East"
+      ],
       "address": "557 Escondido Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.42665613793104,
-        "lon": -122.16688207931033
+        "lat": 37.42751395384615,
+        "lon": -122.16648056923077
       },
       "entrances": []
     },
     {
       "id": "columbae-house",
       "name": "Columbae House",
-      "alternateNames": [],
+      "alternateNames": [
+        "Columbae"
+      ],
       "address": "549 Lasuen Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10001,7 +10351,9 @@
     {
       "id": "coupa-caf",
       "name": "Coupa Café",
-      "alternateNames": [],
+      "alternateNames": [
+        "Coupa"
+      ],
       "address": "571 Escondido Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10011,57 +10363,23 @@
       "entrances": []
     },
     {
-      "id": "oval",
-      "name": "Stanford Oval",
-      "alternateNames": [
-        "The Oval",
-        "Oval",
-        "Stanford Oval"
-      ],
-      "address": "Stanford Oval, Stanford, CA 94305",
+      "id": "lasuen-mall",
+      "name": "501 Lasuen Mall, Stanford, CA 94305",
+      "alternateNames": [],
+      "address": "501 Lasuen Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.42751395384615,
-        "lon": -122.16648056923077
+        "lat": 37.42570725833333,
+        "lon": -122.16871779999997
       },
-      "entrances": [
-        {
-          "id": "main",
-          "direction": null,
-          "name": "Oval (general)",
-          "roadSidewalk": "Serra Mall / Palm Drive",
-          "coordinates": {
-            "lat": 37.427,
-            "lon": -122.169
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": false,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [
-              "Palm Drive",
-              "fountain",
-              "Memorial Church view"
-            ],
-            "establishmentsInside": [],
-            "nextToBuilding": "Memorial Church",
-            "acrossFromBuilding": "CoDa",
-            "notes": "Central landmark; use for dropoff near Memorial Church or CoDa east side."
-          },
-          "landmarkKeywords": [
-            "oval",
-            "palm",
-            "fountain",
-            "memorial church"
-          ]
-        }
-      ]
+      "entrances": []
     },
     {
       "id": "dinkelspiel-memorial-music-auditorium",
       "name": "Dinkelspiel Memorial Music Auditorium",
-      "alternateNames": [],
+      "alternateNames": [
+        "Dinkelspiel"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -10073,7 +10391,9 @@
     {
       "id": "drell-house",
       "name": "Drell House",
-      "alternateNames": [],
+      "alternateNames": [
+        "drell"
+      ],
       "address": "556 O'Conner Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10085,7 +10405,9 @@
     {
       "id": "enchanted-broccoli-forest",
       "name": "Enchanted Broccoli Forest",
-      "alternateNames": [],
+      "alternateNames": [
+        "Enchanted"
+      ],
       "address": "1115 Campus Drive East, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10097,7 +10419,10 @@
     {
       "id": "arrillaga-center-for-sports-and-recreation",
       "name": "Arrillaga Center for Sports and Recreation",
-      "alternateNames": [],
+      "alternateNames": [
+        "Arrillaga Center",
+        "Arrillaga"
+      ],
       "address": "341 Galvez Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10109,7 +10434,9 @@
     {
       "id": "burnham-pavilion-232805670",
       "name": "Burnham Pavilion",
-      "alternateNames": [],
+      "alternateNames": [
+        "Burnham"
+      ],
       "address": "615 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10121,7 +10448,10 @@
     {
       "id": "ford-center-for-sports-recreation",
       "name": "Ford Center For Sports & Recreation",
-      "alternateNames": [],
+      "alternateNames": [
+        "Ford Center",
+        "ford"
+      ],
       "address": "365 Galvez Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10133,7 +10463,9 @@
     {
       "id": "herbert-hoover-memorial-building",
       "name": "Herbert Hoover Memorial Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Herbert"
+      ],
       "address": "434 Galvez Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10145,7 +10477,9 @@
     {
       "id": "kappa-sigma",
       "name": "Kappa Sigma",
-      "alternateNames": [],
+      "alternateNames": [
+        "Kappa"
+      ],
       "address": "1035, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10169,7 +10503,9 @@
     {
       "id": "montag-hall",
       "name": "Montag Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Montag"
+      ],
       "address": "355 Galvez Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10181,7 +10517,9 @@
     {
       "id": "stanford-art-gallery",
       "name": "Stanford Art Gallery",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stanford"
+      ],
       "address": "419 Lasuen Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10193,7 +10531,9 @@
     {
       "id": "galvez-modular",
       "name": "Galvez Modular",
-      "alternateNames": [],
+      "alternateNames": [
+        "Galvez"
+      ],
       "address": "482 Galvez Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10205,7 +10545,9 @@
     {
       "id": "hepl-south",
       "name": "HEPL South",
-      "alternateNames": [],
+      "alternateNames": [
+        "HEPL"
+      ],
       "address": "491 South Service Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10215,16 +10557,108 @@
       "entrances": []
     },
     {
-      "id": "lasuen-mall",
-      "name": "501 Lasuen Mall, Stanford, CA 94305",
-      "alternateNames": [],
-      "address": "501 Lasuen Mall, Stanford, CA 94305",
+      "id": "lathrop-library",
+      "name": "Lathrop Library",
+      "alternateNames": [
+        "Lathrop"
+      ],
+      "address": "518 Memorial Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.425910933333334,
-        "lon": -122.1688738777778
+        "lat": 37.42922349333333,
+        "lon": -122.16730948666668
       },
-      "entrances": []
+      "entrances": [
+        {
+          "id": "east",
+          "direction": "east",
+          "name": "East entrance",
+          "roadSidewalk": "Memorial Way",
+          "coordinates": {
+            "lat": 37.4292,
+            "lon": -122.1669
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Memorial Auditorium",
+              "MemAud"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": "Memorial Auditorium",
+            "notes": "East side of Lathrop Library; faces Memorial Auditorium."
+          },
+          "landmarkKeywords": [
+            "east",
+            "memorial auditorium",
+            "memaud",
+            "memorial way"
+          ]
+        },
+        {
+          "id": "west",
+          "direction": "west",
+          "name": "West entrance",
+          "roadSidewalk": null,
+          "coordinates": {
+            "lat": 37.4292,
+            "lon": -122.1677
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Main Quad"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": "Main Quad",
+            "notes": "West side of Lathrop Library; faces Main Quad."
+          },
+          "landmarkKeywords": [
+            "west",
+            "main quad",
+            "quad"
+          ]
+        },
+        {
+          "id": "littlefield-memaud-parking",
+          "direction": null,
+          "name": "Entrance near Littlefield and MemAud parking",
+          "roadSidewalk": null,
+          "coordinates": {
+            "lat": 37.4295,
+            "lon": -122.167
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": [
+              "Littlefield",
+              "MemAud parking"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Littlefield",
+            "acrossFromBuilding": null,
+            "notes": "Near Littlefield and the small MemAud parking lot."
+          },
+          "landmarkKeywords": [
+            "littlefield",
+            "memaud parking",
+            "memaud",
+            "parking",
+            "parking lot"
+          ]
+        }
+      ]
     },
     {
       "id": "bookstore",
@@ -10233,13 +10667,14 @@
         "Stanford Bookstore",
         "Bookstore",
         "White Plaza Bookstore",
-        "Building 02-010"
+        "Building 02-010",
+        "Stanford"
       ],
       "address": "519 Lasuen Mall, Stanford, CA 94305",
       "buildingNumber": "02-010",
       "coordinates": {
-        "lat": 37.42455198571429,
-        "lon": -122.16878695714286
+        "lat": 37.42480149130436,
+        "lon": -122.16876227826086
       },
       "entrances": [
         {
@@ -10276,18 +10711,6 @@
       ]
     },
     {
-      "id": "lathrop-library",
-      "name": "Lathrop Library",
-      "alternateNames": [],
-      "address": "518 Memorial Way, Stanford, CA 94305",
-      "buildingNumber": null,
-      "coordinates": {
-        "lat": 37.42922349333333,
-        "lon": -122.16730948666668
-      },
-      "entrances": []
-    },
-    {
       "id": "memorial-way",
       "name": "521 Memorial Way, Stanford, CA 94305",
       "alternateNames": [],
@@ -10314,7 +10737,9 @@
     {
       "id": "harmony-house",
       "name": "Harmony House",
-      "alternateNames": [],
+      "alternateNames": [
+        "harmony"
+      ],
       "address": "561 Lomita Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10326,7 +10751,10 @@
     {
       "id": "haas-center-for-public-service",
       "name": "Haas Center for Public Service",
-      "alternateNames": [],
+      "alternateNames": [
+        "Haas Center",
+        "haas"
+      ],
       "address": "562 Salvatierra Walk, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10386,7 +10814,9 @@
     {
       "id": "william-j-patterson-building",
       "name": "William J. Patterson Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "William"
+      ],
       "address": "663 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10398,7 +10828,9 @@
     {
       "id": "alpha-phi-kappa-kappa-gamma",
       "name": "Alpha Phi Kappa Kappa Gamma",
-      "alternateNames": [],
+      "alternateNames": [
+        "Alpha"
+      ],
       "address": "675 Lomita Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10422,7 +10854,9 @@
     {
       "id": "lantana",
       "name": "Lantana",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lantana Hall"
+      ],
       "address": "750 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10458,7 +10892,9 @@
     {
       "id": "kennedy-grove",
       "name": "Kennedy Grove",
-      "alternateNames": [],
+      "alternateNames": [
+        "Kennedy"
+      ],
       "address": "419 Lagunita Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10470,7 +10906,9 @@
     {
       "id": "kimball-hall",
       "name": "Kimball Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Kimball"
+      ],
       "address": "661 Escondido Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10482,7 +10920,9 @@
     {
       "id": "koret-pavillion",
       "name": "Koret Pavillion",
-      "alternateNames": [],
+      "alternateNames": [
+        "Koret"
+      ],
       "address": "564 Lane A, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10494,7 +10934,9 @@
     {
       "id": "the-well-house-robert-s-moore-n",
       "name": "The Well House (Robert S Moore N)",
-      "alternateNames": [],
+      "alternateNames": [
+        "The"
+      ],
       "address": "562 Mayfield Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10506,7 +10948,9 @@
     {
       "id": "landau-economics-building",
       "name": "Landau Economics Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Landau"
+      ],
       "address": "579 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10518,7 +10962,9 @@
     {
       "id": "littlefield-center",
       "name": "Littlefield Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Littlefield"
+      ],
       "address": "365 Lasuen Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10542,7 +10988,9 @@
     {
       "id": "mariposa",
       "name": "Mariposa",
-      "alternateNames": [],
+      "alternateNames": [
+        "Mariposa House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -10566,7 +11014,9 @@
     {
       "id": "memorial-hall",
       "name": "Memorial Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Memorial"
+      ],
       "address": "551 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10580,7 +11030,9 @@
       "name": "Munger Building 1",
       "alternateNames": [
         "Bldg 01-001",
-        "Building 001"
+        "Building 001",
+        "Munger Building",
+        "Munger"
       ],
       "address": "566 Arguello Way, Stanford, CA 94305",
       "buildingNumber": "01-001",
@@ -10593,7 +11045,10 @@
     {
       "id": "munger-building-2",
       "name": "Munger Building 2",
-      "alternateNames": [],
+      "alternateNames": [
+        "Munger Building",
+        "Munger"
+      ],
       "address": "895 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10605,7 +11060,10 @@
     {
       "id": "munger-building-3",
       "name": "Munger Building 3",
-      "alternateNames": [],
+      "alternateNames": [
+        "Munger Building",
+        "munger"
+      ],
       "address": "610 Bowdoin Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10617,7 +11075,10 @@
     {
       "id": "munger-building-4",
       "name": "Munger Building 4",
-      "alternateNames": [],
+      "alternateNames": [
+        "Munger Building",
+        "Munger"
+      ],
       "address": "555 Salvatierra Walk, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10629,7 +11090,10 @@
     {
       "id": "munger-building-5",
       "name": "Munger Building 5",
-      "alternateNames": [],
+      "alternateNames": [
+        "Munger Building",
+        "munger"
+      ],
       "address": "554 Salvatierra Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10653,7 +11117,9 @@
     {
       "id": "narnia",
       "name": "Narnia",
-      "alternateNames": [],
+      "alternateNames": [
+        "Narnia House"
+      ],
       "address": "1135 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10665,7 +11131,9 @@
     {
       "id": "owen-house",
       "name": "Owen House",
-      "alternateNames": [],
+      "alternateNames": [
+        "Owen"
+      ],
       "address": "552 O'Conner Lane, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10677,7 +11145,9 @@
     {
       "id": "roble-hall",
       "name": "Roble Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "roble"
+      ],
       "address": "374 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10689,7 +11159,9 @@
     {
       "id": "rogers",
       "name": "Rogers",
-      "alternateNames": [],
+      "alternateNames": [
+        "Rogers House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -10701,7 +11173,9 @@
     {
       "id": "attneave",
       "name": "Attneave",
-      "alternateNames": [],
+      "alternateNames": [
+        "Attneave House"
+      ],
       "address": "589 Capistrano Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10713,7 +11187,9 @@
     {
       "id": "sigma-phi-epsilon",
       "name": "Sigma Phi Epsilon",
-      "alternateNames": [],
+      "alternateNames": [
+        "Sigma"
+      ],
       "address": "1047 Campus Drive East, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10725,7 +11201,9 @@
     {
       "id": "sigma-chi",
       "name": "Sigma Chi",
-      "alternateNames": [],
+      "alternateNames": [
+        "Sigma"
+      ],
       "address": "550 Lasuen Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10737,7 +11215,9 @@
     {
       "id": "sigma-nu",
       "name": "Sigma Nu",
-      "alternateNames": [],
+      "alternateNames": [
+        "Sigma"
+      ],
       "address": "557 Mayfield Avenue, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10749,7 +11229,10 @@
     {
       "id": "stanford-center-for-research-and-development-in-education",
       "name": "Stanford Center for Research and Development in Education",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stanford",
+        "Stanford Center"
+      ],
       "address": "520 Galvez Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10761,7 +11244,9 @@
     {
       "id": "storey",
       "name": "Storey",
-      "alternateNames": [],
+      "alternateNames": [
+        "Storey House"
+      ],
       "address": "544 Lasuen Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10773,7 +11258,9 @@
     {
       "id": "sweet-hall",
       "name": "Sweet Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Sweet"
+      ],
       "address": "590 Escondido Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10797,7 +11284,9 @@
     {
       "id": "thornton-center",
       "name": "Thornton Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "thornton"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -10845,7 +11334,9 @@
     {
       "id": "lake-house",
       "name": "Lake House",
-      "alternateNames": [],
+      "alternateNames": [
+        "lake"
+      ],
       "address": "636 Lomita Court, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10881,7 +11372,9 @@
     {
       "id": "cedar-hall",
       "name": "Cedar Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Cedar"
+      ],
       "address": "440 Via Ortega Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10893,19 +11386,23 @@
     {
       "id": "durand-building",
       "name": "Durand Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Durand"
+      ],
       "address": "496 Lomita Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.426879435294126,
-        "lon": -122.17325917647055
+        "lat": 37.427091142857144,
+        "lon": -122.17288528571429
       },
       "entrances": []
     },
     {
       "id": "encina-commons",
       "name": "Encina Commons",
-      "alternateNames": [],
+      "alternateNames": [
+        "Encina"
+      ],
       "address": "615 Crothers Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10917,7 +11414,9 @@
     {
       "id": "forsythe-data-center",
       "name": "Forsythe Data Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Forsythe"
+      ],
       "address": "275 Panama Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10981,7 +11480,9 @@
     {
       "id": "hagey-laboratory-for-pediatric-regenerative-medicine",
       "name": "Hagey Laboratory for Pediatric Regenerative Medicine",
-      "alternateNames": [],
+      "alternateNames": [
+        "Hagey"
+      ],
       "address": "257 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -10993,19 +11494,23 @@
     {
       "id": "hewlett-teaching-center",
       "name": "Hewlett Teaching Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Hewlett"
+      ],
       "address": "370 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
-        "lat": 37.429048300000005,
-        "lon": -122.17290553333332
+        "lat": 37.42851085555555,
+        "lon": -122.17255522777776
       },
       "entrances": []
     },
     {
       "id": "polya-hall",
       "name": "Polya Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Polya"
+      ],
       "address": "255 Panama Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11017,7 +11522,9 @@
     {
       "id": "via-ortega-garage",
       "name": "Via Ortega Garage",
-      "alternateNames": [],
+      "alternateNames": [
+        "Via"
+      ],
       "address": "285 Panama Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11029,7 +11536,9 @@
     {
       "id": "lorry-lokey-labs",
       "name": "Lorry Lokey Labs",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lorry"
+      ],
       "address": "337 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11041,7 +11550,9 @@
     {
       "id": "roth-way-garage",
       "name": "Roth Way Garage",
-      "alternateNames": [],
+      "alternateNames": [
+        "Roth"
+      ],
       "address": "345 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11053,7 +11564,9 @@
     {
       "id": "stauffer-i",
       "name": "Stauffer I",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stauffer"
+      ],
       "address": "369 North-South Axis, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11075,107 +11588,11 @@
       "entrances": []
     },
     {
-      "id": "memorial-church",
-      "name": "Memorial Church",
-      "alternateNames": [
-        "Memorial Church",
-        "Memorial",
-        "Church",
-        "Building 01-500"
-      ],
-      "address": "450 Serra Mall, Stanford, CA 94305",
-      "buildingNumber": "01-500",
-      "coordinates": {
-        "lat": 37.42557214,
-        "lon": -122.17172852000002
-      },
-      "entrances": [
-        {
-          "id": "main",
-          "direction": "north",
-          "name": "Main entrance",
-          "roadSidewalk": "Serra Mall / Memorial Court",
-          "coordinates": {
-            "lat": 37.4272,
-            "lon": -122.17
-          },
-          "landmarks": {
-            "bikeRacks": false,
-            "stairs": true,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [
-              "Memorial Court",
-              "Oval"
-            ],
-            "establishmentsInside": [],
-            "nextToBuilding": "Main Quad",
-            "acrossFromBuilding": "Stanford Oval",
-            "notes": "Faces Memorial Court and the Oval."
-          },
-          "landmarkKeywords": [
-            "memorial court",
-            "oval",
-            "main",
-            "church"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "wallenberg",
-      "name": "Wallenberg Hall",
-      "alternateNames": [
-        "Wallenberg",
-        "160",
-        "Bldg 01-160",
-        "Building 160"
-      ],
-      "address": "450 Jane Stanford Way, Stanford, CA 94305",
-      "buildingNumber": "01-160",
-      "coordinates": {
-        "lat": 37.427091142857144,
-        "lon": -122.17288528571429
-      },
-      "entrances": [
-        {
-          "id": "main",
-          "direction": "south",
-          "name": "Main entrance",
-          "roadSidewalk": "Jane Stanford Way",
-          "coordinates": {
-            "lat": 37.4278,
-            "lon": -122.173
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": true,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [
-              "Main Quad"
-            ],
-            "establishmentsInside": [
-              "Classrooms",
-              "Learning spaces"
-            ],
-            "nextToBuilding": "McLatchy Hall",
-            "acrossFromBuilding": "Memorial Court",
-            "notes": "South side of Main Quad; main accessible entrance."
-          },
-          "landmarkKeywords": [
-            "main",
-            "quad",
-            "main quad",
-            "160"
-          ]
-        }
-      ]
-    },
-    {
       "id": "cypress-hall",
       "name": "Cypress Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Cypress"
+      ],
       "address": "466 Via Ortega Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11187,7 +11604,9 @@
     {
       "id": "spruce-hall",
       "name": "Spruce Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Spruce"
+      ],
       "address": "468 Via Ortega Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11233,9 +11652,59 @@
       "entrances": []
     },
     {
+      "id": "memorial-church",
+      "name": "Memorial Church",
+      "alternateNames": [
+        "Memorial Church",
+        "Memorial",
+        "Church",
+        "Building 01-500"
+      ],
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "buildingNumber": "01-500",
+      "coordinates": {
+        "lat": 37.42594331333333,
+        "lon": -122.17252185999999
+      },
+      "entrances": [
+        {
+          "id": "main",
+          "direction": "north",
+          "name": "Main entrance",
+          "roadSidewalk": "Serra Mall / Memorial Court",
+          "coordinates": {
+            "lat": 37.4272,
+            "lon": -122.17
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Memorial Court",
+              "Oval"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Main Quad",
+            "acrossFromBuilding": "Stanford Oval",
+            "notes": "Faces Memorial Court and the Oval."
+          },
+          "landmarkKeywords": [
+            "memorial court",
+            "oval",
+            "main",
+            "church"
+          ]
+        }
+      ]
+    },
+    {
       "id": "mitchell-earth-science-building",
       "name": "Mitchell Earth Science Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Mitchell"
+      ],
       "address": "397 Panama Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11247,7 +11716,9 @@
     {
       "id": "mudd-hall",
       "name": "Mudd Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "mudd"
+      ],
       "address": "333 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11271,7 +11742,9 @@
     {
       "id": "pine-hall",
       "name": "Pine Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "pine"
+      ],
       "address": "241 Panama Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11295,7 +11768,9 @@
     {
       "id": "redwood-hall",
       "name": "Redwood Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Redwood"
+      ],
       "address": "243 Panama Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11303,52 +11778,6 @@
         "lon": -122.17713653846155
       },
       "entrances": []
-    },
-    {
-      "id": "mclatchy",
-      "name": "McLatchy Hall",
-      "alternateNames": [
-        "McLatchy",
-        "McLatchy Hall",
-        "Bldg 01-120",
-        "Building 120"
-      ],
-      "address": "450 Serra Mall, Stanford, CA 94305",
-      "buildingNumber": "01-120",
-      "coordinates": {
-        "lat": 37.42851085555555,
-        "lon": -122.17255522777776
-      },
-      "entrances": [
-        {
-          "id": "main",
-          "direction": "south",
-          "name": "Main entrance",
-          "roadSidewalk": "Jane Stanford Way",
-          "coordinates": {
-            "lat": 37.4279,
-            "lon": -122.173
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": true,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [
-              "Main Quad"
-            ],
-            "establishmentsInside": [],
-            "nextToBuilding": "Wallenberg Hall",
-            "acrossFromBuilding": "Memorial Court",
-            "notes": "Main Quad; next to Wallenberg."
-          },
-          "landmarkKeywords": [
-            "mclatchy",
-            "main quad",
-            "wallenberg"
-          ]
-        }
-      ]
     },
     {
       "id": "packard",
@@ -11389,7 +11818,9 @@
     {
       "id": "mark-taper-student-center",
       "name": "Mark Taper Student Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Mark"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -11413,7 +11844,9 @@
     {
       "id": "arrillaga-outdoor-education-and-recreation-center",
       "name": "Arrillaga Outdoor Education and Recreation Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Arrillaga"
+      ],
       "address": "285 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11437,7 +11870,9 @@
     {
       "id": "miller",
       "name": "Miller",
-      "alternateNames": [],
+      "alternateNames": [
+        "Miller House"
+      ],
       "address": "6 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11461,7 +11896,9 @@
     {
       "id": "rosse",
       "name": "Rosse",
-      "alternateNames": [],
+      "alternateNames": [
+        "Rosse House"
+      ],
       "address": "14 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11473,7 +11910,9 @@
     {
       "id": "kennedy-commons",
       "name": "Kennedy Commons",
-      "alternateNames": [],
+      "alternateNames": [
+        "Kennedy"
+      ],
       "address": "12 Comstock Circle, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11485,7 +11924,10 @@
     {
       "id": "shriram-center-for-bioengineering-chemical-engineering",
       "name": "Shriram Center for Bioengineering & Chemical Engineering",
-      "alternateNames": [],
+      "alternateNames": [
+        "Shriram Center",
+        "Shriram"
+      ],
       "address": "443, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11497,7 +11939,9 @@
     {
       "id": "arrillaga-family-dining-commons",
       "name": "Arrillaga Family Dining Commons",
-      "alternateNames": [],
+      "alternateNames": [
+        "Arrillaga"
+      ],
       "address": "489 Arguello Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11507,130 +11951,11 @@
       "entrances": []
     },
     {
-      "id": "coda",
-      "name": "Computing and Data Science",
-      "alternateNames": [
-        "CoDa",
-        "Computing and Data Science building",
-        "385 Serra",
-        "CDS"
-      ],
-      "address": "385 Serra Mall, Stanford, CA 94305",
-      "buildingNumber": null,
-      "coordinates": {
-        "lat": 37.426683399999995,
-        "lon": -122.16961158
-      },
-      "entrances": [
-        {
-          "id": "north-1",
-          "direction": "north",
-          "name": "North entrance",
-          "roadSidewalk": "Serra Mall",
-          "coordinates": {
-            "lat": 37.43,
-            "lon": -122.1675
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": true,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [
-              "Blend (eatery)",
-              "near chemistry building",
-              "Voyager"
-            ],
-            "establishmentsInside": [],
-            "nextToBuilding": "Gilbert",
-            "acrossFromBuilding": null,
-            "notes": "Main north-facing entrance; near Blend café and bike racks."
-          },
-          "landmarkKeywords": [
-            "blend",
-            "chemistry",
-            "north",
-            "coffee",
-            "voyager",
-            "bikes",
-            "bike racks"
-          ]
-        },
-        {
-          "id": "southwest-1",
-          "direction": "southwest",
-          "name": "Southwest entrance",
-          "roadSidewalk": "Serra Mall",
-          "coordinates": {
-            "lat": 37.4255,
-            "lon": -122.172
-          },
-          "landmarks": {
-            "bikeRacks": false,
-            "stairs": true,
-            "parkingLot": false,
-            "fountain": true,
-            "other": [
-              "Gilbert",
-              "stairs",
-              "fountain",
-              "gates"
-            ],
-            "establishmentsInside": [],
-            "nextToBuilding": "Gilbert",
-            "acrossFromBuilding": "Gates",
-            "notes": "Near Gilbert Building, stairs, and fountain."
-          },
-          "landmarkKeywords": [
-            "stairs",
-            "fountain",
-            "gilbert",
-            "gates",
-            "southwest",
-            "basement"
-          ]
-        },
-        {
-          "id": "east-1",
-          "direction": "east",
-          "name": "East entrance",
-          "roadSidewalk": "Oval",
-          "coordinates": {
-            "lat": 37.429,
-            "lon": -122.1665
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": false,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [
-              "Oval",
-              "bikes",
-              "main",
-              "Voyager",
-              "coffee"
-            ],
-            "establishmentsInside": [],
-            "nextToBuilding": null,
-            "acrossFromBuilding": "Stanford Oval",
-            "notes": "Faces the Oval; bike racks and main pedestrian flow."
-          },
-          "landmarkKeywords": [
-            "oval",
-            "bikes",
-            "main",
-            "voyager",
-            "coffee",
-            "east"
-          ]
-        }
-      ]
-    },
-    {
       "id": "arroyo",
       "name": "Arroyo",
-      "alternateNames": [],
+      "alternateNames": [
+        "Arroyo House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -11642,7 +11967,9 @@
     {
       "id": "cedro",
       "name": "Cedro",
-      "alternateNames": [],
+      "alternateNames": [
+        "Cedro House"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -11678,7 +12005,9 @@
     {
       "id": "comparative-medicine-pavilion",
       "name": "Comparative Medicine Pavilion",
-      "alternateNames": [],
+      "alternateNames": [
+        "Comparative"
+      ],
       "address": "1230 Welch Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11690,7 +12019,9 @@
     {
       "id": "central-process-steam-building",
       "name": "Central Process Steam Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Central"
+      ],
       "address": "321 Oak Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11750,7 +12081,9 @@
     {
       "id": "anderson-collection-at-stanford-university",
       "name": "Anderson Collection at Stanford University",
-      "alternateNames": [],
+      "alternateNames": [
+        "Anderson"
+      ],
       "address": "314 Lomita Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11762,7 +12095,9 @@
     {
       "id": "meier-hall",
       "name": "Meier Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Meier"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11786,7 +12121,9 @@
     {
       "id": "david-joan-traitel-building",
       "name": "David & Joan Traitel Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "David"
+      ],
       "address": "435 Lasuen Mall, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11798,7 +12135,9 @@
     {
       "id": "jack-mcdonald-hall",
       "name": "Jack McDonald Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Jack"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -11834,7 +12173,9 @@
     {
       "id": "anne-t-and-robert-m-bass-biology-research-building",
       "name": "Anne T. and Robert M. Bass Biology Research Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Anne"
+      ],
       "address": "327 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11894,7 +12235,9 @@
     {
       "id": "north-building",
       "name": "North Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "North"
+      ],
       "address": "641 Knight Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11906,7 +12249,11 @@
     {
       "id": "escondido-village-evgr-bldg-a",
       "name": "Escondido Village, EVGR Bldg A",
-      "alternateNames": ["evgr-a", "EVGR A"],
+      "alternateNames": [
+        "evgr-a",
+        "EVGR A",
+        "Escondido"
+      ],
       "address": "757 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11918,7 +12265,9 @@
     {
       "id": "escondido-village-evgr-bldg-b",
       "name": "Escondido Village, EVGR Bldg B",
-      "alternateNames": [],
+      "alternateNames": [
+        "Escondido"
+      ],
       "address": "735 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11930,7 +12279,9 @@
     {
       "id": "escondido-village-evgr-bldg-c",
       "name": "Escondido Village, EVGR Bldg C",
-      "alternateNames": [],
+      "alternateNames": [
+        "Escondido"
+      ],
       "address": "726 Serra Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11942,7 +12293,9 @@
     {
       "id": "escondido-village-evgr-bldg-d",
       "name": "Escondido Village, EVGR Bldg D",
-      "alternateNames": [],
+      "alternateNames": [
+        "Escondido"
+      ],
       "address": "736 Serra Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11954,7 +12307,9 @@
     {
       "id": "lasuen-restroom",
       "name": "Lasuen Restroom",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lasuen"
+      ],
       "address": "291 Lasuen Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -11990,7 +12345,9 @@
     {
       "id": "stanford-chem-h-building",
       "name": "Stanford ChEM-H Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stanford"
+      ],
       "address": "290 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12002,7 +12359,9 @@
     {
       "id": "stanford-neurosciences-building",
       "name": "Stanford Neurosciences Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stanford"
+      ],
       "address": "290 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12120,6 +12479,20 @@
       "entrances": []
     },
     {
+      "id": "lorry-i-lokey-stanford-daily-building",
+      "name": "Lorry I. Lokey Stanford Daily Building",
+      "alternateNames": [
+        "Lorry"
+      ],
+      "address": "456 Panama Street, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.4256168,
+        "lon": -122.17069926000002
+      },
+      "entrances": []
+    },
+    {
       "id": "building-887293796",
       "name": "Building 887293796",
       "alternateNames": [],
@@ -12134,7 +12507,9 @@
     {
       "id": "environmental-health-safety",
       "name": "Environmental Health & Safety",
-      "alternateNames": [],
+      "alternateNames": [
+        "Environmental"
+      ],
       "address": "484 Oak Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12230,7 +12605,9 @@
     {
       "id": "pasteur-staff-garage",
       "name": "Pasteur Staff Garage",
-      "alternateNames": [],
+      "alternateNames": [
+        "Pasteur"
+      ],
       "address": "1189 Welch Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12242,7 +12619,9 @@
     {
       "id": "stanford-hospital",
       "name": "Stanford Hospital",
-      "alternateNames": [],
+      "alternateNames": [
+        "Stanford"
+      ],
       "address": "500 Pasteur Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12254,7 +12633,9 @@
     {
       "id": "modular-2",
       "name": "Modular 2",
-      "alternateNames": [],
+      "alternateNames": [
+        "Modular"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12266,7 +12647,9 @@
     {
       "id": "modular-1",
       "name": "Modular 1",
-      "alternateNames": [],
+      "alternateNames": [
+        "Modular"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12278,7 +12661,9 @@
     {
       "id": "modular-3",
       "name": "Modular 3",
-      "alternateNames": [],
+      "alternateNames": [
+        "Modular"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12290,7 +12675,9 @@
     {
       "id": "modular-5",
       "name": "Modular 5",
-      "alternateNames": [],
+      "alternateNames": [
+        "Modular"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12302,7 +12689,9 @@
     {
       "id": "modular-4",
       "name": "Modular 4",
-      "alternateNames": [],
+      "alternateNames": [
+        "Modular"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12443,7 +12832,9 @@
     {
       "id": "huffington-barn",
       "name": "Huffington Barn",
-      "alternateNames": [],
+      "alternateNames": [
+        "Huffington"
+      ],
       "address": "175 Electioneer Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12455,7 +12846,9 @@
     {
       "id": "green-house",
       "name": "Green House",
-      "alternateNames": [],
+      "alternateNames": [
+        "green"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12479,7 +12872,9 @@
     {
       "id": "lathe-house",
       "name": "Lathe House",
-      "alternateNames": [],
+      "alternateNames": [
+        "lathe"
+      ],
       "address": "175 Electioneer Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12527,7 +12922,9 @@
     {
       "id": "district-work-center-campus-drive",
       "name": "District Work Center, Campus Drive",
-      "alternateNames": [],
+      "alternateNames": [
+        "District"
+      ],
       "address": "359 Campus Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12539,7 +12936,9 @@
     {
       "id": "denning-house",
       "name": "Denning House",
-      "alternateNames": [],
+      "alternateNames": [
+        "denning"
+      ],
       "address": "580 Lomita Drive, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12587,7 +12986,9 @@
     {
       "id": "northwest-data-center-and-communications-hub",
       "name": "Northwest Data Center and Communications Hub",
-      "alternateNames": [],
+      "alternateNames": [
+        "Northwest"
+      ],
       "address": "319 Oak Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12599,7 +13000,9 @@
     {
       "id": "memorial-way-district-work-center",
       "name": "Memorial Way District Work Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "Memorial"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12659,7 +13062,10 @@
     {
       "id": "arrillaga-hall",
       "name": "Arrillaga Hall",
-      "alternateNames": [],
+      "alternateNames": [
+        "Arrillaga",
+        "Arrillaga Center"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12779,7 +13185,9 @@
     {
       "id": "medical-school-office-building",
       "name": "Medical School Office Building",
-      "alternateNames": [],
+      "alternateNames": [
+        "Medical"
+      ],
       "address": "1265 Welch Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12791,7 +13199,9 @@
     {
       "id": "ujamaa-b",
       "name": "Ujamaa B",
-      "alternateNames": [],
+      "alternateNames": [
+        "Ujamaa"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12803,7 +13213,9 @@
     {
       "id": "granada",
       "name": "Granada",
-      "alternateNames": [],
+      "alternateNames": [
+        "Granada House"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12815,7 +13227,9 @@
     {
       "id": "adelfa",
       "name": "Adelfa",
-      "alternateNames": [],
+      "alternateNames": [
+        "Adelfa House"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12827,7 +13241,9 @@
     {
       "id": "naranja",
       "name": "Naranja",
-      "alternateNames": [],
+      "alternateNames": [
+        "Naranja House"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12851,7 +13267,10 @@
     {
       "id": "ujamaa-a",
       "name": "Ujamaa A",
-      "alternateNames": [],
+      "alternateNames": [
+        "Ujamaa",
+        "Ujamaa House"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12863,7 +13282,9 @@
     {
       "id": "eucalipto",
       "name": "Eucalipto",
-      "alternateNames": [],
+      "alternateNames": [
+        "Eucalipto House"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12875,7 +13296,9 @@
     {
       "id": "lakeside-dining",
       "name": "Lakeside Dining",
-      "alternateNames": [],
+      "alternateNames": [
+        "Lakeside"
+      ],
       "address": "326 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -12932,7 +13355,9 @@
     {
       "id": "kappa-alpha",
       "name": "Kappa Alpha",
-      "alternateNames": [],
+      "alternateNames": [
+        "Kappa"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -12944,7 +13369,9 @@
     {
       "id": "breer-library",
       "name": "Breer Library",
-      "alternateNames": [],
+      "alternateNames": [
+        "breer"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -13286,7 +13713,9 @@
     {
       "id": "lbre-district-work-center",
       "name": "LBRE District Work Center",
-      "alternateNames": [],
+      "alternateNames": [
+        "LBRE"
+      ],
       "address": "471 South Service Road, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -13388,7 +13817,9 @@
     {
       "id": "computing-data-science",
       "name": "Computing & Data Science",
-      "alternateNames": [],
+      "alternateNames": [
+        "Computing"
+      ],
       "address": "389 Jane Stanford Way, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -13400,7 +13831,9 @@
     {
       "id": "evgr-pub-beer-garden",
       "name": "EVGR Pub & Beer Garden",
-      "alternateNames": [],
+      "alternateNames": [
+        "EVGR"
+      ],
       "address": "716 Serra Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -13412,7 +13845,9 @@
     {
       "id": "evgr-tower",
       "name": "EVGR Tower",
-      "alternateNames": [],
+      "alternateNames": [
+        "EVGR"
+      ],
       "address": null,
       "buildingNumber": null,
       "coordinates": {
@@ -13422,11 +13857,359 @@
       "entrances": []
     },
     {
+      "id": "gilbert",
+      "name": "Gilbert Biological Sciences Building",
+      "alternateNames": [
+        "Gilbert",
+        "Gilbert Biological Sciences",
+        "Charles H. Gilbert",
+        "Building 07-420"
+      ],
+      "address": "371 Serra Mall, Stanford, CA 94305",
+      "buildingNumber": "07-420",
+      "coordinates": {
+        "lat": 37.42594331333333,
+        "lon": -122.17252185999999
+      },
+      "entrances": [
+        {
+          "id": "main",
+          "direction": "west",
+          "name": "Main entrance",
+          "roadSidewalk": "Serra Mall",
+          "coordinates": {
+            "lat": 37.4262,
+            "lon": -122.1712
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "North-South Axis",
+              "near CoDa"
+            ],
+            "establishmentsInside": [
+              "Biology department"
+            ],
+            "nextToBuilding": "CoDa",
+            "acrossFromBuilding": "Gates Building",
+            "notes": "Biological Sciences; across from Gates."
+          },
+          "landmarkKeywords": [
+            "gilbert",
+            "biology",
+            "stairs",
+            "gates",
+            "coda"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oval",
+      "name": "Stanford Oval",
+      "alternateNames": [
+        "The Oval",
+        "Oval",
+        "Stanford Oval",
+        "Stanford"
+      ],
+      "address": "Stanford Oval, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.42751395384615,
+        "lon": -122.16648056923077
+      },
+      "entrances": [
+        {
+          "id": "main",
+          "direction": null,
+          "name": "Oval (general)",
+          "roadSidewalk": "Serra Mall / Palm Drive",
+          "coordinates": {
+            "lat": 37.427,
+            "lon": -122.169
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Palm Drive",
+              "fountain",
+              "Memorial Church view"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Memorial Church",
+            "acrossFromBuilding": "CoDa",
+            "notes": "Central landmark; use for dropoff near Memorial Church or CoDa east side."
+          },
+          "landmarkKeywords": [
+            "oval",
+            "palm",
+            "fountain",
+            "memorial church"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wallenberg",
+      "name": "Wallenberg Hall",
+      "alternateNames": [
+        "Wallenberg",
+        "160",
+        "Bldg 01-160",
+        "Building 160"
+      ],
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "buildingNumber": "01-160",
+      "coordinates": {
+        "lat": 37.427091142857144,
+        "lon": -122.17288528571429
+      },
+      "entrances": [
+        {
+          "id": "main",
+          "direction": "south",
+          "name": "Main entrance",
+          "roadSidewalk": "Jane Stanford Way",
+          "coordinates": {
+            "lat": 37.4278,
+            "lon": -122.173
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Main Quad"
+            ],
+            "establishmentsInside": [
+              "Classrooms",
+              "Learning spaces"
+            ],
+            "nextToBuilding": "McLatchy Hall",
+            "acrossFromBuilding": "Memorial Court",
+            "notes": "South side of Main Quad; main accessible entrance."
+          },
+          "landmarkKeywords": [
+            "main",
+            "quad",
+            "main quad",
+            "160"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mclatchy",
+      "name": "McLatchy Hall",
+      "alternateNames": [
+        "McLatchy",
+        "McLatchy Hall",
+        "Bldg 01-120",
+        "Building 120"
+      ],
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "buildingNumber": "01-120",
+      "coordinates": {
+        "lat": 37.42851085555555,
+        "lon": -122.17255522777776
+      },
+      "entrances": [
+        {
+          "id": "main",
+          "direction": "south",
+          "name": "Main entrance",
+          "roadSidewalk": "Jane Stanford Way",
+          "coordinates": {
+            "lat": 37.4279,
+            "lon": -122.173
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Main Quad"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Wallenberg Hall",
+            "acrossFromBuilding": "Memorial Court",
+            "notes": "Main Quad; next to Wallenberg."
+          },
+          "landmarkKeywords": [
+            "mclatchy",
+            "main quad",
+            "wallenberg"
+          ]
+        },
+        {
+          "id": "olives",
+          "direction": null,
+          "name": "Olive's entrance",
+          "roadSidewalk": null,
+          "coordinates": {
+            "lat": 37.4284,
+            "lon": -122.1726
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Olive's"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": null,
+            "notes": "Olive's entrance to McLatchy Hall."
+          },
+          "landmarkKeywords": [
+            "olive",
+            "olives",
+            "olive's",
+            "olives entrance"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coda",
+      "name": "Computing and Data Science",
+      "alternateNames": [
+        "CoDa",
+        "Computing and Data Science building",
+        "385 Serra",
+        "CDS",
+        "Computing"
+      ],
+      "address": "385 Serra Mall, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.426683399999995,
+        "lon": -122.16961158
+      },
+      "entrances": [
+        {
+          "id": "north-1",
+          "direction": "north",
+          "name": "North entrance",
+          "roadSidewalk": "Serra Mall",
+          "coordinates": {
+            "lat": 37.43,
+            "lon": -122.1675
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Blend (eatery)",
+              "near chemistry building",
+              "Voyager"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Gilbert",
+            "acrossFromBuilding": null,
+            "notes": "Main north-facing entrance; near Blend café and bike racks."
+          },
+          "landmarkKeywords": [
+            "blend",
+            "chemistry",
+            "north",
+            "coffee",
+            "voyager",
+            "bikes",
+            "bike racks"
+          ]
+        },
+        {
+          "id": "southwest-1",
+          "direction": "southwest",
+          "name": "Southwest entrance",
+          "roadSidewalk": "Serra Mall",
+          "coordinates": {
+            "lat": 37.4255,
+            "lon": -122.172
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": true,
+            "other": [
+              "Gilbert",
+              "stairs",
+              "fountain",
+              "gates"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Gilbert",
+            "acrossFromBuilding": "Gates",
+            "notes": "Near Gilbert Building, stairs, and fountain."
+          },
+          "landmarkKeywords": [
+            "stairs",
+            "fountain",
+            "gilbert",
+            "gates",
+            "southwest",
+            "basement"
+          ]
+        },
+        {
+          "id": "east-1",
+          "direction": "east",
+          "name": "East entrance",
+          "roadSidewalk": "Oval",
+          "coordinates": {
+            "lat": 37.429,
+            "lon": -122.1665
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Oval",
+              "bikes",
+              "main",
+              "Voyager",
+              "coffee"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": "Stanford Oval",
+            "notes": "Faces the Oval; bike racks and main pedestrian flow."
+          },
+          "landmarkKeywords": [
+            "oval",
+            "bikes",
+            "main",
+            "voyager",
+            "coffee",
+            "east"
+          ]
+        }
+      ]
+    },
+    {
       "id": "memorial-court",
       "name": "Memorial Court",
       "alternateNames": [
         "Memorial Court",
-        "Memorial Court yard"
+        "Memorial Court yard",
+        "Memorial"
       ],
       "address": "Memorial Court, Stanford, CA 94305",
       "buildingNumber": null,
