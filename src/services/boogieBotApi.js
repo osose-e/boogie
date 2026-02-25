@@ -176,12 +176,53 @@ function toDisplayLocation(resolved) {
 }
 
 /**
- * Check if user is confirming (e.g. "that's it", "no", "done", "yes", "correct").
+ * Static check if user is confirming (e.g. "that's it", "no", "done", "yes", "correct").
  */
 function isConfirmation(input) {
   const lower = (input || '').toLowerCase().trim();
-  const confirmWords = ["that's it", "that is it", "no", "done", "that's all", "that is all", "yes", "correct", "yep", "sounds good", "good", "perfect"];
+  const confirmWords = ["that's it", "that is it", "no", "done", "that's all", "that is all", "yes", "correct", "yep", "sounds good", "good", "perfect", "all set", "we're good", "we are good", "looks good", "that works", "all good"];
   return confirmWords.some((w) => lower === w || lower.startsWith(w + ' ') || lower.endsWith(' ' + w));
+}
+
+/**
+ * Check if user is confirming / done / "that's it" — uses OpenAI when API key is present
+ * to accept varied phrasing (e.g. "we're good", "all set", "looks good", "I'm done").
+ * Falls back to isConfirmation() when no key or on error.
+ * @param {string} input - User message
+ * @param {string} [apiKey] - OpenAI API key (optional)
+ * @returns {Promise<boolean>}
+ */
+async function checkConfirmation(input, apiKey) {
+  const trimmed = (input || '').trim();
+  if (!trimmed) return false;
+  if (!apiKey || trimmed.length > 200) return isConfirmation(input);
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'You decide if the user is confirming, saying they are done, or that there are no more changes (e.g. "that\'s it", "we\'re good", "all set", "looks good", "I\'m done", "no more", "that works"). Reply with only YES or NO.',
+          },
+          { role: 'user', content: trimmed },
+        ],
+        max_tokens: 5,
+        temperature: 0,
+      }),
+    });
+    if (!res.ok) return isConfirmation(input);
+    const data = await res.json();
+    const answer = (data?.choices?.[0]?.message?.content || '').trim().toUpperCase();
+    return answer.startsWith('YES');
+  } catch {
+    return isConfirmation(input);
+  }
 }
 
 /**
@@ -305,12 +346,13 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
 
   // ----- Pickup phase -----
   if (phase === 'pickup') {
-    if (isConfirmation(input) && resolvedPickup) {
+    const confirmingPickup = await checkConfirmation(input, options?.openAiApiKey);
+    if (confirmingPickup && resolvedPickup) {
       const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
       const fallback = `Got it, pickup at **${resolvedPickup.displayName}**. Where would you like to be dropped off? Name a building and I'll ask which entrance.`;
       return maybeOpenAIReply(nextState, fallback, [resolvedPickup.displayName], options, input);
     }
-    if (isCurrentLocation(input) || (isConfirmation(input) && !resolvedPickup)) {
+    if (isCurrentLocation(input) || (confirmingPickup && !resolvedPickup)) {
       resolvedPickup = resolveCurrentLocationAsPickup();
       const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
       const fallback = `Sounds good. I have your pickup as **${resolvedPickup.displayName}**. Where would you like to be dropped off? Name a building and I'll ask which entrance.`;
@@ -331,12 +373,13 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
 
   // ----- Dropoff phase -----
   if (phase === 'dropoff') {
-    if (isConfirmation(input) && resolvedDropoff) {
+    const confirmingDropoff = await checkConfirmation(input, options?.openAiApiKey);
+    if (confirmingDropoff && resolvedDropoff) {
       const nextState = { phase: 'done', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
       const fallback = "Great, I've got both your pickup and dropoff. Tap \"Continue to ride confirmation\" to complete your Boogie booking.";
       return maybeOpenAIReply(nextState, fallback, [], options, input);
     }
-    if (isConfirmation(input) && !resolvedDropoff) {
+    if (confirmingDropoff && !resolvedDropoff) {
       const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: null, pendingBuildingName: null };
       const fallback = "When you know your dropoff, name the building and I'll ask which entrance—e.g. \"CoDa\" or \"Memorial Church.\"";
       return maybeOpenAIReply(nextState, fallback, [], options, input);
