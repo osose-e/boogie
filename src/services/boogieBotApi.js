@@ -5,7 +5,7 @@
  */
 
 import { fetchStanfordCampusData, searchCampusLocation } from './overpassApi';
-import { searchCampusFromJson } from './campusDataLoader';
+import { searchCampusFromJson, getEntranceDescriptionsForBuilding, getLocationNamesForExtraction } from './campusDataLoader';
 import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 
 /** Extract text between ** for highlights. */
@@ -13,6 +13,46 @@ function extractHighlights(text) {
   if (!text || typeof text !== 'string') return [];
   const matches = text.match(/\*\*([^*]+)\*\*/g);
   return matches ? matches.map((m) => m.replace(/\*\*/g, '').trim()).filter(Boolean) : [];
+}
+
+/**
+ * Use OpenAI to extract the Stanford location/building phrase from a sentence
+ * (e.g. "I want to go to evgr a" → "evgr a"). Falls back to original input if no API key or on error.
+ * @param {string} userMessage - Raw user input
+ * @param {string} [apiKey] - OpenAI API key (optional)
+ * @param {string[]} [locationNames] - Known building/place names for reference (optional)
+ * @returns {Promise<string>} - Extracted phrase to use for resolveLocation, or original trimmed message
+ */
+async function extractLocationFromMessage(userMessage, apiKey, locationNames = []) {
+  const trimmed = (userMessage || '').trim();
+  if (!trimmed || !apiKey) return trimmed;
+  const names = locationNames.length ? locationNames : getLocationNamesForExtraction();
+  const nameList = names.slice(0, 150).join(', ');
+  const systemContent = `You extract the Stanford campus location from the user's message. Reply with ONLY the place/building name or phrase they mean—nothing else. No punctuation, no "the", no full sentence. Use a known name from the list if it matches, or the user's exact phrase (e.g. "evgr a", "EVGR A"). Known locations (partial): ${nameList}.`;
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemContent },
+          { role: 'user', content: trimmed },
+        ],
+        max_tokens: 30,
+        temperature: 0,
+      }),
+    });
+    if (!res.ok) return trimmed;
+    const data = await res.json();
+    const extracted = data?.choices?.[0]?.message?.content?.trim() || '';
+    return extracted || trimmed;
+  } catch {
+    return trimmed;
+  }
 }
 
 /**
@@ -34,8 +74,11 @@ async function generateBotReplyWithOpenAI(context, conversationHistory, userMess
   const pickupLandmark = resolvedPickup?.landmarkHint || null;
   const dropoffEntrance = resolvedDropoff?.entranceHint || null;
   const dropoffLandmark = resolvedDropoff?.landmarkHint || null;
+  const entranceDescriptions = context.entranceDescriptions || null;
   const entrancePrompt = awaitingEntrance && pendingBuildingName
-    ? `You are currently asking which entrance at ${pendingBuildingName}. Ask for the entrance (e.g. north entrance, by the bike racks, near the stairs, or main).`
+    ? (entranceDescriptions
+        ? `You are asking which entrance at ${pendingBuildingName}. Use our listed options (digestible): ${entranceDescriptions}. Invite the user to pick one of these or describe in their own words.`
+        : `You are currently asking which entrance at ${pendingBuildingName}. Ask for the entrance (e.g. north entrance, by the bike racks, near the stairs, or main).`)
     : '';
 
   const systemContent = `You are BoogieBot, a friendly assistant for the DisGo ride app at Stanford. You help users set their pickup and dropoff on campus. Be warm and concise (1-3 sentences). Use **bold** only for building or place names. Do not mention coordinates or raw addresses in the reply.
@@ -170,6 +213,9 @@ async function maybeOpenAIReply(state, fallbackMessage, fallbackHighlights, opti
     awaitingEntrance: state.awaitingEntrance ?? null,
     pendingBuildingName: state.pendingBuildingName ?? null,
     currentLocation: options?.currentLocation ?? null,
+    entranceDescriptions: (state.awaitingEntrance && state.pendingBuildingName)
+      ? getEntranceDescriptionsForBuilding(state.pendingBuildingName)
+      : null,
   };
   try {
     const { botMessage, highlights } = await generateBotReplyWithOpenAI(context, history, userMessage, apiKey);
@@ -229,7 +275,10 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
       return maybeOpenAIReply(nextState, fallback, [resolvedPickup.displayName], options, input);
     }
     const nextState = { phase: 'pickup', resolvedPickup, resolvedDropoff, awaitingEntrance: 'pickup', pendingBuildingName };
-    const fallback = `Which entrance at **${pendingBuildingName}**? You can say north entrance, by the bike racks, near the stairs, or main.`;
+    const entranceOpts = getEntranceDescriptionsForBuilding(pendingBuildingName);
+    const fallback = entranceOpts
+      ? `Which entrance at **${pendingBuildingName}**? We have: ${entranceOpts}.`
+      : `Which entrance at **${pendingBuildingName}**? You can say north entrance, by the bike racks, near the stairs, or main.`;
     return maybeOpenAIReply(nextState, fallback, [pendingBuildingName], options, input);
   }
 
@@ -247,7 +296,10 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
       return maybeOpenAIReply(nextState, fallback, [resolvedDropoff.displayName].filter(Boolean), options, input);
     }
     const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: 'dropoff', pendingBuildingName };
-    const fallback = `Which entrance at **${pendingBuildingName}**? Say north entrance, by the bike racks, near the stairs, or main.`;
+    const entranceOpts = getEntranceDescriptionsForBuilding(pendingBuildingName);
+    const fallback = entranceOpts
+      ? `Which entrance at **${pendingBuildingName}**? We have: ${entranceOpts}.`
+      : `Which entrance at **${pendingBuildingName}**? Say north entrance, by the bike racks, near the stairs, or main.`;
     return maybeOpenAIReply(nextState, fallback, [pendingBuildingName], options, input);
   }
 
@@ -264,7 +316,8 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
       const fallback = `Sounds good. I have your pickup as **${resolvedPickup.displayName}**. Where would you like to be dropped off? Name a building and I'll ask which entrance.`;
       return maybeOpenAIReply(nextState, fallback, [resolvedPickup.displayName], options, input);
     }
-    const pickupResolved = await resolveLocation(input);
+    const pickupPhrase = await extractLocationFromMessage(input, options?.openAiApiKey);
+    const pickupResolved = await resolveLocation(pickupPhrase);
     if (pickupResolved) {
       const buildingName = pickupResolved.name || resolvedPickup?.displayName || input;
       const nextState = { phase: 'pickup', resolvedPickup, resolvedDropoff, awaitingEntrance: 'pickup', pendingBuildingName: buildingName };
@@ -289,7 +342,8 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
       return maybeOpenAIReply(nextState, fallback, [], options, input);
     }
 
-    const dropoffResolved = await resolveLocation(input);
+    const dropoffPhrase = await extractLocationFromMessage(input, options?.openAiApiKey);
+    const dropoffResolved = await resolveLocation(dropoffPhrase);
     if (dropoffResolved) {
       const buildingName = dropoffResolved.name || resolvedDropoff?.displayName || input;
       const nextState = { phase: 'dropoff', resolvedPickup, resolvedDropoff, awaitingEntrance: 'dropoff', pendingBuildingName: buildingName };
