@@ -6,6 +6,8 @@ import HomeScreen from './src/screens/HomeScreen';
 import VoiceInputScreen from './src/screens/VoiceInputScreen';
 import RideRegistrationScreen from './src/screens/RideRegistrationScreen';
 import RideConfirmationScreen from './src/screens/RideConfirmationScreen';
+import SearchScreen from './src/screens/SearchScreen';
+import EntranceSelectScreen from './src/screens/EntranceSelectScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,8 @@ export default function App() {
         <Stack.Screen name="VoiceInput" component={VoiceInputScreen} />
         <Stack.Screen name="RideRegistration" component={RideRegistrationScreen} />
         <Stack.Screen name="RideConfirmation" component={RideConfirmationScreen} />
+        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="EntranceSelect" component={EntranceSelectScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,0 +1,16 @@
+{
+    "CoDa": {
+        "alternate names": ["Computational and Data Science Building"],
+        "entrances": {
+            "north entrance": 
+                {
+                    "features": ["bike racks", "oval"],
+                    "uniqueCode": "001"
+                },
+            "south entrance": {
+                "features": ["blend", "sapp"],
+                "uniqueCode": "002"
+            }
+        }
+    }
+}
