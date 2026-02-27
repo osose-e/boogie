@@ -114,7 +114,7 @@ const SearchScreen = ({ navigation, route }) => {
         >
           <TextInput
             ref={searchInputRef}
-            style={[styles.searchInput, { color: theme.colors.text }]}
+            style={[styles.searchInput]}
             placeholder="Find locations by name..."
             placeholderTextColor={colors.textSecondary}
             value={searchQuery}
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
   },
-  searchInput: { flex: 1, fontSize: 16,  },
+  searchInput: { flex: 1, fontSize: 16,  color: "#000000" },
   searchIcon: { fontSize: 20, marginLeft: 8 },
 
   helperText: { fontSize: 14, marginBottom: 12 },
