@@ -1,0 +1,574 @@
+{
+  "metadata": {
+    "description": "Stanford campus buildings with entrances and landmarks for Boogie/DisGo pickup and dropoff. Edit this file to add human context. Landmarks map to specific entrances.",
+    "source": "Web enhancement (named locations only)",
+    "generatedAt": "2026-02-24"
+  },
+  "buildings": [
+    {
+      "id": "tressider",
+      "name": "Tresidder Memorial Union",
+      "alternateNames": [
+        "Tressider",
+        "Tresidder",
+        "TMU",
+        "Tresidder Union",
+        "Memorial Union",
+        "Union",
+        "Building 02-300"
+      ],
+      "address": "459 Lagunita Drive, Stanford, CA 94305",
+      "buildingNumber": "02-300",
+      "coordinates": {
+        "lat": 37.426683399999995,
+        "lon": -122.16961158
+      },
+      "entrances": [
+        {
+          "id": "east-1",
+          "direction": "east",
+          "name": "East entrance (White Plaza)",
+          "roadSidewalk": "White Plaza / Lasuen Mall",
+          "coordinates": {
+            "lat": 37.4248,
+            "lon": -122.1698
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "White Plaza",
+              "food court"
+            ],
+            "establishmentsInside": [
+              "Panda Express",
+              "Jamba Juice",
+              "Wetzel's Pretzels",
+              "Decadence",
+              "Kikka Sushi",
+              "Campus Bike Shop",
+              "Stanford Hair",
+              "Package Center",
+              "Subway",
+              "Starbucks"
+            ],
+            "nextToBuilding": "Stanford Bookstore",
+            "acrossFromBuilding": "Dinkelspiel Auditorium",
+            "notes": "Main east entrance; bike racks and stairs; food court inside."
+          },
+          "landmarkKeywords": [
+            "white plaza",
+            "east",
+            "food",
+            "starbucks",
+            "bike racks",
+            "stairs"
+          ]
+        },
+        {
+          "id": "east-2",
+          "direction": "east",
+          "name": "East entrance (second)",
+          "roadSidewalk": "Lasuen Mall",
+          "coordinates": {
+            "lat": 37.4246,
+            "lon": -122.1702
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [],
+            "establishmentsInside": [],
+            "nextToBuilding": "Old Union",
+            "acrossFromBuilding": null,
+            "notes": "Bike racks, no stairs."
+          },
+          "landmarkKeywords": [
+            "east",
+            "bike racks"
+          ]
+        },
+        {
+          "id": "west-1",
+          "direction": "west",
+          "name": "West entrance",
+          "roadSidewalk": "Lagunita Drive",
+          "coordinates": {
+            "lat": 37.4244,
+            "lon": -122.1712
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": true,
+            "parkingLot": true,
+            "fountain": false,
+            "other": [
+              "Parking",
+              "Lagunita"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": null,
+            "notes": "Near parking; pedestrian walkway."
+          },
+          "landmarkKeywords": [
+            "west",
+            "parking",
+            "lagunita",
+            "stairs"
+          ]
+        }
+      ]
+    },    {
+      "id": "coda",
+      "name": "Computing and Data Science",
+      "alternateNames": [
+        "CoDa",
+        "Computing and Data Science building",
+        "385 Serra",
+        "CDS",
+        "Computing"
+      ],
+      "address": "385 Serra Mall, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.426683399999995,
+        "lon": -122.16961158
+      },
+      "entrances": [
+        {
+          "id": "north-1",
+          "direction": "north",
+          "name": "North entrance",
+          "roadSidewalk": "Serra Mall",
+          "coordinates": {
+            "lat": 37.43,
+            "lon": -122.1675
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Blend (eatery)",
+              "near chemistry building",
+              "Voyager"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Gilbert",
+            "acrossFromBuilding": null,
+            "notes": "Main north-facing entrance; near Blend café and bike racks."
+          },
+          "landmarkKeywords": [
+            "blend",
+            "chemistry",
+            "north",
+            "coffee",
+            "voyager",
+            "bikes",
+            "bike racks"
+          ]
+        },
+        {
+          "id": "southwest-1",
+          "direction": "southwest",
+          "name": "Southwest entrance",
+          "roadSidewalk": "Serra Mall",
+          "coordinates": {
+            "lat": 37.4255,
+            "lon": -122.172
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": true,
+            "other": [
+              "Gilbert",
+              "stairs",
+              "fountain",
+              "gates"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Gilbert",
+            "acrossFromBuilding": "Gates",
+            "notes": "Near Gilbert Building, stairs, and fountain."
+          },
+          "landmarkKeywords": [
+            "stairs",
+            "fountain",
+            "gilbert",
+            "gates",
+            "southwest",
+            "basement"
+          ]
+        },
+        {
+          "id": "east-1",
+          "direction": "east",
+          "name": "East entrance",
+          "roadSidewalk": "Oval",
+          "coordinates": {
+            "lat": 37.429,
+            "lon": -122.1665
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Oval",
+              "bikes",
+              "main",
+              "Voyager",
+              "coffee"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": "Stanford Oval",
+            "notes": "Faces the Oval; bike racks and main pedestrian flow."
+          },
+          "landmarkKeywords": [
+            "oval",
+            "bikes",
+            "main",
+            "voyager",
+            "coffee",
+            "east"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wallenberg",
+      "name": "Wallenberg Hall",
+      "alternateNames": [
+        "Wallenberg",
+        "160",
+        "Bldg 01-160",
+        "Building 160"
+      ],
+      "address": "450 Serra Mall, Stanford, CA 94305",
+      "buildingNumber": "01-160",
+      "coordinates": {
+        "lat": 37.427091142857144,
+        "lon": -122.17288528571429
+      },
+      "entrances": [
+        {
+          "id": "main",
+          "direction": "south",
+          "name": "Main entrance",
+          "roadSidewalk": "Jane Stanford Way",
+          "coordinates": {
+            "lat": 37.4278,
+            "lon": -122.173
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Main Quad"
+            ],
+            "establishmentsInside": [
+              "Classrooms",
+              "Learning spaces"
+            ],
+            "nextToBuilding": "McLatchy Hall",
+            "acrossFromBuilding": "Memorial Court",
+            "notes": "South side of Main Quad; main accessible entrance."
+          },
+          "landmarkKeywords": [
+            "main",
+            "quad",
+            "main quad",
+            "160"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oval",
+      "name": "Stanford Oval",
+      "alternateNames": [
+        "The Oval",
+        "Oval"
+      ],
+      "address": "Stanford Oval, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.42751395384615,
+        "lon": -122.16648056923077
+      },
+      "entrances": [
+        {
+          "id": "main",
+          "direction": null,
+          "name": "Oval (general)",
+          "roadSidewalk": "Serra Mall and Palm Drive",
+          "coordinates": {
+            "lat": 37.427,
+            "lon": -122.169
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": [
+              "Palm Drive",
+              "Memorial Church"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Memorial Church",
+            "acrossFromBuilding": "Lathrop",
+            "notes": "Central landmark; use for dropoff near Memorial Church or CoDa east side."
+          },
+          "landmarkKeywords": [
+            "oval",
+            "palm",
+            "fountain",
+            "memorial church"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arrillaga-outdoor-education-and-recreation-center",
+      "name": "Arrillaga Outdoor Education and Recreation Center",
+      "alternateNames": [
+        "Arrillaga",
+        "Farillaga",
+        "Farillaga gym"
+      ],
+      "address": "285 Santa Teresa Street, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.42680696,
+        "lon": -122.17754728
+      },
+      "entrances": []
+    },
+    {
+      "id": "lathrop",
+      "name": "Lathrop Library",
+      "alternateNames": [
+        "Lathrop",
+        "Tech Desk",
+        "East Asian Library"
+      ],
+      "address": "518 Memorial Way, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.42922349333333,
+        "lon": -122.16730948666668
+      },
+      "entrances": [
+        {
+          "id": "east",
+          "direction": "east",
+          "name": "East entrance",
+          "roadSidewalk": "Memorial Way",
+          "coordinates": {
+            "lat": 37.4292,
+            "lon": -122.1669
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Memorial Auditorium",
+              "MemAud"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": "Memorial Auditorium",
+            "notes": "East side of Lathrop Library; faces Memorial Auditorium."
+          },
+          "landmarkKeywords": [
+            "east",
+            "memorial auditorium",
+            "memaud",
+            "memorial way"
+          ]
+        },
+        {
+          "id": "west",
+          "direction": "west",
+          "name": "West entrance",
+          "roadSidewalk": null,
+          "coordinates": {
+            "lat": 37.4292,
+            "lon": -122.1677
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Main Quad"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": null,
+            "acrossFromBuilding": "Main Quad",
+            "notes": "West side of Lathrop Library; faces Main Quad."
+          },
+          "landmarkKeywords": [
+            "west",
+            "main quad",
+            "quad"
+          ]
+        },
+        {
+          "id": "littlefield-memaud-parking",
+          "direction": null,
+          "name": "Entrance near Littlefield and MemAud parking",
+          "roadSidewalk": null,
+          "coordinates": {
+            "lat": 37.4295,
+            "lon": -122.167
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": [
+              "Littlefield",
+              "MemAud parking"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Littlefield",
+            "acrossFromBuilding": null,
+            "notes": "Near Littlefield and the small MemAud parking lot."
+          },
+          "landmarkKeywords": [
+            "littlefield",
+            "memaud parking",
+            "memaud",
+            "parking",
+            "parking lot"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "green-library",
+      "name": "Cecil H Green Library",
+      "alternateNames": [
+        "Green",
+        "Green Library"
+      ],
+      "address": "557 Escondido Mall, Stanford, CA 94305",
+      "buildingNumber": null,
+      "coordinates": {
+        "lat": 37.42684426669496,
+        "lon": -122.16713049819217
+      },
+      "entrances": [
+        {
+          "id": "west-1",
+          "direction": "west",
+          "name": "West wing Entrance",
+          "roadSidewalk": "Lasuen Mall",
+          "coordinates": {
+            "lat": 37.427032837484, 
+            "lon": -122.16801006243055
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": true,
+            "other": [
+              "courtyard"
+            ],
+            "establishmentsInside": ["Bing Wing"],
+            "nextToBuilding": null,
+            "acrossFromBuilding": "Main Quad",
+            "notes": "West side of Green Library on Lasuen Mall; faces Main Quad"
+          },
+          "landmarkKeywords": [
+          ]
+        },
+        {
+          "id": "east wing entrance",
+          "direction": "south",
+          "name": "East Wing Entrance",
+          "roadSidewalk": null,
+          "coordinates": {
+            "lat": 37.4262255872341, 
+            "lon": -122.16699122628367
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": true,
+            "other": [
+              "Coupa",
+              "Coupa Cafe",
+              "East wing",
+              "Red fountain",
+              "Meyer Green"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Coupa",
+            "acrossFromBuilding": "Meyer Green",
+            "notes": "East wing entrance of Green Library near Coupa Cafe and Meyer Green; faces South."
+          },
+          "landmarkKeywords": [
+          ]
+        },
+        {
+          "id": "littlefield-memaud-parking",
+          "direction": null,
+          "name": "Entrance near Littlefield and MemAud parking",
+          "roadSidewalk": null,
+          "coordinates": {
+            "lat": 37.4295,
+            "lon": -122.167
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": [
+              "Littlefield",
+              "MemAud parking"
+            ],
+            "establishmentsInside": [],
+            "nextToBuilding": "Littlefield",
+            "acrossFromBuilding": null,
+            "notes": "Near Littlefield and the small MemAud parking lot."
+          },
+          "landmarkKeywords": [
+            "littlefield",
+            "memaud parking",
+            "memaud",
+            "parking",
+            "parking lot"
+          ]
+        }
+      ]
+    },
+
+
+
+
+
+
+  ]
+}
