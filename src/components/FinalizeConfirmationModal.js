@@ -9,9 +9,11 @@ import {
   findNodeHandle,
 } from 'react-native';
 import { colors } from '../styles/colors';
+import { useTheme } from '../contexts/ThemeContext';
 
 const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails }) => {
   const titleRef = useRef(null);
+  const { theme } = useTheme();
 
   // Keep your formatting helpers, but memoize the final strings so we can announce them nicely.
   const formatDate = (date) => {
@@ -79,9 +81,19 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
       presentationStyle="overFullScreen"
     >
       {/* Overlay should not be focusable */}
-      <View style={styles.overlay} accessible={false} importantForAccessibility="no">
+      <View
+        style={styles.overlay}
+        accessible={false}
+        importantForAccessibility="no"
+      >
         <View
-          style={styles.modalContainer}
+          style={[
+            styles.modalContainer,
+            {
+              backgroundColor: theme.colors.background,
+              borderColor: theme.colors.border,
+            },
+          ]}
           // These two are the “make it a real modal” flags for iOS VO
           accessibilityViewIsModal={true}
           importantForAccessibility="yes"
@@ -89,7 +101,11 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
           accessibilityLabel="Finalize booking"
         >
           <View style={styles.header}>
-            <Text ref={titleRef} style={styles.title} accessibilityRole="header">
+            <Text
+              ref={titleRef}
+              style={[styles.title, { color: theme.colors.text }]}
+              accessibilityRole="header"
+            >
               Finalize your booking?
             </Text>
 
@@ -101,7 +117,10 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
               style={styles.closeButton}
             >
               <Text
-                style={styles.closeButtonText}
+                style={[
+                  styles.closeButtonText,
+                  { color: theme.colors.primary },
+                ]}
                 accessibilityElementsHidden
                 importantForAccessibility="no"
               >
@@ -110,7 +129,9 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.subtitle}>
+          <Text
+            style={[styles.subtitle, { color: theme.colors.textSecondary }]}
+          >
             Here are the details of your ride:
           </Text>
 
@@ -122,34 +143,73 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
             accessibilityLabel={summary}
           >
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Pickup Date &amp; Time:</Text>
-              <Text style={styles.detailValue}>
-                {formatDate(rideDetails.pickupDate)} @ {formatTime(rideDetails.pickupTime)}
+              <Text style={[styles.detailLabel, { color: theme.colors.text }]}>
+                Pickup Date &amp; Time:
+              </Text>
+              <Text
+                style={[
+                  styles.detailValue,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                {formatDate(rideDetails.pickupDate)} @{" "}
+                {formatTime(rideDetails.pickupTime)}
               </Text>
             </View>
 
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Pickup Location:</Text>
-              <Text style={styles.detailValue}>{rideDetails.pickupLocation}</Text>
+              <Text style={[styles.detailLabel, { color: theme.colors.text }]}>
+                Pickup Location:
+              </Text>
+              <Text
+                style={[
+                  styles.detailValue,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                {rideDetails.pickupLocation}
+              </Text>
             </View>
 
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Dropoff Location:</Text>
-              <Text style={styles.detailValue}>
+              <Text style={[styles.detailLabel, { color: theme.colors.text }]}>
+                Dropoff Location:
+              </Text>
+              <Text
+                style={[
+                  styles.detailValue,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 {rideDetails.dropoffLocation}
-                {rideDetails.dropoffLocation && (rideDetails.dropoffLocation.includes('CoDa') || rideDetails.dropoffLocation.includes('Computing and Data Science')) && ' 📍(37.4300, -122.1675)'}
+                {rideDetails.dropoffLocation &&
+                  (rideDetails.dropoffLocation.includes("CoDa") ||
+                    rideDetails.dropoffLocation.includes(
+                      "Computing and Data Science",
+                    )) &&
+                  " 📍(37.4300, -122.1675)"}
               </Text>
             </View>
           </View>
 
           <TouchableOpacity
-            style={styles.confirmButton}
+            style={[
+              styles.confirmButton,
+              {
+                backgroundColor: theme.colors.background,
+                borderColor: theme.colors.border,
+              },
+            ]}
             onPress={onConfirm}
             accessibilityRole="button"
             accessibilityLabel="Complete booking"
             accessibilityHint="Finalizes your ride request"
           >
-            <Text style={styles.confirmButtonText}>Complete booking</Text>
+            <Text
+              style={[styles.confirmButtonText, { color: theme.colors.text }]}
+            >
+              Complete booking
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -166,13 +226,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContainer: {
-    backgroundColor: colors.background,
     borderRadius: 12,
     padding: 24,
     width: '100%',
     maxWidth: 400,
     borderWidth: 1,
-    borderColor: colors.border,
   },
   header: {
     flexDirection: 'row',
@@ -183,7 +241,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '600',
-    color: colors.text,
     flex: 1,
     paddingRight: 10,
   },
@@ -192,12 +249,10 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     fontSize: 24,
-    color: colors.textSecondary,
     fontWeight: '300',
   },
   subtitle: {
     fontSize: 16,
-    color: colors.textSecondary,
     marginBottom: 20,
   },
   detailsContainer: {
@@ -209,23 +264,20 @@ const styles = StyleSheet.create({
   detailLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: colors.text,
     marginBottom: 4,
   },
   detailValue: {
     fontSize: 16,
-    color: colors.textSecondary,
     lineHeight: 24,
   },
   confirmButton: {
-    backgroundColor: colors.text,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
+    borderWidth: 1,
     alignItems: 'center',
   },
   confirmButtonText: {
-    color: colors.secondary,
     fontSize: 16,
     fontWeight: '600',
   },
