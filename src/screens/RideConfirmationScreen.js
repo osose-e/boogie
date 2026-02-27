@@ -5,13 +5,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   TextInput,
   ScrollView,
   AccessibilityInfo,
   findNodeHandle,
   Keyboard,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles/colors';
 import { useTheme } from "../contexts/ThemeContext";
 
@@ -30,6 +30,7 @@ const RideConfirmationScreen = ({ navigation, route }) => {
   const [pickupTime, setPickupTime] = useState(initialPickupTime);
   const [needsWheelchair, setNeedsWheelchair] = useState(initialNeedsWheelchair);
   const [isEditing, setIsEditing] = useState(false);
+  const { theme } = useTheme();
 
   const handleSave = () => {
     setIsEditing(false);
@@ -69,11 +70,13 @@ const RideConfirmationScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text 
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <View style={[styles.header, { borderBottomColor: theme.colors.border }]}>
+        <Text
           ref={logoRef}
-          style={styles.logo} 
+          style={[styles.logo, { color: theme.colors.text }]}
           accessibilityRole="text"
           accessible={true}
           importantForAccessibility="yes"
@@ -82,29 +85,46 @@ const RideConfirmationScreen = ({ navigation, route }) => {
           boogie
         </Text>
         <TouchableOpacity
-          style={styles.editButton}
+          style={[
+            styles.editButton,
+            {
+              backgroundColor: theme.colors.backgroundLight,
+              borderColor: theme.colors.border,
+            },
+          ]}
           onPress={() => setIsEditing(!isEditing)}
           accessibilityRole="button"
-          accessibilityLabel={isEditing ? 'Cancel editing' : 'Edit ride details'}
+          accessibilityLabel={
+            isEditing ? "Cancel editing" : "Edit ride details"
+          }
         >
           <Text style={styles.editButtonText}>
-            {isEditing ? 'Cancel' : 'Edit'}
+            {isEditing ? "Cancel" : "Edit"}
           </Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView 
-        style={styles.content} 
+      <ScrollView
+        style={styles.content}
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
         onScrollBeginDrag={() => Keyboard.dismiss()}
       >
         <View style={styles.confirmationContainer}>
-          <Text style={styles.confirmationTitle} accessibilityRole="header">
+          <Text
+            style={[styles.confirmationTitle, { color: theme.colors.text }]}
+            accessibilityRole="header"
+          >
             Your ride is booked!
           </Text>
 
-          <View style={styles.detailsContainer} accessible={true}>
+          <View
+            style={[
+              styles.detailsContainer,
+              { backgroundColor: theme.colors.backgroundLight },
+            ]}
+            accessible={true}
+          >
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel} accessibilityRole="text">
                 Pickup Date & Time:
@@ -184,10 +204,14 @@ const RideConfirmationScreen = ({ navigation, route }) => {
                   onPress={() => setNeedsWheelchair(!needsWheelchair)}
                   accessibilityRole="switch"
                   accessibilityState={{ checked: needsWheelchair }}
-                  accessibilityLabel={needsWheelchair ? 'Wheelchair needed, double tap to disable' : 'Wheelchair not needed, double tap to enable'}
+                  accessibilityLabel={
+                    needsWheelchair
+                      ? "Wheelchair needed, double tap to disable"
+                      : "Wheelchair not needed, double tap to enable"
+                  }
                 >
                   <Text style={styles.wheelchairToggleText}>
-                    {needsWheelchair ? 'Yes ♿' : 'No'}
+                    {needsWheelchair ? "Yes ♿" : "No"}
                   </Text>
                 </TouchableOpacity>
               ) : needsWheelchair ? (
@@ -211,15 +235,28 @@ const RideConfirmationScreen = ({ navigation, route }) => {
         {isEditing && (
           <View style={styles.editActions}>
             <TouchableOpacity
-              style={styles.cancelButton}
+              style={[
+                styles.cancelButton,
+                {
+                  backgroundColor: theme.colors.background,
+                  borderColor: theme.colors.text,
+                },
+              ]}
               onPress={handleCancel}
               accessibilityRole="button"
               accessibilityLabel="Cancel editing"
             >
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+              <Text
+                style={[styles.cancelButtonText, { color: theme.colors.text }]}
+              >
+                Cancel
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.saveButton}
+              style={[
+                styles.saveButton,
+                { backgroundColor: theme.colors.primary },
+              ]}
               onPress={handleSave}
               accessibilityRole="button"
               accessibilityLabel="Save changes"
@@ -230,15 +267,17 @@ const RideConfirmationScreen = ({ navigation, route }) => {
         )}
 
         <TouchableOpacity
-          style={styles.actionButton}
+          style={[styles.actionButton, { backgroundColor: theme.colors.text }]}
           onPress={() => {
             // In a real app, this would navigate to "My Rides" screen
-            navigation.navigate('Home');
+            navigation.navigate("Home");
           }}
           accessibilityRole="button"
           accessibilityLabel="Go to My Rides"
         >
-          <Text style={styles.actionButtonText}>Go to My Rides →</Text>
+          <Text style={[styles.actionButtonText, { color: theme.colors.background }]}>
+            Go to My Rides →
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -248,34 +287,29 @@ const RideConfirmationScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
   },
   editButton: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 6,
-    backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
   },
   editButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.text,
   },
   logo: {
     fontSize: 24,
-    fontWeight: '600',
-    color: colors.text,
+    fontWeight: "600",
   },
   content: {
     flex: 1,
@@ -285,17 +319,15 @@ const styles = StyleSheet.create({
   },
   confirmationContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   confirmationTitle: {
     fontSize: 28,
-    fontWeight: '700',
-    color: colors.text,
+    fontWeight: "700",
     marginBottom: 32,
-    textAlign: 'center',
+    textAlign: "center",
   },
   detailsContainer: {
-    backgroundColor: colors.backgroundLight,
     borderRadius: 12,
     padding: 20,
   },
@@ -304,7 +336,7 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.text,
     marginBottom: 6,
   },
@@ -314,8 +346,8 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   wheelchairContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 8,
     paddingTop: 16,
     borderTopWidth: 1,
@@ -328,11 +360,11 @@ const styles = StyleSheet.create({
   wheelchairText: {
     fontSize: 16,
     color: colors.text,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   editRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
     marginTop: 4,
   },
@@ -360,7 +392,7 @@ const styles = StyleSheet.create({
   atSymbol: {
     fontSize: 16,
     color: colors.textSecondary,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   wheelchairToggle: {
     paddingVertical: 8,
@@ -370,15 +402,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     marginTop: 4,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   wheelchairToggleText: {
     fontSize: 16,
     color: colors.text,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   editActions: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
     marginTop: 20,
     marginBottom: 12,
@@ -388,41 +420,35 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
+    alignItems: "center",
   },
   cancelButtonText: {
-    color: colors.text,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   saveButton: {
     flex: 1,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
+    alignItems: "center",
   },
   saveButtonText: {
-    color: colors.secondary,
+    color: colors.dark.text,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   actionButton: {
-    backgroundColor: colors.text,
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
   },
   actionButtonText: {
-    color: colors.secondary,
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
 
