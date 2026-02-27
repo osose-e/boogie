@@ -6,15 +6,18 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   AccessibilityInfo,
   findNodeHandle,
   Keyboard,
+  Button,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles/colors';
+import { useTheme } from '../contexts/ThemeContext';
 
 const HomeScreen = ({ navigation }) => {
   const logoRef = useRef(null);
+  const { themeMode, toggleTheme, theme } = useTheme();
 
   // When app first opens, this is the initial screen — focus Boogie header after layout
   React.useEffect(() => {
@@ -49,12 +52,14 @@ const HomeScreen = ({ navigation }) => {
   const goToSearch = () => navigation.navigate('Search');
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       {/* HEADER */}
-      <View style={styles.header}>
+      <View style={[styles.header, { borderBottomColor: theme.colors.border }]}>
         <Text
           ref={logoRef}
-          style={styles.logo}
+          style={[styles.logo, { color: theme.colors.text }]}
           accessibilityRole="text"
           accessible={true}
           importantForAccessibility="yes"
@@ -62,6 +67,11 @@ const HomeScreen = ({ navigation }) => {
         >
           boogie
         </Text>
+        <Button
+          title={`Switch to ${themeMode === "light" ? "Dark" : "Light"} Mode`}
+          onPress={toggleTheme}
+          color={theme.colors.primary}
+        />
       </View>
 
       <ScrollView
@@ -70,16 +80,28 @@ const HomeScreen = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
         onScrollBeginDrag={() => Keyboard.dismiss()}
       >
-        <Text style={styles.title} accessibilityRole="header">
+        <Text
+          style={[styles.title, { color: theme.colors.text }]}
+          accessibilityRole="header"
+        >
           Book a ride
         </Text>
-        <Text style={styles.subtitle} accessibilityRole="text">
+        <Text
+          style={[styles.subtitle, { color: theme.colors.textSecondary }]}
+          accessibilityRole="text"
+        >
           Select one of the options below.
         </Text>
 
         <View style={styles.optionGroup}>
           <TouchableOpacity
-            style={styles.optionCard}
+            style={[
+              styles.optionCard,
+              {
+                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.backgroundLight,
+              },
+            ]}
             onPress={goToSearch}
             accessibilityRole="button"
             accessibilityLabel="Search locations"
@@ -92,7 +114,13 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.optionCard}
+            style={[
+              styles.optionCard,
+              {
+                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.backgroundLight,
+              },
+            ]}
             onPress={goToVoice}
             accessibilityRole="button"
             accessibilityLabel="Use voice assistant"
@@ -110,16 +138,15 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1 },
 
   header: {
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
   },
-  logo: { fontSize: 24, fontWeight: '600', color: colors.text },
+  logo: { fontSize: 24, fontWeight: '600' },
 
   content: { flex: 1 },
   contentContainer: { padding: 20 },
@@ -127,12 +154,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: colors.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: colors.textSecondary,
     marginBottom: 16,
   },
 
@@ -141,8 +166,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
   },
   optionTitle: {
     fontSize: 18,
