@@ -13,6 +13,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { colors } from '../styles/colors';
+import { useTheme } from "../contexts/ThemeContext";
 
 const RideConfirmationScreen = ({ navigation, route }) => {
   const {

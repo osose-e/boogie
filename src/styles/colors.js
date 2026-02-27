@@ -2,7 +2,7 @@ export const colors = {
   light: {
     primary: "#6366F1", // Purple/indigo for primary actions
     primaryDark: "#4F46E5",
-    secondary: "#FFFFFF",
+    secondary: "#b1b1b1",
     text: "#1F2937",
     textSecondary: "#6B7280",
     background: "#FFFFFF",
