@@ -5,12 +5,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   AccessibilityInfo,
   findNodeHandle,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles/colors';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import { useTheme } from "../contexts/ThemeContext";
 
 function getEntranceDescription(e) {
   const notes = e?.landmarks?.notes?.trim();
@@ -42,6 +43,7 @@ function getEntranceDescription(e) {
 const EntranceSelectScreen = ({ navigation, route }) => {
   const { building, mode = 'pickup', rideDraft = {} } = route?.params ?? {};
   const titleRef = useRef(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -170,9 +172,17 @@ const EntranceSelectScreen = ({ navigation, route }) => {
       : `For ${building?.name ?? 'this location'}. Choose where your driver should drop you off.`;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerRow}>
-        <Text ref={titleRef} style={styles.title} accessibilityRole="header">
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <View
+        style={[styles.headerRow, { borderBottomColor: theme.colors.border }]}
+      >
+        <Text
+          ref={titleRef}
+          style={[styles.title, { color: theme.colors.text }]}
+          accessibilityRole="header"
+        >
           {titleText}
         </Text>
 
@@ -182,34 +192,50 @@ const EntranceSelectScreen = ({ navigation, route }) => {
           accessibilityLabel="Back"
           accessibilityHint="Returns to the previous screen"
         >
-          <Text style={styles.backLink}>Back</Text>
+          <Text style={[styles.backLink, { color: theme.colors.primary }]}>
+            Back
+          </Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.subtitle} accessibilityRole="text">
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <Text
+          style={[styles.subtitle, { color: theme.colors.textSecondary }]}
+          accessibilityRole="text"
+        >
           {subtitleText}
         </Text>
 
         <View style={styles.optionGroup}>
           {entrances.map((e) => {
-            const entranceLabel = e?.name || 'Entrance';
+            const entranceLabel = e?.name || "Entrance";
             const desc = getEntranceDescription(e);
-            const direction = e?.direction ? `${e.direction} side. ` : '';
-            const a11yLabel = desc ? `${entranceLabel}. ${direction}${desc}` : `${entranceLabel}. ${direction}`.trim();
+            const direction = e?.direction ? `${e.direction} side. ` : "";
+            const a11yLabel = desc
+              ? `${entranceLabel}. ${direction}${desc}`
+              : `${entranceLabel}. ${direction}`.trim();
 
             return (
               <TouchableOpacity
                 key={e.id}
-                style={styles.optionCard}
+                style={[
+                  styles.optionCard,
+                  {
+                    borderColor: theme.colors.border,
+                    backgroundColor: theme.colors.backgroundLight,
+                  },
+                ]}
                 onPress={() => onPickEntrance(e)}
                 accessible
                 accessibilityRole="button"
                 accessibilityLabel={a11yLabel}
                 accessibilityHint={
-                  mode === 'pickup'
-                    ? 'Select this pickup entrance and then choose your dropoff.'
-                    : 'Select this dropoff entrance and continue to ride registration.'
+                  mode === "pickup"
+                    ? "Select this pickup entrance and then choose your dropoff."
+                    : "Select this dropoff entrance and continue to ride registration."
                 }
               >
                 <Text style={styles.optionTitle}>{entranceLabel}</Text>
@@ -220,14 +246,22 @@ const EntranceSelectScreen = ({ navigation, route }) => {
         </View>
 
         <TouchableOpacity
-          style={styles.helpBox}
+          style={[
+            styles.helpBox,
+            {
+              borderColor: theme.colors.border,
+              backgroundColor: theme.colors.backgroundLight,
+            },
+          ]}
           onPress={onChatbot}
           accessible
           accessibilityRole="button"
           accessibilityLabel="Having trouble selecting the entrance? Use our chatbot."
           accessibilityHint="Opens the chatbot to help you choose the correct entrance"
         >
-          <Text style={styles.helpText}>Having trouble selecting the entrance?</Text>
+          <Text style={styles.helpText}>
+            Having trouble selecting the entrance?
+          </Text>
           <Text style={styles.chatInlineText}>Use our chatbot</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -238,7 +272,7 @@ const EntranceSelectScreen = ({ navigation, route }) => {
 export default EntranceSelectScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1,  },
 
   headerRow: {
     flexDirection: 'row',
@@ -248,13 +282,12 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
   },
 
-  title: { fontSize: 18, fontWeight: '700', color: colors.text },
+  title: { fontSize: 18, fontWeight: '700', },
   backLink: {
     fontSize: 14,
-    color: colors.primary,
+
     textDecorationLine: 'underline',
     fontWeight: '600',
   },
@@ -262,15 +295,14 @@ const styles = StyleSheet.create({
   content: { flex: 1 },
   contentContainer: { padding: 20 },
 
-  subtitle: { fontSize: 16, color: colors.textSecondary, marginBottom: 16 },
+  subtitle: { fontSize: 16, marginBottom: 16 },
 
   optionGroup: { gap: 12 },
   optionCard: {
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
+
   },
   optionTitle: { fontSize: 16, fontWeight: '700', color: colors.text },
   optionSubtitle: {
@@ -285,14 +317,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
+
     gap: 10,
   },
   helpText: { fontSize: 14, color: colors.textSecondary },
   chatInlineText: {
     fontSize: 16,
     fontWeight: '700',
-    color: colors.primary,
+    color: colors.light.primary,
   },
 });
