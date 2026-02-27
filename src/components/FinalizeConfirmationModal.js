@@ -196,8 +196,8 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
             style={[
               styles.confirmButton,
               {
-                backgroundColor: theme.colors.background,
-                borderColor: theme.colors.border,
+                backgroundColor: theme.colors.text,
+                borderColor: theme.colors.text,
               },
             ]}
             onPress={onConfirm}
@@ -206,7 +206,7 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
             accessibilityHint="Finalizes your ride request"
           >
             <Text
-              style={[styles.confirmButtonText, { color: theme.colors.text }]}
+              style={[styles.confirmButtonText, { color: theme.colors.background }]}
             >
               Complete booking
             </Text>

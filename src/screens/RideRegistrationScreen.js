@@ -54,7 +54,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
   const handleCancel = () => {
     setShowCancelModal(false);
-    navigation.goBack();
+    navigation.navigate('Home');
   };
 
   const headerTitleRef = useRef(null);
