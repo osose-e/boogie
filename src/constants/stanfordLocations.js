@@ -52,7 +52,7 @@
 // src/constants/stanfordLocations.js
 // Adapter layer: take data/stanfordCampusData.json and expose a UI-friendly list.
 
-import campusData from '../data/stanfordCampusData.json';
+import campusData from '../data/stanfordCampusDataRevised.json';
 
 /**
  * Normalizes strings for search (lowercase, collapse whitespace).

@@ -21,7 +21,8 @@ import * as Location from 'expo-location';
 import { colors } from '../styles/colors';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import { getOpenAIApiKey } from '../config';
-import { getInitialBotMessage, processBoogieBotTurn } from '../services/boogieBotApi';
+import { getInitialBotMessage, getInitialTripRequest, tripRequestFromStructuredContext, processBoogieBotTurn } from '../services/boogieBotApi';
+import { resolveTripSlotToLocation } from '../services/campusDataLoader';
 
 const VoiceInputScreen = ({ navigation, route }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -36,45 +37,64 @@ const VoiceInputScreen = ({ navigation, route }) => {
   const conversationHeaderRef = useRef(null);
   const logoRef = useRef(null);
   const initializedRef = useRef(false);
-  const botStateRef = useRef({ phase: 'pickup', resolvedPickup: null, resolvedDropoff: null });
+  const botStateRef = useRef({
+    tripRequest: getInitialTripRequest(),
+    phase: 'pickup',
+    resolvedPickup: null,
+    resolvedDropoff: null,
+  });
   const [currentLocation, setCurrentLocation] = useState(null);
 
-  // for previous context
+  // for previous context (e.g. user came from Search → EntranceSelect → "Get help from BoogieBot")
   const seededOnceRef = useRef(false);
+  const structuredContextAppliedRef = useRef(false);
   const { seedMessage, structuredContext } = route?.params ?? {};
+
+  // Pre-fill trip request from search/entrance flow as soon as we have structuredContext (with or without seedMessage)
+  useEffect(() => {
+    if (!structuredContext || structuredContextAppliedRef.current) return;
+    structuredContextAppliedRef.current = true;
+    const defaultPickupLocation = {
+      displayText: DEFAULT_PICKUP_LOCATION.displayText,
+      displayName: DEFAULT_PICKUP_LOCATION.displayName,
+      coordinates: DEFAULT_PICKUP_LOCATION.coordinates,
+    };
+    const tripRequest = tripRequestFromStructuredContext(structuredContext);
+    botStateRef.current.tripRequest = tripRequest;
+    console.log('[BoogieBot] trip request updated (from search/entrance context):', JSON.stringify(tripRequest, null, 2));
+    botStateRef.current.phase = structuredContext.mode === 'dropoff' ? 'dropoff' : 'pickup';
+    const resolvedPickup = resolveTripSlotToLocation(tripRequest.pickup, {
+      currentLocation: currentLocation ?? undefined,
+      defaultPickupLocation,
+    });
+    const resolvedDropoff = resolveTripSlotToLocation(tripRequest.dropoff, {});
+    botStateRef.current.resolvedPickup = resolvedPickup;
+    botStateRef.current.resolvedDropoff = resolvedDropoff;
+    setResolvedPickup(resolvedPickup ?? null);
+    setResolvedDropoff(resolvedDropoff ?? null);
+  }, [structuredContext, currentLocation]);
+
   useEffect(() => {
     // Auto-seed only once per mount, only if we were navigated here with a seedMessage
     if (seededOnceRef.current) return;
     if (!seedMessage) return;
-  
+
     // Wait until we've put the initial bot message in the transcript
     if (!initializedRef.current || transcript.length === 0) return;
-  
+
     seededOnceRef.current = true;
-  
-    // OPTIONAL (but recommended): if we know we're helping with dropoff entrances,
-    // don't force the bot into pickup-first mode.
-    if (structuredContext?.mode === 'dropoff') {
-      botStateRef.current = {
-        ...botStateRef.current,
-        phase: 'dropoff',
-        resolvedPickup: botStateRef.current.resolvedPickup ?? structuredContext?.pickup ?? null,
-      };
-      setResolvedPickup((prev) => prev ?? structuredContext?.pickup ?? null);
-    }
-  
+
     // Add the seeded user message visibly
     addUserMessage(seedMessage);
-  
+
     // A11y: announce that we auto-sent context
     AccessibilityInfo.announceForAccessibility?.(
       `Sent to BoogieBot: ${seedMessage}`
     );
-  
-    // Actually send it
+
+    // Actually send it (AI will see the pre-filled tripRequest in state)
     processVoiceInput(seedMessage);
-  
-  }, [seedMessage, structuredContext, transcript.length]);
+  }, [seedMessage, transcript.length]);
 
   // Request location permission and get current position (foreground)
   useEffect(() => {
@@ -195,6 +215,9 @@ const VoiceInputScreen = ({ navigation, route }) => {
         conversationHistory,
       });
       botStateRef.current = result.state;
+      if (result.state.tripRequest != null) {
+        console.log('[BoogieBot] trip request updated (from conversation):', JSON.stringify(result.state.tripRequest, null, 2));
+      }
       setResolvedPickup(result.state.resolvedPickup ?? null);
       setResolvedDropoff(result.state.resolvedDropoff ?? null);
       addBotMessage(result.botMessage, result.highlights || []);
@@ -241,56 +264,6 @@ const VoiceInputScreen = ({ navigation, route }) => {
     addUserMessage(message);
     processVoiceInput(message);
     setManualInput('');
-  };
-
-  // Manual speech function - only called when user taps "Read Messages" button
-  const readAllMessages = async () => {
-    try {
-      if (transcript.length === 0) {
-        AccessibilityInfo.announceForAccessibility?.('No messages to read yet.');
-        return;
-      }
-
-      const isScreenReaderEnabled = await AccessibilityInfo.isScreenReaderEnabled();
-      
-      if (isScreenReaderEnabled) {
-        // Screen reader is active - announce each message sequentially
-        // Focus on first message, then announce all
-        if (transcript.length > 0) {
-          const firstMessageNode = findNodeHandle(messageRefs.current[transcript[0].timestamp]);
-          if (firstMessageNode) {
-            AccessibilityInfo.setAccessibilityFocus(firstMessageNode);
-          }
-        }
-        
-        // Announce all messages with pauses between them
-        transcript.forEach((msg, index) => {
-          setTimeout(() => {
-            const cleanText = (msg.text || '').replace(/\*\*/g, '');
-            const speaker = msg.type === 'user' ? 'You said' : 'BoogieBot said';
-            const announcement = `${speaker}: ${cleanText}`;
-            AccessibilityInfo.announceForAccessibility?.(announcement);
-          }, index * 2000); // 2 second delay between each message
-        });
-      } else {
-        // No screen reader - use TTS to read all messages
-        const allText = transcript.map(msg => {
-          const cleanText = (msg.text || '').replace(/\*\*/g, '');
-          const speaker = msg.type === 'user' ? 'You said' : 'BoogieBot said';
-          return `${speaker}: ${cleanText}`;
-        }).join('. ');
-        
-        Speech.speak(allText, {
-          language: 'en-US',
-          pitch: 1.0,
-          rate: 0.9,
-        });
-      }
-    } catch (error) {
-      console.error('Error reading messages:', error);
-      // Fallback: try to announce error
-      AccessibilityInfo.announceForAccessibility?.('Error reading messages. Please try again.');
-    }
   };
 
   const readLastMessage = async () => {
@@ -534,25 +507,14 @@ const VoiceInputScreen = ({ navigation, route }) => {
       {transcript.length > 0 && (
         <View style={styles.actionButtonsOuter} accessible={false} importantForAccessibility="no" collapsable={false}>
           <TouchableOpacity
-            style={styles.readButton}
-            onPress={readAllMessages}
-            accessible={true}
-            accessibilityRole="button"
-            accessibilityLabel={`Read all ${transcript.length} messages aloud`}
-            accessibilityHint="Double tap to hear each message in the conversation read aloud."
-            importantForAccessibility="yes"
-          >
-            <Text style={styles.readButtonText} accessibilityElementsHidden={true} importantForAccessibility="no">
-              🔊 Read Messages
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.primaryButton}
+            style={[styles.primaryButton, (!resolvedPickup || !resolvedDropoff) && styles.primaryButtonDisabled]}
             onPress={handleContinueToConfirmation}
+            disabled={!resolvedPickup || !resolvedDropoff}
             accessible={true}
             accessibilityRole="button"
             accessibilityLabel="Continue to ride confirmation"
-            accessibilityHint="Double tap to go to the next step and complete your ride booking."
+            accessibilityHint={resolvedPickup && resolvedDropoff ? "Double tap to go to the next step and complete your ride booking." : "Finish setting your pickup and dropoff locations to continue."}
+            accessibilityState={{ disabled: !resolvedPickup || !resolvedDropoff }}
             importantForAccessibility="yes"
           >
             <Text style={styles.primaryButtonText} accessibilityElementsHidden={true} importantForAccessibility="no">
@@ -781,24 +743,15 @@ const styles = StyleSheet.create({
     gap: 12,
     backgroundColor: colors.background,
   },
-  readButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  readButtonText: {
-    color: colors.secondary,
-    fontSize: 16,
-    fontWeight: '600',
-  },
   primaryButton: {
     backgroundColor: colors.text,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
     alignItems: 'center',
+  },
+  primaryButtonDisabled: {
+    opacity: 0.5,
   },
   primaryButtonText: {
     color: colors.secondary,

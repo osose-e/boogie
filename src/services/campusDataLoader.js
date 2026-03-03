@@ -9,7 +9,7 @@ let campusData = null;
 function getCampusJson() {
   if (campusData) return campusData;
   try {
-    campusData = require('../data/stanfordCampusData.json');
+    campusData = require('../data/stanfordCampusDataRevised.json');
     return campusData;
   } catch (e) {
     return null;
@@ -139,6 +139,109 @@ function findBuildingByName(buildingName) {
     if ((b.alternateNames || []).some((a) => a && (search.includes(a.toLowerCase()) || a.toLowerCase().includes(search)))) return b;
   }
   return null;
+}
+
+/**
+ * Find a building by id (from campus JSON).
+ */
+export function findBuildingById(buildingId) {
+  const data = getCampusJson();
+  if (!data?.buildings?.length || !buildingId) return null;
+  const id = (buildingId || '').toLowerCase().trim();
+  return data.buildings.find((b) => (b.id || '').toLowerCase() === id) || null;
+}
+
+/**
+ * Resolve trip request slot (pickup or dropoff) to a display location shape used by the app.
+ * Input: { buildingId?, buildingName?, entranceId?, entranceName?, isCurrentLocation? }
+ * Output: { displayText, displayName, coordinates?, entranceHint?, landmarkHint? } or null.
+ */
+export function resolveTripSlotToLocation(slot, options = {}) {
+  if (!slot) return null;
+  const { isCurrentLocation } = slot;
+  if (isCurrentLocation && options.currentLocation) {
+    const loc = options.currentLocation;
+    return {
+      displayText: loc.displayName || 'Current location',
+      displayName: loc.displayName || 'Current location',
+      coordinates: loc.latitude != null && loc.longitude != null ? { latitude: loc.latitude, longitude: loc.longitude } : null,
+      entranceHint: null,
+      landmarkHint: null,
+    };
+  }
+  if (isCurrentLocation) {
+    return options.defaultPickupLocation ? {
+      displayText: options.defaultPickupLocation.displayText,
+      displayName: options.defaultPickupLocation.displayName,
+      coordinates: options.defaultPickupLocation.coordinates || null,
+      entranceHint: null,
+      landmarkHint: null,
+    } : null;
+  }
+  const buildingId = slot.buildingId || null;
+  const buildingName = slot.buildingName || null;
+  const entranceId = slot.entranceId || null;
+  const entranceName = slot.entranceName || null;
+  const data = getCampusJson();
+  if (!data?.buildings?.length) return null;
+
+  let building = null;
+  if (buildingId) building = findBuildingById(buildingId);
+  if (!building && buildingName) building = findBuildingByName(buildingName);
+  if (!building) return null;
+
+  let entrance = null;
+  if (entranceId && building.entrances?.length) {
+    entrance = building.entrances.find((e) => (e.id || '').toLowerCase() === (entranceId || '').toLowerCase());
+  }
+  if (!entrance && (entranceName || entranceId) && building.entrances?.length) {
+    const search = (entranceName || entranceId || '').toLowerCase();
+    entrance = building.entrances.find(
+      (e) =>
+        (e.name || '').toLowerCase().includes(search) ||
+        (e.direction || '').toLowerCase().includes(search) ||
+        (e.id || '').toLowerCase().includes(search)
+    ) || building.entrances[0];
+  }
+  if (!entrance && building.entrances?.length) entrance = building.entrances[0];
+
+  const coords = entrance?.coordinates || building.coordinates;
+  const entranceNameResolved = entrance?.name || (entrance?.direction ? `${entrance.direction} entrance` : null);
+  const landmarkHint = entrance?.landmarks?.other?.[0] || (entrance?.landmarks?.bikeRacks ? 'bike racks' : null) || (entrance?.landmarks?.stairs ? 'stairs' : null);
+
+  return {
+    displayText: building.address || `${building.name}, Stanford, CA 94305`,
+    displayName: building.name,
+    coordinates: coords ? { latitude: coords.lat, longitude: coords.lon } : null,
+    entranceHint: entranceNameResolved || null,
+    landmarkHint: landmarkHint || null,
+  };
+}
+
+/**
+ * Build a condensed campus summary for the AI: buildings with id, name, alternateNames, address,
+ * and entrances with id, name, direction, landmarkKeywords. Used so the AI can deduce location
+ * and entrance from natural language without pre-cleaning.
+ * @returns {string} JSON string of { buildings: [...] } for inclusion in the prompt
+ */
+export function getCampusDataSummaryForPrompt() {
+  const data = getCampusJson();
+  if (!data?.buildings?.length) return '[]';
+  const buildings = data.buildings.map((b) => ({
+    id: b.id,
+    name: b.name,
+    alternateNames: b.alternateNames || [],
+    address: b.address,
+    entrances: (b.entrances || []).map((e) => ({
+      id: e.id,
+      name: e.name,
+      direction: e.direction,
+      landmarkKeywords: e.landmarkKeywords || [],
+      roadSidewalk: e.roadSidewalk,
+      notes: e.notes,
+    })),
+  }));
+  return JSON.stringify({ buildings }, null, 0).slice(0, 12000);
 }
 
 /**
