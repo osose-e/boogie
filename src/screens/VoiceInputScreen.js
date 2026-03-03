@@ -39,6 +39,43 @@ const VoiceInputScreen = ({ navigation, route }) => {
   const botStateRef = useRef({ phase: 'pickup', resolvedPickup: null, resolvedDropoff: null });
   const [currentLocation, setCurrentLocation] = useState(null);
 
+  // for previous context
+  const seededOnceRef = useRef(false);
+  const { seedMessage, structuredContext } = route?.params ?? {};
+  useEffect(() => {
+    // Auto-seed only once per mount, only if we were navigated here with a seedMessage
+    if (seededOnceRef.current) return;
+    if (!seedMessage) return;
+  
+    // Wait until we've put the initial bot message in the transcript
+    if (!initializedRef.current || transcript.length === 0) return;
+  
+    seededOnceRef.current = true;
+  
+    // OPTIONAL (but recommended): if we know we're helping with dropoff entrances,
+    // don't force the bot into pickup-first mode.
+    if (structuredContext?.mode === 'dropoff') {
+      botStateRef.current = {
+        ...botStateRef.current,
+        phase: 'dropoff',
+        resolvedPickup: botStateRef.current.resolvedPickup ?? structuredContext?.pickup ?? null,
+      };
+      setResolvedPickup((prev) => prev ?? structuredContext?.pickup ?? null);
+    }
+  
+    // Add the seeded user message visibly
+    addUserMessage(seedMessage);
+  
+    // A11y: announce that we auto-sent context
+    AccessibilityInfo.announceForAccessibility?.(
+      `Sent to BoogieBot: ${seedMessage}`
+    );
+  
+    // Actually send it
+    processVoiceInput(seedMessage);
+  
+  }, [seedMessage, structuredContext, transcript.length]);
+
   // Request location permission and get current position (foreground)
   useEffect(() => {
     let cancelled = false;

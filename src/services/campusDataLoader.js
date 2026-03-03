@@ -108,3 +108,61 @@ export function searchCampusFromJson(userInput) {
 export function hasCampusJson() {
   return !!getCampusJson()?.buildings?.length;
 }
+
+/**
+ * Return a list of known location names (building name + alternate names) for use in
+ * extraction prompts (e.g. OpenAI). Used so we can extract "evgr a" from "I want to go to evgr a".
+ * @param {number} [maxNames] - Optional cap to avoid huge prompts (default 300).
+ * @returns {string[]}
+ */
+export function getLocationNamesForExtraction(maxNames = 300) {
+  const data = getCampusJson();
+  if (!data?.buildings?.length) return [];
+  const names = new Set();
+  for (const b of data.buildings) {
+    if (b.name?.trim()) names.add(b.name.trim());
+    (b.alternateNames || []).forEach((a) => a?.trim() && names.add(a.trim()));
+  }
+  const list = Array.from(names);
+  return list.length <= maxNames ? list : list.slice(0, maxNames);
+}
+
+/**
+ * Find a building in the JSON by name or alternate name (case-insensitive, partial match).
+ */
+function findBuildingByName(buildingName) {
+  const data = getCampusJson();
+  if (!data?.buildings?.length || !buildingName) return null;
+  const search = (buildingName || '').toLowerCase().trim();
+  for (const b of data.buildings) {
+    if (b.name?.toLowerCase().includes(search) || search.includes(b.name?.toLowerCase())) return b;
+    if ((b.alternateNames || []).some((a) => a && (search.includes(a.toLowerCase()) || a.toLowerCase().includes(search)))) return b;
+  }
+  return null;
+}
+
+/**
+ * Get digestible descriptions of entrances for a building (for bot prompts).
+ * Returns a short string like "east (facing MemAud), west (Main Quad), or near Littlefield and MemAud parking"
+ * or null if building not found / no entrances.
+ */
+export function getEntranceDescriptionsForBuilding(buildingName) {
+  const building = findBuildingByName(buildingName);
+  if (!building?.entrances?.length) return null;
+  const parts = building.entrances.map((e) => {
+    const name = e.name || (e.direction ? `${e.direction} entrance` : null);
+    const hints = [];
+    if (e.landmarks?.other?.length) hints.push(e.landmarks.other[0]);
+    else if (e.landmarks?.bikeRacks) hints.push('bike racks');
+    else if (e.landmarks?.stairs) hints.push('stairs');
+    else if (e.landmarks?.parkingLot) hints.push('parking');
+    if (e.roadSidewalk) hints.push(e.roadSidewalk);
+    if (e.acrossFromBuilding) hints.push(`facing ${e.acrossFromBuilding}`);
+    if (e.nextToBuilding) hints.push(`near ${e.nextToBuilding}`);
+    const hint = hints.length ? ` (${hints.slice(0, 2).join(', ')})` : '';
+    return name ? `${name}${hint}` : hint ? hint.slice(2, -1) : null;
+  }).filter(Boolean);
+  if (!parts.length) return null;
+  if (parts.length === 1) return parts[0];
+  return parts.slice(0, -1).join(', ') + ', or ' + parts[parts.length - 1];
+}

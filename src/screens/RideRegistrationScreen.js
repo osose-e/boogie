@@ -109,7 +109,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
       >
         <View style={styles.currentLocationContainer}>
           <Text style={styles.currentLocationLabel} accessibilityRole="text">
-            {pickupLocation}
+            Your ride to {dropoffLocation}
           </Text>
         </View>
 
