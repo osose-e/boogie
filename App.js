@@ -26,7 +26,10 @@ export default function App() {
         <Stack.Screen name="RideRegistration" component={RideRegistrationScreen} />
         <Stack.Screen name="RideConfirmation" component={RideConfirmationScreen} />
         <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="EntranceSelect" component={EntranceSelectScreen} />
+        <Stack.Screen name="PickupEntranceSelect" component={EntranceSelectScreen} />
+        <Stack.Screen name="DropoffEntranceSelect" component={EntranceSelectScreen} />
+        <Stack.Screen name="PickupSearch" component={SearchScreen} />
+        <Stack.Screen name="DropoffSearch" component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

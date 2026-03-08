@@ -46,7 +46,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   const goToVoice = () => navigation.navigate('VoiceInput');
-  const goToSearch = () => navigation.navigate('Search');
+  const goToSearch = () => navigation.navigate('PickupSearch');
 
   return (
     <SafeAreaView style={styles.container}>
