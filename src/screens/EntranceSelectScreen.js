@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { colors } from '../styles/colors';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import RideBookingProgressBar from '../components/RideBookingProgressBar';
 
 function getEntranceDescription(e) {
   const notes = e?.landmarks?.notes?.trim();
@@ -186,6 +187,8 @@ const EntranceSelectScreen = ({ navigation, route }) => {
         </Text>
         <View style={styles.headerSpacer} />
       </View>
+
+      <RideBookingProgressBar completedSteps={mode === 'pickup' ? 1 : 2} />
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <Text style={styles.subtitle} accessibilityRole="text">
