@@ -21,7 +21,7 @@ import * as Location from 'expo-location';
 import { colors } from '../styles/colors';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import { getOpenAIApiKey } from '../config';
-import { getInitialBotMessage, getInitialTripRequest, tripRequestFromStructuredContext, processBoogieBotTurn } from '../services/boogieBotApi';
+import { getInitialBotMessage, getInitialTripRequest, tripRequestFromStructuredContext, isTripRequestFilled, processBoogieBotTurn } from '../services/boogieBotApi';
 import { resolveTripSlotToLocation } from '../services/campusDataLoader';
 
 const VoiceInputScreen = ({ navigation, route }) => {
@@ -37,6 +37,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
   const conversationHeaderRef = useRef(null);
   const logoRef = useRef(null);
   const initializedRef = useRef(false);
+  const [tripRequest, setTripRequest] = useState(getInitialTripRequest());
   const botStateRef = useRef({
     tripRequest: getInitialTripRequest(),
     phase: 'pickup',
@@ -59,15 +60,16 @@ const VoiceInputScreen = ({ navigation, route }) => {
       displayName: DEFAULT_PICKUP_LOCATION.displayName,
       coordinates: DEFAULT_PICKUP_LOCATION.coordinates,
     };
-    const tripRequest = tripRequestFromStructuredContext(structuredContext);
-    botStateRef.current.tripRequest = tripRequest;
-    console.log('[BoogieBot] trip request updated (from search/entrance context):', JSON.stringify(tripRequest, null, 2));
+    const nextTripRequest = tripRequestFromStructuredContext(structuredContext);
+    botStateRef.current.tripRequest = nextTripRequest;
+    setTripRequest(nextTripRequest);
+    console.log('[BoogieBot] trip request updated (from search/entrance context):', JSON.stringify(nextTripRequest, null, 2));
     botStateRef.current.phase = structuredContext.mode === 'dropoff' ? 'dropoff' : 'pickup';
-    const resolvedPickup = resolveTripSlotToLocation(tripRequest.pickup, {
+    const resolvedPickup = resolveTripSlotToLocation(nextTripRequest.pickup, {
       currentLocation: currentLocation ?? undefined,
       defaultPickupLocation,
     });
-    const resolvedDropoff = resolveTripSlotToLocation(tripRequest.dropoff, {});
+    const resolvedDropoff = resolveTripSlotToLocation(nextTripRequest.dropoff, {});
     botStateRef.current.resolvedPickup = resolvedPickup;
     botStateRef.current.resolvedDropoff = resolvedDropoff;
     setResolvedPickup(resolvedPickup ?? null);
@@ -216,6 +218,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
       });
       botStateRef.current = result.state;
       if (result.state.tripRequest != null) {
+        setTripRequest(result.state.tripRequest);
         console.log('[BoogieBot] trip request updated (from conversation):', JSON.stringify(result.state.tripRequest, null, 2));
       }
       setResolvedPickup(result.state.resolvedPickup ?? null);
@@ -507,14 +510,14 @@ const VoiceInputScreen = ({ navigation, route }) => {
       {transcript.length > 0 && (
         <View style={styles.actionButtonsOuter} accessible={false} importantForAccessibility="no" collapsable={false}>
           <TouchableOpacity
-            style={[styles.primaryButton, (!resolvedPickup || !resolvedDropoff) && styles.primaryButtonDisabled]}
+            style={[styles.primaryButton, !isTripRequestFilled(tripRequest) && styles.primaryButtonDisabled]}
             onPress={handleContinueToConfirmation}
-            disabled={!resolvedPickup || !resolvedDropoff}
+            disabled={!isTripRequestFilled(tripRequest)}
             accessible={true}
             accessibilityRole="button"
             accessibilityLabel="Continue to ride confirmation"
-            accessibilityHint={resolvedPickup && resolvedDropoff ? "Double tap to go to the next step and complete your ride booking." : "Finish setting your pickup and dropoff locations to continue."}
-            accessibilityState={{ disabled: !resolvedPickup || !resolvedDropoff }}
+            accessibilityHint={isTripRequestFilled(tripRequest) ? "Double tap to go to the next step and complete your ride booking." : "Finish setting your pickup and dropoff locations (including entrances) to continue."}
+            accessibilityState={{ disabled: !isTripRequestFilled(tripRequest) }}
             importantForAccessibility="yes"
           >
             <Text style={styles.primaryButtonText} accessibilityElementsHidden={true} importantForAccessibility="no">

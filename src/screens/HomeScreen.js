@@ -95,12 +95,12 @@ const HomeScreen = ({ navigation }) => {
             style={styles.optionCard}
             onPress={goToVoice}
             accessibilityRole="button"
-            accessibilityLabel="Use voice assistant"
-            accessibilityHint="Opens a voice assistant to choose your destination"
+            accessibilityLabel="Use digitial dispatcher"
+            accessibilityHint="Opens a chatbot to help you quickly book a ride"
           >
-            <Text style={styles.optionTitle}>Use voice assistant</Text>
+            <Text style={styles.optionTitle}>Use BoogieBot Assistant</Text>
             <Text style={styles.optionDescription}>
-              Speak your destination instead of browsing.
+              Chat with BoogieBot to book a ride instead of browsing.
             </Text>
           </TouchableOpacity>
         </View>

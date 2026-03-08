@@ -112,8 +112,8 @@ const EntranceSelectScreen = ({ navigation, route }) => {
   
     const seedMessage =
       mode === 'pickup'
-        ? `I want to be picked up at ${buildingName}, but I'm not sure which entrance to choose.`
-        : `I want to be dropped off at ${buildingName}. My pickup is ${pickupName} at ${pickupEntranceName}. I'm not sure which dropoff entrance to choose.`;
+        ? `I want to be picked up at ${buildingName}, but I'm not sure which entrance to choose. Please describe the availble entrances and their landmarks.`
+        : `I want to be dropped off at ${buildingName}. My pickup is ${pickupName} at ${pickupEntranceName}. I'm not sure which dropoff entrance to choose. Please describe the availble entrances and their landmarks.`;
   
     navigation.navigate('VoiceInput', {
       // keep your existing params
@@ -172,18 +172,19 @@ const EntranceSelectScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerRow}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          accessibilityHint="Returns to the previous screen"
+        >
+          <Text style={styles.backIcon}>‹</Text>
+        </TouchableOpacity>
         <Text ref={titleRef} style={styles.title} accessibilityRole="header">
           {titleText}
         </Text>
-
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Back"
-          accessibilityHint="Returns to the previous screen"
-        >
-          <Text style={styles.backLink}>Back</Text>
-        </TouchableOpacity>
+        <View style={styles.headerSpacer} />
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
@@ -242,22 +243,25 @@ const styles = StyleSheet.create({
 
   headerRow: {
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 10,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-
-  title: { fontSize: 18, fontWeight: '700', color: colors.text },
-  backLink: {
-    fontSize: 14,
-    color: colors.primary,
-    textDecorationLine: 'underline',
-    fontWeight: '600',
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
+  backIcon: {
+    fontSize: 32,
+    color: colors.text,
+  },
+  title: { fontSize: 18, fontWeight: '700', color: colors.text, flex: 1, textAlign: 'center' },
+  headerSpacer: { width: 40 },
 
   content: { flex: 1 },
   contentContainer: { padding: 20 },
