@@ -62,7 +62,7 @@ const EntranceSelectScreen = ({ navigation, route }) => {
       };
 
       // NOTE: If your navigator uses a different name than 'Search', change it here.
-      navigation.navigate('Search', {
+      navigation.navigate('DropoffSearch', {
         mode: 'dropoff',
         rideDraft: nextDraft,
       });
@@ -94,13 +94,6 @@ const EntranceSelectScreen = ({ navigation, route }) => {
     });
   };
 
-  // const onChatbot = () => {
-  //   navigation.navigate('VoiceInput', {
-  //     context: mode === 'pickup' ? 'pickup_entrance_help' : 'dropoff_entrance_help',
-  //     locationName: building?.name ?? '',
-  //     buildingId: building?.id ?? null,
-  //   });
-  // };
   const onChatbot = () => {
     const buildingName = building?.name ?? 'this location';
   
