@@ -684,7 +684,7 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
       coordinates: DEFAULT_PICKUP_LOCATION.coordinates,
     };
   }
-
+ 
   // ----- Deep link: user came from EntranceSelectScreen and needs entrance help -----
   // If the UI already knows which building + whether it's pickup/dropoff, jump straight into "awaiting entrance".
   if (

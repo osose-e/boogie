@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { colors } from '../styles/colors';
 import { STANFORD_LOCATIONS } from '../constants/stanfordLocations';
+import RideBookingProgressBar from '../components/RideBookingProgressBar';
 
 const SearchScreen = ({ navigation, route }) => {
   const mode = route?.params?.mode ?? 'pickup'; // 'pickup' | 'dropoff'
@@ -80,6 +81,8 @@ const SearchScreen = ({ navigation, route }) => {
         </Text>
         <View style={styles.headerSpacer} />
       </View>
+
+      <RideBookingProgressBar completedSteps={mode === 'pickup' ? 0 : 1} />
 
       <ScrollView
         style={styles.content}

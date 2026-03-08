@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,18 @@ import {
   ScrollView,
   SafeAreaView,
   Switch,
-  AccessibilityInfo,
-  findNodeHandle,
-  Keyboard,
 } from 'react-native';
 import { colors } from '../styles/colors';
-import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import RideBookingProgressBar from '../components/RideBookingProgressBar';
 import CancelConfirmationModal from '../components/CancelConfirmationModal';
 import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
 
 const RideRegistrationScreen = ({ navigation, route }) => {
   const {
-    pickupLocation = DEFAULT_PICKUP_LOCATION.displayText,
+    pickupLocation = '518 Memorial Way, Stanford, CA 94305',
     dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
+    dropoffLocationName,
+    dropoffEntranceDescriptor,
   } = route.params || {};
 
   const [pickupTime, setPickupTime] = useState('later'); // 'now' or 'later'
@@ -44,6 +43,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
     navigation.navigate('RideConfirmation', {
       pickupLocation,
       dropoffLocation,
+      dropoffLocationName,
+      dropoffEntranceDescriptor,
       pickupDate: confirmationDate,
       pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
       needsWheelchair,
@@ -54,29 +55,6 @@ const RideRegistrationScreen = ({ navigation, route }) => {
     setShowCancelModal(false);
     navigation.goBack();
   };
-
-  const headerTitleRef = useRef(null);
-
-  // Focus on header title when screen loads
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(headerTitleRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  // Dismiss keyboard when tapping outside
-  useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      Keyboard.dismiss();
-    });
-    return () => {
-      keyboardDidHideListener.remove();
-    };
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -89,27 +67,18 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         >
           <Text style={styles.backIcon}>‹</Text>
         </TouchableOpacity>
-        <Text 
-          ref={headerTitleRef}
-          style={styles.headerTitle} 
-          accessibilityRole="header"
-          accessible={true}
-          importantForAccessibility="yes"
-        >
+        <Text style={styles.headerTitle} accessibilityRole="header">
           Complete Ride Booking
         </Text>
         <View style={styles.headerSpacer} />
       </View>
 
-      <ScrollView 
-        style={styles.content} 
-        contentContainerStyle={styles.contentContainer}
-        keyboardShouldPersistTaps="handled"
-        onScrollBeginDrag={() => Keyboard.dismiss()}
-      >
+      <RideBookingProgressBar completedSteps={2} />
+
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.currentLocationContainer}>
           <Text style={styles.currentLocationLabel} accessibilityRole="text">
-            Your ride to {dropoffLocation}
+            Current location: {pickupLocation.substring(0, 40)}...
           </Text>
         </View>
 
@@ -197,6 +166,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
           </Text>
           <View style={styles.locationContainer}>
             <Text style={styles.locationText}>{pickupLocation}</Text>
+            <Text style={styles.editIcon}>✏️</Text>
           </View>
         </View>
 
@@ -206,6 +176,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
           </Text>
           <View style={styles.locationContainer}>
             <Text style={styles.locationText}>{dropoffLocation}</Text>
+            <Text style={styles.editIcon}>✏️</Text>
           </View>
         </View>
 
