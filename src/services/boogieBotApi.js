@@ -1,7 +1,8 @@
 /**
  * Boogie bot conversation API: resolves pickup and dropoff from natural language
- * using Stanford campus data. Optional OpenAI for natural replies; uses actual
- * current location when provided.
+ * using Stanford campus data. Uses an in-memory trip request object (pickup + entrance,
+ * dropoff + entrance) that the AI fills iteratively from the conversation. Campus data
+ * is passed to the AI so it can deduce location and entrance without pre-cleaning.
  */
 
 import { fetchStanfordCampusData, searchCampusLocation } from './overpassApi';
@@ -9,14 +10,247 @@ import {
   searchCampusFromJson,
   getEntranceDescriptionsForBuilding,
   getLocationNamesForExtraction,
+  getCampusDataSummaryForPrompt,
+  resolveTripSlotToLocation,
 } from './campusDataLoader';
 import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+
+/** Default trip request shape: pickup and dropoff each have building + entrance. */
+const EMPTY_SLOT = {
+  buildingId: null,
+  buildingName: null,
+  entranceId: null,
+  entranceName: null,
+};
+const EMPTY_PICKUP = { ...EMPTY_SLOT, isCurrentLocation: false };
+
+/**
+ * @returns Initial trip request object (pickup + dropoff slots, no pre-cleaning).
+ */
+export function getInitialTripRequest() {
+  return {
+    pickup: { ...EMPTY_PICKUP },
+    dropoff: { ...EMPTY_SLOT },
+  };
+}
+
+/**
+ * Build a trip request from navigation context when user comes from Search/EntranceSelect.
+ * Fills pickup and/or dropoff with building (+ entrance when available) so the chat starts pre-filled.
+ *
+ * @param {Object} structuredContext - From route.params when navigating to VoiceInput (e.g. from EntranceSelectScreen).
+ *   - mode: 'pickup' | 'dropoff'
+ *   - buildingId, buildingName: current screen's building (pickup building if mode is pickup, dropoff if mode is dropoff)
+ *   - pickup: { buildingId, buildingName, entranceId?, entranceName? } when mode is 'dropoff' (from rideDraft)
+ * @returns {Object} tripRequest in the same shape as getInitialTripRequest().
+ */
+export function tripRequestFromStructuredContext(structuredContext) {
+  const base = getInitialTripRequest();
+  if (!structuredContext || typeof structuredContext !== 'object') return base;
+
+  const mode = structuredContext.mode;
+  const buildingId = structuredContext.buildingId ?? null;
+  const buildingName = structuredContext.buildingName ?? null;
+  const pickupFromCtx = structuredContext.pickup;
+
+  if (mode === 'pickup') {
+    // User is on EntranceSelect for pickup: they already chose the pickup building (current screen), no entrance yet.
+    base.pickup = {
+      buildingId,
+      buildingName,
+      entranceId: null,
+      entranceName: null,
+      isCurrentLocation: false,
+    };
+    return base;
+  }
+
+  if (mode === 'dropoff') {
+    // User is on EntranceSelect for dropoff: we have pickup from rideDraft and dropoff building (current screen), no dropoff entrance yet.
+    if (pickupFromCtx && typeof pickupFromCtx === 'object') {
+      base.pickup = {
+        buildingId: pickupFromCtx.buildingId ?? null,
+        buildingName: pickupFromCtx.buildingName ?? null,
+        entranceId: pickupFromCtx.entranceId ?? null,
+        entranceName: pickupFromCtx.entranceName ?? null,
+        isCurrentLocation: false,
+      };
+    }
+    base.dropoff = {
+      buildingId,
+      buildingName,
+      entranceId: null,
+      entranceName: null,
+    };
+    return base;
+  }
+
+  return base;
+}
 
 /** Extract text between ** for highlights. */
 function extractHighlights(text) {
   if (!text || typeof text !== 'string') return [];
   const matches = text.match(/\*\*([^*]+)\*\*/g);
   return matches ? matches.map((m) => m.replace(/\*\*/g, '').trim()).filter(Boolean) : [];
+}
+
+const TRIP_JSON_MARKER = 'TRIP_REQUEST_JSON';
+
+/**
+ * Parse AI response: natural reply first, then optional TRIP_REQUEST_JSON {...}.
+ * @returns {{ botMessage: string, tripRequest: object | null }}
+ */
+function parseBotResponseWithTrip(content) {
+  const raw = (content || '').trim();
+  const idx = raw.indexOf(TRIP_JSON_MARKER);
+  let botMessage = raw;
+  let tripRequest = null;
+  if (idx !== -1) {
+    botMessage = raw.slice(0, idx).trim();
+    const after = raw.slice(idx + TRIP_JSON_MARKER.length).trim();
+    const jsonStart = after.search(/\{/);
+    if (jsonStart !== -1) {
+      let depth = 0;
+      let end = -1;
+      for (let i = jsonStart; i < after.length; i++) {
+        if (after[i] === '{') depth++;
+        else if (after[i] === '}') {
+          depth--;
+          if (depth === 0) {
+            end = i + 1;
+            break;
+          }
+        }
+      }
+      if (end !== -1) {
+        try {
+          tripRequest = JSON.parse(after.slice(jsonStart, end));
+        } catch (_) {}
+      }
+    }
+  }
+  return { botMessage, tripRequest };
+}
+
+/**
+ * Single OpenAI call: conversation + campus data + current tripRequest → natural reply + updated tripRequest.
+ * The AI deduces location and entrance from the user's message and fills the trip request object.
+ */
+async function processTurnWithTripRequest(tripRequest, conversationHistory, userMessage, options) {
+  const apiKey = options?.openAiApiKey;
+  const currentLocation = options?.currentLocation ?? null;
+  if (!apiKey) return null;
+
+  const campusSummary = getCampusDataSummaryForPrompt();
+  const currentTripStr = JSON.stringify(tripRequest);
+
+  const systemContent = `You are BoogieBot, a friendly assistant for the DisGo ride app at Stanford. You help users set their pickup and dropoff on campus.
+
+You have an in-memory "trip request" that you update from the conversation. The user may say anything: "pick me up at CoDa north entrance and drop me at Tressider by the bike racks", or give pickup and dropoff in separate messages, or correct one part. Deduce what they mean and update the trip request accordingly.
+
+Use this Stanford campus data to resolve building and entrance names and IDs. Match the user's words (e.g. "north entrance", "by the bike racks", "CoDa", "Tressider") to the correct building id and entrance id from the data.
+
+CRITICAL—ask for entrance when missing: Both pickup and dropoff must include an entrance when the building has multiple entrances in the campus data. If the user names only a building (e.g. "drop me at Tressider" or "pickup at CoDa") and you set buildingId/buildingName but entranceId/entranceName are still null, you MUST ask which entrance they want. For example: "Got it, dropoff at **Tressider**. Which entrance? We have the east entrance (White Plaza), the west entrance near parking, or you can say by the bike racks, near the stairs, etc." Do the same for pickup when pickup has a building but no entrance yet. Only say "Tap Continue to ride confirmation" when both pickup and dropoff have building and entrance (or the building has only one entrance).
+
+Campus data (buildings with id, name, alternateNames, address, entrances with id, name, direction, landmarkKeywords):
+${campusSummary}
+
+Current trip request (update this from the user's message):
+${currentTripStr}
+
+Rules:
+- You MUST write your reply to the user FIRST (1-3 sentences). Do not put ${TRIP_JSON_MARKER} before your reply—the user only sees the text that comes before that marker. So always start with a friendly message (e.g. "I've got pickup at **CoDa** at the north entrance and dropoff at **Tressider**. Say when you're ready to continue."), then put the JSON block after.
+- Reply in first person as BoogieBot. Be warm and concise. Use **bold** only for building or place names. Do not mention coordinates or raw addresses. Do not say "here is the updated trip request" or similar—instead confirm the actual locations in plain language.
+- If the user says "here", "current location", or "my location" for pickup, set pickup.isCurrentLocation to true and leave pickup.buildingId/buildingName null.
+- After your reply, on a new line write exactly: ${TRIP_JSON_MARKER}
+Then on the next line output a single JSON object with keys "pickup" and "dropoff". Each is an object with: buildingId (string or null), buildingName (string or null), entranceId (string or null), entranceName (string or null). For pickup only, include isCurrentLocation (boolean).
+Example format (reply first, then marker and JSON):
+I've set your pickup at **CoDa** at the **north entrance** and dropoff at **Tressider** at the east entrance. Tap "Continue to ride confirmation" when you're ready.
+
+${TRIP_JSON_MARKER}
+{"pickup":{"buildingId":"coda","buildingName":"Computing and Data Science","entranceId":"north-1","entranceName":"North entrance","isCurrentLocation":false},"dropoff":{"buildingId":"tressider","buildingName":"Tresidder Memorial Union","entranceId":"east-1","entranceName":"East entrance (White Plaza)"}}
+- Use building id and entrance id from the campus data when you match (e.g. "coda", "north-1"). Keep buildingName/entranceName human-readable.
+- Only change fields that the user has specified; leave existing resolved fields as-is if the user didn't mention them.
+- When dropoff has a building (buildingId/buildingName set) but entranceId/entranceName are null, your reply must ask which entrance at that building for dropoff. When pickup has a building but no entrance, ask which entrance for pickup. Use the campus data to list or suggest entrances (e.g. north entrance, east entrance, by the bike racks).`;
+
+  const messages = [
+    { role: 'system', content: systemContent },
+    ...conversationHistory.slice(-12).map((m) => ({ role: m.role, content: m.content })),
+    { role: 'user', content: userMessage },
+  ];
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      messages,
+      max_tokens: 400,
+      temperature: 0.5,
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`OpenAI API error: ${res.status} ${errText}`);
+  }
+
+  const data = await res.json();
+  const content = data?.choices?.[0]?.message?.content?.trim() || '';
+  const { botMessage, tripRequest: updatedTripRequest } = parseBotResponseWithTrip(content);
+
+  const normalizedTrip = normalizeTripRequest(updatedTripRequest || tripRequest);
+  console.log('[BoogieBot] trip request updated (AI turn):', JSON.stringify(normalizedTrip, null, 2));
+  const defaultPickup = {
+    displayText: DEFAULT_PICKUP_LOCATION.displayText,
+    displayName: DEFAULT_PICKUP_LOCATION.displayName,
+    coordinates: DEFAULT_PICKUP_LOCATION.coordinates,
+  };
+  const resolvedPickup = resolveTripSlotToLocation(normalizedTrip.pickup, {
+    currentLocation: currentLocation ?? undefined,
+    defaultPickupLocation: defaultPickup,
+  });
+  const resolvedDropoff = resolveTripSlotToLocation(normalizedTrip.dropoff, {});
+
+  const displayMessage =
+    (botMessage && botMessage.trim()) || "I've updated your trip. Tell me your pickup or dropoff if you'd like to change anything.";
+  return {
+    botMessage: displayMessage,
+    highlights: extractHighlights(displayMessage),
+    state: {
+      tripRequest: normalizedTrip,
+      resolvedPickup,
+      resolvedDropoff,
+      phase: resolvedPickup && resolvedDropoff ? 'done' : 'gathering',
+    },
+  };
+}
+
+/** Ensure trip request has required keys and slot shapes. */
+function normalizeTripRequest(tr) {
+  if (!tr || typeof tr !== 'object') return getInitialTripRequest();
+  const pickup = tr.pickup && typeof tr.pickup === 'object'
+    ? {
+        buildingId: tr.pickup.buildingId ?? null,
+        buildingName: tr.pickup.buildingName ?? null,
+        entranceId: tr.pickup.entranceId ?? null,
+        entranceName: tr.pickup.entranceName ?? null,
+        isCurrentLocation: !!tr.pickup.isCurrentLocation,
+      }
+    : { ...EMPTY_PICKUP };
+  const dropoff = tr.dropoff && typeof tr.dropoff === 'object'
+    ? {
+        buildingId: tr.dropoff.buildingId ?? null,
+        buildingName: tr.dropoff.buildingName ?? null,
+        entranceId: tr.dropoff.entranceId ?? null,
+        entranceName: tr.dropoff.entranceName ?? null,
+      }
+    : { ...EMPTY_SLOT };
+  return { pickup, dropoff };
 }
 
 /**
@@ -332,28 +566,40 @@ async function maybeOpenAIReply(state, fallbackMessage, fallbackHighlights, opti
 
 /**
  * Single turn: process user message and return bot reply and updated state.
- * State can include awaitingEntrance ('pickup'|'dropoff') and pendingBuildingName when we've accepted a place and are asking for entrance.
+ * When OpenAI API key is present, uses a single AI call with in-memory trip request object
+ * and campus data so the AI deduces location/entrance and fills the object (fluid conversation).
+ * Otherwise falls back to phase-based pickup → dropoff flow.
  *
- * @param {Object} state - { phase, resolvedPickup, resolvedDropoff, awaitingEntrance?, pendingBuildingName? }
+ * @param {Object} state - { tripRequest?, phase?, resolvedPickup?, resolvedDropoff?, awaitingEntrance?, pendingBuildingName? }
  * @param {string} userMessage - Raw user input
  * @param {{
  *   openAiApiKey?: string,
  *   currentLocation?: { latitude, longitude, displayName? },
  *   conversationHistory?: { role, content }[],
- *   navigationContext?: {
- *     screen?: string,
- *     intent?: string,
- *     mode?: 'pickup'|'dropoff',
- *     buildingId?: string|null,
- *     buildingName?: string,
- *     pickup?: { buildingId?: string|null, buildingName?: string, entranceId?: string|null, entranceName?: string } | null,
- *     entrances?: { id?: string|null, name?: string, direction?: string|null, description?: string|null }[]
- *   }
+ *   navigationContext?: object
  * }} options
  * @returns {Promise<{ botMessage: string, highlights?: string[], state: Object }>}
  */
 export async function processBoogieBotTurn(state, userMessage, options = {}) {
   const input = (userMessage || '').trim();
+  const apiKey = options?.openAiApiKey;
+  const conversationHistory = options?.conversationHistory ?? [];
+
+  // New flow: trip request object + single OpenAI call with campus data
+  if (apiKey) {
+    const tripRequest = state?.tripRequest ?? getInitialTripRequest();
+    try {
+      const result = await processTurnWithTripRequest(tripRequest, conversationHistory, input, {
+        openAiApiKey: apiKey,
+        currentLocation: options?.currentLocation ?? null,
+      });
+      if (result) return result;
+    } catch (err) {
+      console.warn('Trip-request AI turn failed, falling back to phase-based flow:', err?.message);
+    }
+  }
+
+  // Fallback: phase-based flow (no API key or AI failed)
   let phase = state?.phase ?? 'pickup';
   let resolvedPickup = state?.resolvedPickup ?? null;
   let resolvedDropoff = state?.resolvedDropoff ?? null;
@@ -553,9 +799,9 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
 }
 
 /**
- * Get the initial bot message for the conversation (asks about pickup first).
- * No coordinates in the message—keeps the conversation natural.
+ * Get the initial bot message for the conversation.
+ * Open-ended so the user can give pickup and dropoff in any order or in one go.
  */
 export function getInitialBotMessage() {
-  return `Hi, I'm BoogieBot. I'm here to help you book a DisGo ride. Where will you be getting picked up? You can say "here" or "current location," or name a building—and you can use **landmarks or nearby features** to describe the entrance (e.g. "north entrance," "by the bike racks," "near the stairs"). Same for dropoff.`;
+  return `Hi, I'm BoogieBot. I'm here to help you book a DisGo ride. Tell me where you'd like to be picked up and where you're going—you can say both at once (e.g. "Pick me up at **CoDa** at the north entrance and drop me at **Tressider** by the bike racks") or one at a time. You can use building names and **landmarks** like north entrance, by the bike racks, or near the stairs.`;
 }
