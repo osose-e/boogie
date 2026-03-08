@@ -73,7 +73,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         <View style={styles.headerSpacer} />
       </View>
 
-      <RideBookingProgressBar completedSteps={2} />
+      <RideBookingProgressBar key="ride-reg-5" completedSteps={5} />
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.currentLocationContainer}>

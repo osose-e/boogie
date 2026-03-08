@@ -100,7 +100,7 @@ const HomeScreen = ({ navigation }) => {
           >
             <Text style={styles.optionTitle}>Use BoogieBot Assistant</Text>
             <Text style={styles.optionDescription}>
-              Chat with BoogieBot to book a ride instead of browsing.
+              Chat with BoogieBot to book a ride.
             </Text>
           </TouchableOpacity>
         </View>
