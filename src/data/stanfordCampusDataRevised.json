@@ -119,7 +119,10 @@
             "west",
             "parking",
             "lagunita",
-            "stairs"
+            "stairs",
+            "CoHo",
+            "Package Center",
+            "Coffee house"
           ]
         }
       ]
@@ -263,7 +266,7 @@
       "entrances": [
         {
           "id": "main",
-          "direction": "south",
+          "direction": "north",
           "name": "Main entrance",
           "roadSidewalk": "Jane Stanford Way",
           "coordinates": {
@@ -291,6 +294,37 @@
             "quad",
             "main quad",
             "160"
+          ]
+        },
+        {
+          "id": "south",
+          "direction": "south",
+          "name": "Back entrance",
+          "roadSidewalk": "Within Main Quad",
+          "coordinates": {
+            "lat": 37.4278,
+            "lon": -122.173
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Main Quad"
+            ],
+            "establishmentsInside": [
+              "Classrooms",
+              "Learning spaces"
+            ],
+            "nextToBuilding": "McLatchy Hall",
+            "acrossFromBuilding": "Memorial Court",
+            "notes": "South side of Wallenberg; near Olive's."
+          },
+          "landmarkKeywords": [
+            "main quad",
+            "160",
+            "olives"
           ]
         }
       ]

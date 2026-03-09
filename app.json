@@ -19,6 +19,8 @@
       },
       "package": "com.boogie.app"
     },
-    "plugins": []
+    "plugins": [
+      "@react-native-community/datetimepicker"
+    ]
   }
 }

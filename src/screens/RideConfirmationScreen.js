@@ -11,8 +11,8 @@ import RideBookingProgressBar from '../components/RideBookingProgressBar';
 
 const RideConfirmationScreen = ({ navigation, route }) => {
   const {
-    pickupLocation = '518 Memorial Way, Stanford, CA 94305',
-    dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
+    pickupLocationName = '518 Memorial Way, Stanford, CA 94305',
+    dropoffLocationName = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
     pickupDate = 'Feb 15 (Today), 2026',
     pickupTime = '21:15',
     needsWheelchair = true,
@@ -49,7 +49,7 @@ const RideConfirmationScreen = ({ navigation, route }) => {
                 Pickup Location:
               </Text>
               <Text style={styles.detailValue} accessibilityRole="text">
-                {pickupLocation}
+                {pickupLocationName}
               </Text>
             </View>
 
@@ -58,7 +58,7 @@ const RideConfirmationScreen = ({ navigation, route }) => {
                 Dropoff Location:
               </Text>
               <Text style={styles.detailValue} accessibilityRole="text">
-                {dropoffLocation}
+                {dropoffLocationName}
               </Text>
             </View>
 
