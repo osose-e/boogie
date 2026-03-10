@@ -15,6 +15,7 @@
     "fix:building-numbers": "node scripts/fixBuildingNumbers.mjs"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "8.4.4",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
     "expo": "~54.0.0",

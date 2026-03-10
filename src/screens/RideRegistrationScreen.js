@@ -16,17 +16,33 @@ import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
 
 const RideRegistrationScreen = ({ navigation, route }) => {
   const {
+    pickupLocationName = '518 Memorial Way, Stanford, CA 94305',
+    dropoffLocationName = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
     pickupLocation = '518 Memorial Way, Stanford, CA 94305',
     dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
-    dropoffLocationName,
     dropoffEntranceDescriptor,
   } = route.params || {};
 
   const [pickupTime, setPickupTime] = useState('later'); // 'now' or 'later'
-  const [pickupDate, setPickupDate] = useState('Feb 15, 2026');
-  const [pickupTimeValue, setPickupTimeValue] = useState('21:15');
+  const now = new Date();
+
+  const [pickupDate, setPickupDate] = useState(
+    now.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    })
+  );
+  
+  const [pickupTimeValue, setPickupTimeValue] = useState(
+    now.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    })
+  );
   const [notes, setNotes] = useState('');
-  const [needsWheelchair, setNeedsWheelchair] = useState(true);
+  const [needsWheelchair, setNeedsWheelchair] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showFinalizeModal, setShowFinalizeModal] = useState(false);
@@ -44,6 +60,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
       pickupLocation,
       dropoffLocation,
       dropoffLocationName,
+      pickupLocationName,
       dropoffEntranceDescriptor,
       pickupDate: confirmationDate,
       pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
@@ -76,11 +93,6 @@ const RideRegistrationScreen = ({ navigation, route }) => {
       <RideBookingProgressBar key="ride-reg-5" completedSteps={5} />
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.currentLocationContainer}>
-          <Text style={styles.currentLocationLabel} accessibilityRole="text">
-            Current location: {pickupLocation.substring(0, 40)}...
-          </Text>
-        </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionLabel} accessibilityRole="text">
@@ -129,8 +141,10 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
           {pickupTime === 'later' && (
             <View style={styles.dateTimeContainer}>
-              <View style={styles.dateTimeRow}>
-                <Text style={styles.dateTimeLabel}>Date</Text>
+              <View style={styles.dateTimeColumn}>
+                <Text style={styles.dateTimeLabel}   accessible={false} 
+              importantForAccessibility="no"
+              accessibilityElementsHidden={true}>Date</Text>
                 <View style={styles.dateTimeInputContainer}>
                   <TextInput
                     style={styles.dateTimeInput}
@@ -139,11 +153,12 @@ const RideRegistrationScreen = ({ navigation, route }) => {
                     accessibilityLabel="Pickup date"
                     accessibilityRole="textbox"
                   />
-                  <Text style={styles.editIcon}>✏️</Text>
                 </View>
               </View>
-              <View style={styles.dateTimeRow}>
-                <Text style={styles.dateTimeLabel}>Time</Text>
+              <View style={styles.dateTimeColumn}>
+                <Text style={styles.dateTimeLabel}   accessible={false} 
+              importantForAccessibility="no"
+              accessibilityElementsHidden={true}>Time</Text>
                 <View style={styles.dateTimeInputContainer}>
                   <TextInput
                     style={styles.dateTimeInput}
@@ -153,7 +168,6 @@ const RideRegistrationScreen = ({ navigation, route }) => {
                     accessibilityLabel="Pickup time"
                     accessibilityRole="textbox"
                   />
-                  <Text style={styles.editIcon}>✏️</Text>
                 </View>
               </View>
             </View>
@@ -165,18 +179,17 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             Pickup Location
           </Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{pickupLocation}</Text>
-            <Text style={styles.editIcon}>✏️</Text>
+            <Text style={styles.locationText}>{pickupLocationName}</Text>
           </View>
         </View>
+
 
         <View style={styles.section}>
           <Text style={styles.sectionLabel} accessibilityRole="text">
             Dropoff Location
           </Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{dropoffLocation}</Text>
-            <Text style={styles.editIcon}>✏️</Text>
+            <Text style={styles.locationText}>{dropoffLocationName}</Text>
           </View>
         </View>
 
@@ -188,14 +201,16 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             style={styles.notesInput}
             value={notes}
             onChangeText={setNotes}
-            placeholder="Notes for the driver. (Optional, max. 100 char)"
+            placeholder="Notes for the driver. (Optional, max. 100 characters)"
             placeholderTextColor={colors.textSecondary}
             multiline
             maxLength={100}
-            accessibilityLabel="Notes for the driver, optional, maximum 100 characters"
             accessibilityRole="textbox"
           />
-          <Text style={styles.notesCounter}>
+          <Text style={styles.notesCounter} 
+              accessible={false} 
+              importantForAccessibility="no"
+              accessibilityElementsHidden={true}>
             {notes.length}/100
           </Text>
         </View>
@@ -265,8 +280,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         rideDetails={{
           pickupDate: pickupTime === 'now' ? new Date().toISOString() : pickupDate,
           pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
-          pickupLocation,
-          dropoffLocation,
+          pickupLocationName,
+          dropoffLocationName,
         }}
       />
     </SafeAreaView>
@@ -356,15 +371,20 @@ const styles = StyleSheet.create({
   },
   dateTimeContainer: {
     gap: 16,
-  },
-  dateTimeRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  dateTimeColumn: {
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'left',
   },
   dateTimeLabel: {
     fontSize: 14,
     color: colors.textSecondary,
+    importantForAccessibility: "no",
+    accessibilityElementsHidden: true,
+    accessible: false,
   },
   dateTimeInputContainer: {
     flexDirection: 'row',
