@@ -42,7 +42,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
     })
   );
   const [notes, setNotes] = useState('');
-  const [needsWheelchair, setNeedsWheelchair] = useState(true);
+  const [needsWheelchair, setNeedsWheelchair] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showFinalizeModal, setShowFinalizeModal] = useState(false);
