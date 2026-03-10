@@ -41,8 +41,12 @@ function getEntranceDescription(e) {
 }
 
 const EntranceSelectScreen = ({ navigation, route }) => {
-  const { building, mode = 'pickup', rideDraft = {} } = route?.params ?? {};
+  const routeName = route?.name ?? '';
+  const isPickupEntrance = routeName === 'PickupEntranceSelect';
+  const { building, rideDraft = {} } = route?.params ?? {};
+  const mode = route?.params?.mode ?? (isPickupEntrance ? 'pickup' : 'dropoff');
   const titleRef = useRef(null);
+  const progressStep = isPickupEntrance ? 2 : 4;
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -181,7 +185,7 @@ const EntranceSelectScreen = ({ navigation, route }) => {
         <View style={styles.headerSpacer} />
       </View>
 
-      <RideBookingProgressBar completedSteps={mode === 'pickup' ? 1 : 2} />
+      <RideBookingProgressBar key={`entrance-${progressStep}`} completedSteps={progressStep} />
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <Text style={styles.subtitle} accessibilityRole="text">

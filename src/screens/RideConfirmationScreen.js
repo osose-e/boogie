@@ -26,7 +26,7 @@ const RideConfirmationScreen = ({ navigation, route }) => {
         </Text>
       </View>
 
-      <RideBookingProgressBar completedSteps={3} />
+      <RideBookingProgressBar key="ride-conf-full" completedSteps={5} />
 
       <View style={styles.content}>
         <View style={styles.confirmationContainer}>

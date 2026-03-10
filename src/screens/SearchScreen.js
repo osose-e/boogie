@@ -16,8 +16,11 @@ import { STANFORD_LOCATIONS } from '../constants/stanfordLocations';
 import RideBookingProgressBar from '../components/RideBookingProgressBar';
 
 const SearchScreen = ({ navigation, route }) => {
-  const mode = route?.params?.mode ?? 'pickup'; // 'pickup' | 'dropoff'
+  const routeName = route?.name ?? '';
+  const isPickupSearch = routeName === 'PickupSearch';
+  const mode = route?.params?.mode ?? (isPickupSearch ? 'pickup' : 'dropoff');
   const rideDraft = route?.params?.rideDraft ?? {};
+  const progressStep = isPickupSearch ? 1 : 3;
 
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
@@ -49,6 +52,23 @@ const SearchScreen = ({ navigation, route }) => {
     return STANFORD_LOCATIONS.filter((item) => item.searchBlob.includes(q));
   }, [searchQuery]);
 
+  // CoDa building for "Current location" -> Computing and Data Science entrances screen
+  const codaLocation = STANFORD_LOCATIONS.find((loc) => loc.id === 'coda');
+  const codaBuilding = codaLocation?.building ?? null;
+
+  // Show "Current location" only when search is empty or query matches current-location terms (e.g. "coda", "current location").
+  // If the user types something else (e.g. "Tress"), do not show the Current location option.
+  const CURRENT_LOCATION_SEARCH_TERMS = ['current', 'location', 'coda', 'here', 'my location', 'default', 'computing', 'data science'];
+  const showCurrentLocationOption = useMemo(() => {
+    if (!isPickupSearch || !codaBuilding) return false;
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return true;
+    const matchesCurrentLocation = CURRENT_LOCATION_SEARCH_TERMS.some(
+      (term) => q.includes(term) || term.includes(q)
+    );
+    return matchesCurrentLocation;
+  }, [isPickupSearch, searchQuery, codaBuilding]);
+
   const headerText = mode === 'pickup' ? 'Choose pickup location' : 'Choose dropoff location';
   const navigateTo = mode === 'pickup' ? 'PickupEntranceSelect' : 'DropoffEntranceSelect';
   const hintText =
@@ -61,6 +81,15 @@ const SearchScreen = ({ navigation, route }) => {
       mode,
       rideDraft,
       building: item.building, // full building object from JSON
+    });
+  };
+
+  const handleCurrentLocationSelect = () => {
+    if (!codaBuilding) return;
+    navigation.navigate('PickupEntranceSelect', {
+      mode: 'pickup',
+      rideDraft: {},
+      building: codaBuilding,
     });
   };
 
@@ -82,7 +111,7 @@ const SearchScreen = ({ navigation, route }) => {
         <View style={styles.headerSpacer} />
       </View>
 
-      <RideBookingProgressBar completedSteps={mode === 'pickup' ? 0 : 1} />
+      <RideBookingProgressBar key={`search-${progressStep}`} completedSteps={progressStep} />
 
       <ScrollView
         style={styles.content}
@@ -111,10 +140,24 @@ const SearchScreen = ({ navigation, route }) => {
         </View>
 
         <Text style={styles.helperText} accessibilityRole="text">
-          Matching locations ({filteredLocations.length})
+          Matching locations ({showCurrentLocationOption ? filteredLocations.length + 1 : filteredLocations.length})
         </Text>
 
         <View style={styles.locationsList}>
+          {showCurrentLocationOption && (
+            <TouchableOpacity
+              style={styles.locationItem}
+              onPress={handleCurrentLocationSelect}
+              accessibilityRole="button"
+              accessibilityLabel="Current location"
+              accessibilityHint="Double tap to choose current location, then select an entrance at Computing and Data Science"
+            >
+              <Text style={styles.locationName}>Current Location</Text>
+              <Text style={styles.locationArrow} accessibilityElementsHidden importantForAccessibility="no">
+                ›
+              </Text>
+            </TouchableOpacity>
+          )}
           {filteredLocations.map((location) => (
             <TouchableOpacity
               key={location.id}
