@@ -2,15 +2,17 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../styles/colors';
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
 
 /**
  * Screen-reader accessible progress bar for the ride booking flow (search flow only).
- * When in focus, the screen reader announces: "Progress: Steps X/4 Completed".
- * @param {number} completedSteps - Number of steps completed (0 to 3). Steps: 1 Pickup, 2 Dropoff, 3 Ride details, 4 Confirm.
+ * Steps: 1 = pickup location, 2 = pickup entrance, 3 = dropoff location, 4 = dropoff entrance, 5 = ride details.
+ * After step 5 the bar stays full for RideConfirmation.
+ * When in focus, the screen reader announces: "Progress: Steps X/5 Completed".
+ * @param {number} completedSteps - Number of steps completed (1 to 5). Segments filled up to this value; 5 keeps bar full on later screens.
  */
-const RideBookingProgressBar = ({ completedSteps = 0 }) => {
-  const clamped = Math.max(0, Math.min(completedSteps, TOTAL_STEPS));
+const RideBookingProgressBar = ({ completedSteps = 1 }) => {
+  const clamped = Math.max(1, Math.min(completedSteps, TOTAL_STEPS));
   const label = `Progress: Steps ${clamped}/${TOTAL_STEPS} Completed`;
 
   return (
@@ -19,8 +21,8 @@ const RideBookingProgressBar = ({ completedSteps = 0 }) => {
       accessible={true}
       accessibilityRole="progressbar"
       accessibilityLabel={label}
-      accessibilityValue={{ min: 0, max: TOTAL_STEPS, now: clamped }}
-      accessibilityHint={`Step ${clamped + 1} of ${TOTAL_STEPS} in the ride booking process.`}
+      accessibilityValue={{ min: 1, max: TOTAL_STEPS, now: clamped }}
+      accessibilityHint={`Step ${clamped} of ${TOTAL_STEPS} in the ride booking process.`}
       importantForAccessibility="yes"
       focusable={true}
     >
