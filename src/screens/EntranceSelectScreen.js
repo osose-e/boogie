@@ -5,12 +5,17 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   AccessibilityInfo,
   findNodeHandle,
+  Image,
 } from 'react-native';
-import { colors } from '../styles/colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import StackHeader from '../components/StackHeader';
+import { LinearGradient } from 'expo-linear-gradient';
+import { entranceImages } from '../data/entranceImages';
 
 function getEntranceDescription(e) {
   const notes = e?.landmarks?.notes?.trim();
@@ -42,6 +47,7 @@ function getEntranceDescription(e) {
 const EntranceSelectScreen = ({ navigation, route }) => {
   const { building, mode = 'pickup', rideDraft = {} } = route?.params ?? {};
   const titleRef = useRef(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -163,15 +169,18 @@ const EntranceSelectScreen = ({ navigation, route }) => {
     });
   };
 
-  const titleText = mode === 'pickup' ? 'Choose a pickup entrance' : 'Choose a dropoff entrance';
+  const titleText = mode === 'pickup' ? 'Choose a Pickup Entrance' : 'Choose a Dropoff Entrance';
   const subtitleText =
     mode === 'pickup'
-      ? `For ${building?.name ?? 'this location'}. Choose where your driver should pick you up.`
-      : `For ${building?.name ?? 'this location'}. Choose where your driver should drop you off.`;
+      ? `${building?.name ?? 'this location'}`
+      : `${building?.name ?? 'this location'}`;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerRow}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <StackHeader title={titleText} ref={titleRef} />
+      {/* <View style={styles.headerRow}>
         <Text ref={titleRef} style={styles.title} accessibilityRole="header">
           {titleText}
         </Text>
@@ -184,51 +193,138 @@ const EntranceSelectScreen = ({ navigation, route }) => {
         >
           <Text style={styles.backLink}>Back</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.subtitle} accessibilityRole="text">
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <Text
+          style={[styles.subtitle, { color: theme.colors.body }]}
+          accessibilityRole="text"
+        >
           {subtitleText}
         </Text>
 
         <View style={styles.optionGroup}>
           {entrances.map((e) => {
-            const entranceLabel = e?.name || 'Entrance';
+            const entranceLabel = e?.name || "Entrance";
             const desc = getEntranceDescription(e);
-            const direction = e?.direction ? `${e.direction} side. ` : '';
-            const a11yLabel = desc ? `${entranceLabel}. ${direction}${desc}` : `${entranceLabel}. ${direction}`.trim();
+            const direction = e?.direction ? `${e.direction} side. ` : "";
+            const a11yLabel = desc
+              ? `${entranceLabel}. ${direction}${desc}`
+              : `${entranceLabel}. ${direction}`.trim();
+            const image = entranceImages[`${building.id}-${e.id}`]?.[0];
 
             return (
               <TouchableOpacity
                 key={e.id}
-                style={styles.optionCard}
+                style={[
+                  styles.optionCard,
+                  { borderBottomColor: theme.colors.separator },
+                ]}
                 onPress={() => onPickEntrance(e)}
                 accessible
                 accessibilityRole="button"
                 accessibilityLabel={a11yLabel}
                 accessibilityHint={
-                  mode === 'pickup'
-                    ? 'Select this pickup entrance and then choose your dropoff.'
-                    : 'Select this dropoff entrance and continue to ride registration.'
+                  mode === "pickup"
+                    ? "Select this pickup entrance and then choose your dropoff."
+                    : "Select this dropoff entrance and continue to ride registration."
                 }
               >
-                <Text style={styles.optionTitle}>{entranceLabel}</Text>
-                {!!desc && <Text style={styles.optionSubtitle}>{desc}</Text>}
+                {image && (
+                  <Image
+                    source={image}
+                    style={styles.entranceImage}
+                    accessibilityElementsHidden
+                    importantForAccessibility="no"
+                  />
+                )}
+                <View>
+                  <Text
+                    style={[styles.optionTitle, { color: theme.colors.body }]}
+                  >
+                    {entranceLabel}
+                  </Text>
+                  {!!desc && (
+                    <Text
+                      style={[
+                        styles.optionSubtitle,
+                        { color: theme.colors.body },
+                      ]}
+                    >
+                      {desc}
+                    </Text>
+                  )}
+                </View>
               </TouchableOpacity>
             );
           })}
+          {/* {entrances.map((e) => {
+            const entranceLabel = e?.name || "Entrance";
+            const desc = getEntranceDescription(e);
+            const direction = e?.direction ? `${e.direction} side. ` : "";
+            const a11yLabel = desc
+              ? `${entranceLabel}. ${direction}${desc}`
+              : `${entranceLabel}. ${direction}`.trim();
+
+            return (
+              <TouchableOpacity
+                key={e.id}
+                style={[
+                  styles.optionCard,
+                  { borderBottomColor: theme.colors.separator },
+                ]}
+                onPress={() => onPickEntrance(e)}
+                accessible
+                accessibilityRole="button"
+                accessibilityLabel={a11yLabel}
+                accessibilityHint={
+                  mode === "pickup"
+                    ? "Select this pickup entrance and then choose your dropoff."
+                    : "Select this dropoff entrance and continue to ride registration."
+                }
+              >
+                <Text
+                  style={[styles.optionTitle, { color: theme.colors.body }]}
+                >
+                  {entranceLabel}
+                </Text>
+                {!!desc && (
+                  <Text
+                    style={[
+                      styles.optionSubtitle,
+                      { color: theme.colors.body },
+                    ]}
+                  >
+                    {desc}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            );
+          })} */}
         </View>
 
         <TouchableOpacity
-          style={styles.helpBox}
+          // style={[styles.helpBox, { borderColor: theme.colors.border }]}
           onPress={onChatbot}
           accessible
           accessibilityRole="button"
-          accessibilityLabel="Having trouble selecting the entrance? Use our chatbot."
+          // accessibilityLabel="Having trouble selecting your entrance? Chat with BoogieBot."
           accessibilityHint="Opens the chatbot to help you choose the correct entrance"
         >
-          <Text style={styles.helpText}>Having trouble selecting the entrance?</Text>
-          <Text style={styles.chatInlineText}>Use our chatbot</Text>
+          <LinearGradient
+            colors={["#09A6B8", "#8A38F5", "#D32EC8", "#ACE347"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.helpBox}
+          >
+            <Text style={styles.helpText}>
+              Having trouble selecting your entrance?
+            </Text>
+            <Text style={styles.chatInlineText}>Chat with BoogieBot</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -238,61 +334,89 @@ const EntranceSelectScreen = ({ navigation, route }) => {
 export default EntranceSelectScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1 },
 
   headerRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    // borderBottomColor: colors.border,
   },
 
-  title: { fontSize: 18, fontWeight: '700', color: colors.text },
+  title: {
+    fontSize: 18,
+    fontWeight: "700",
+    // color: colors.text
+  },
   backLink: {
     fontSize: 14,
-    color: colors.primary,
-    textDecorationLine: 'underline',
-    fontWeight: '600',
+    // color: colors.primary,
+    textDecorationLine: "underline",
+    fontWeight: "600",
   },
 
   content: { flex: 1 },
   contentContainer: { padding: 20 },
 
-  subtitle: { fontSize: 16, color: colors.textSecondary, marginBottom: 16 },
-
-  optionGroup: { gap: 12 },
-  optionCard: {
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
+  subtitle: {
+    fontSize: theme.fontSizes.header3,
+    fontFamily: theme.fonts.header2,
+    // color: colors.textSecondary,
+    marginBottom: 16,
   },
-  optionTitle: { fontSize: 16, fontWeight: '700', color: colors.text },
+
+  optionGroup: { },
+  optionCard: {
+    // borderRadius: 12,
+    padding: 16,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    gap: theme.spacing.sm,
+    // borderWidth: 1,
+    // borderColor: colors.border,
+    // backgroundColor: colors.backgroundLight,
+  },
+  optionTitle: {
+    fontSize: theme.fontSizes.body,
+    fontFamily: theme.fonts.header2,
+    // color: colors.text
+  },
   optionSubtitle: {
     marginTop: 6,
     fontSize: 14,
-    color: colors.textSecondary,
+    fontFamily: theme.fonts.body,
+    // color: colors.textSecondary,
     lineHeight: 18,
+    width: "65%",
+  },
+  entranceImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+    marginRight: 12,
   },
 
   helpBox: {
     marginTop: 20,
     borderRadius: 12,
     padding: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
+    // borderColor: colors.border,
+    // backgroundColor: colors.backgroundLight,
     gap: 10,
   },
-  helpText: { fontSize: 14, color: colors.textSecondary },
+  helpText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.body,
+    color: theme.colors.dark.body,
+  },
   chatInlineText: {
     fontSize: 16,
-    fontWeight: '700',
-    color: colors.primary,
+    fontWeight: "700",
+    fontFamily: theme.fonts.header2,
+    color: theme.colors.dark.body,
   },
 });

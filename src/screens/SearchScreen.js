@@ -55,7 +55,7 @@ const SearchScreen = ({ navigation, route }) => {
     return STANFORD_LOCATIONS.filter((item) => item.searchBlob.includes(q));
   }, [searchQuery]);
 
-  const headerText = mode === 'pickup' ? 'Choose Pick-up Location' : 'Choose Drop-off Location';
+  const headerText = mode === 'pickup' ? 'Choose Pickup Location' : 'Choose Dropoff Location';
   const hintText =
     mode === 'pickup'
       ? 'Double tap to set as pickup location'

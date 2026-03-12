@@ -27,7 +27,7 @@
         {
           "id": "east-1",
           "direction": "east",
-          "name": "East entrance (White Plaza)",
+          "name": "East Entrance",
           "roadSidewalk": "Lasuen Mall",
           "coordinates": {
             "lat": 37.4246,
@@ -74,7 +74,7 @@
         {
           "id": "west-1",
           "direction": "west",
-          "name": "West entrance",
+          "name": "West Entrance",
           "roadSidewalk": "Lagunita Drive",
           "coordinates": {
             "lat": 37.4244,
@@ -123,7 +123,7 @@
         {
           "id": "north-1",
           "direction": "north",
-          "name": "North entrance",
+          "name": "North Entrance",
           "roadSidewalk": "Serra Mall",
           "coordinates": {
             "lat": 37.43,
@@ -154,7 +154,7 @@
         {
           "id": "southwest-1",
           "direction": "southwest",
-          "name": "Southwest entrance",
+          "name": "Southwest Entrance",
           "roadSidewalk": "Serra Mall",
           "coordinates": {
             "lat": 37.4255,
@@ -184,7 +184,7 @@
         {
           "id": "east-1",
           "direction": "east",
-          "name": "East entrance",
+          "name": "East Entrance",
           "roadSidewalk": "Oval",
           "coordinates": {
             "lat": 37.429,
@@ -232,7 +232,7 @@
         {
           "id": "main",
           "direction": "north",
-          "name": "Main entrance",
+          "name": "North Entrance",
           "roadSidewalk": "Jane Stanford Way",
           "coordinates": {
             "lat": 37.4278,
@@ -268,29 +268,6 @@
         "lon": -122.16648056923077
       },
       "entrances": [
-        {
-          "id": "main",
-          "direction": "south",
-          "name": "Oval (general)",
-          "roadSidewalk": "Serra Mall and Palm Drive",
-          "coordinates": {
-            "lat": 37.427,
-            "lon": -122.169
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": false,
-            "parkingLot": true,
-            "fountain": false,
-            "other": ["Palm Drive", "Memorial Church"],
-            "establishmentsInside": [],
-            "nextToBuilding": "Memorial Church",
-            "acrossFromBuilding": "Lathrop",
-            "notes": "Central landmark; use for dropoff near Memorial Church or CoDa east side."
-          },
-          "landmarkKeywords": ["oval", "palm", "fountain", "memorial church"],
-          "images": ["oval-south-1"]
-        }
       ]
     },
     {
@@ -327,7 +304,7 @@
         {
           "id": "east",
           "direction": "east",
-          "name": "East entrance",
+          "name": "East Entrance",
           "roadSidewalk": "Memorial Way",
           "coordinates": {
             "lat": 37.4292,
@@ -355,7 +332,7 @@
         {
           "id": "west",
           "direction": "west",
-          "name": "West entrance",
+          "name": "West Entrance",
           "roadSidewalk": null,
           "coordinates": {
             "lat": 37.4292,
@@ -378,7 +355,7 @@
         {
           "id": "littlefield-memaud-parking",
           "direction": null,
-          "name": "Entrance near Littlefield and MemAud parking",
+          "name": "North Entrance",
           "roadSidewalk": null,
           "coordinates": {
             "lat": 37.4295,
@@ -408,7 +385,7 @@
     },
     {
       "id": "green",
-      "name": "Cecil H Green Library",
+      "name": "Cecil H. Green Library",
       "alternateNames": [
         "Green",
         "Green Library"
@@ -423,7 +400,7 @@
         {
           "id": "west-1",
           "direction": "west",
-          "name": "West wing Entrance",
+          "name": "West Entrance",
           "roadSidewalk": "Lasuen Mall",
           "coordinates": {
             "lat": 37.427032837484,
@@ -446,7 +423,7 @@
         {
           "id": "east wing entrance",
           "direction": "south",
-          "name": "East Wing Entrance",
+          "name": "East Entrance",
           "roadSidewalk": null,
           "coordinates": {
             "lat": 37.4262255872341,
