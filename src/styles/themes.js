@@ -11,11 +11,7 @@ export const theme = {
     md: 16,
     lg: 24,
     xl: 30,
-    small: 16,
-    xs: 8,
-  },
-  radius: {
-    button: 100,
-    modal: 10,
+    sm: 12,
+    xs: 6,
   },
 };

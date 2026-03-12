@@ -2,10 +2,18 @@ export const colors = {
   light: {
     header1: "#09A6B8",
     header2: "#000000",
+    body: "#000000",
+    bodyPlaceholder: "#B4B4B4",
 
     background: "#FFFFFF",
+    border: "#000000",
+    borderColored: "#09A6B8",
+    separator: "#CFCFCF",
 
+    backButton: "#09A6B8",
     modeToggle: "#09A6B8",
+    icons: "#09A6B8",
+    chevron: "#a0a0a0",
 
     // header1: "#09A6B8",
     // header2: "#000000",
@@ -23,7 +31,7 @@ export const colors = {
     // borderLight: "#FFFFFF",
     // borderDark: "#000000",
     // borderColored: "#09A6B8",
-    // icons: "#09A6B8",
+
     // iconsInactive: "#000000",
     // separator: "#CFCFCF",
     // arrow: "#CFCFCF",
@@ -43,10 +51,18 @@ export const colors = {
   dark: {
     header1: "#09A6B8",
     header2: "#F0F0F0",
+    body: "#F0F0F0",
+    bodyPlaceholder: "#AEAEAE",
 
     background: "#13151F",
+    border: "#F0F0F0",
+    borderColored: "#09A6B8",
+    separator: "#6E6E6E",
 
+    backButton: "#09A6B8",
     modeToggle: "#F0F0F0",
+    icons: "#09A6B8",
+    chevron: "#AEAEAE",
 
     // header1: "#09A6B8",
     // header2: "#F0F0F0",
@@ -60,9 +76,8 @@ export const colors = {
     // borderDark: "#F0F0F0",
     // borderColored: "#09A6B8",
     // borderLight: "#13151F",
-    // icons: "#09A6B8",
+
     // iconsInactive: "#F0F0F0",
-    // separator: "#6E6E6E",
     // arrow: "#AEAEAE",
     // buttonPrimary: "#F0F0F0",
     // buttonSecondary: "#13151F",

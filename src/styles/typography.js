@@ -11,6 +11,7 @@ export const fontSizes = {
   wordmark: 36,
   header1: 28,
   header2: 24,
+  header3: 18,
   body: 16,
   bodySmall: 14,
 

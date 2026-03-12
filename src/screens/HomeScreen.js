@@ -11,13 +11,16 @@ import {
   Keyboard,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from "expo-status-bar";
 import { theme } from '../styles/themes';
 import { useTheme } from "../contexts/ThemeContext";
 import { colors } from '../styles/colors';
 import MainHeader from '../components/MainHeader';
+import { LinearGradient } from "expo-linear-gradient";
 
 const HomeScreen = ({ navigation }) => {
   const headerRef = useRef(null);
+  const { theme, themeMode } = useTheme();
 
   // When app first opens, this is the initial screen — focus Boogie header after layout
   React.useEffect(() => {
@@ -55,6 +58,7 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
+      <StatusBar style={themeMode === "light" ? "dark" : "light"} />
       <MainHeader headerRef={headerRef} />
 
       <View style={styles.content}>
@@ -64,35 +68,56 @@ const HomeScreen = ({ navigation }) => {
         >
           Book your next ride
         </Text>
-        <Text style={styles.subtitle} accessibilityRole="text">
-          Select one of the options below.
+        <Text
+          style={[styles.subtitle, { color: theme.colors.body }]}
+          accessibilityRole="text"
+        >
+          Select one of the options below:
         </Text>
 
         <View style={styles.optionGroup}>
           <TouchableOpacity
-            style={styles.optionCard}
+            style={[
+              styles.optionCard,
+              {
+                backgroundColor: theme.colors.background,
+                borderColor: theme.colors.border,
+                borderWidth: 1,
+              },
+            ]}
             onPress={goToSearch}
             accessibilityRole="button"
             accessibilityLabel="Search locations"
             accessibilityHint="Opens a search screen with a list of locations"
           >
-            <Text style={styles.optionTitle}>Search locations</Text>
-            <Text style={styles.optionDescription}>
-              Type a name and choose from a list.
+            <Text style={[styles.optionTitle, { color: theme.colors.body }]}>
+              Search locations
+            </Text>
+            <Text style={[styles.optionDescription, {color: theme.colors.body}]}>
+              Find locations by name and entrance
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.optionCard}
+            // style={styles.optionCard}
             onPress={goToVoice}
             accessibilityRole="button"
-            accessibilityLabel="Use voice assistant"
-            accessibilityHint="Opens a voice assistant to choose your destination"
+            accessibilityLabel="Chat with BoogieBot"
+            accessibilityHint="Opens a chatbot assistant to choose your destination"
           >
-            <Text style={styles.optionTitle}>Use voice assistant</Text>
-            <Text style={styles.optionDescription}>
-              Speak your destination instead of browsing.
-            </Text>
+            <LinearGradient
+              colors={["#09A6B8", "#8A38F5", "#D32EC8", "#ACE347"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.optionCard}
+            >
+              <Text style={[styles.optionTitle, { color: "#FFFFFF" }]}>
+                Chat with BoogieBot
+              </Text>
+              <Text style={[styles.optionDescription, { color: "#FFFFFF" }]}>
+                Set up your ride with a chatbot assistant
+              </Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
@@ -115,7 +140,6 @@ const styles = StyleSheet.create({
   },
   content: { flex: 1, padding: theme.spacing.regular },
   contentContainer: { padding: 20 },
-
   title: {
     fontSize: theme.fontSizes.header2,
     fontFamily: theme.fonts.header2,
@@ -124,23 +148,19 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: theme.fontSizes.body,
     fontFamily: theme.fonts.body,
-    color: colors.textSecondary,
     marginBottom: 16,
   },
-
-  optionGroup: { gap: 12 },
+  optionGroup: { gap: theme.spacing.regular },
   optionCard: {
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.backgroundLight,
+    borderRadius: 100,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
+    alignItems: "center",
   },
   optionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 6,
+    fontSize: theme.fontSizes.header3,
+    fontFamily: theme.fonts.header2,
+    marginBottom: theme.spacing.xs,
   },
   optionDescription: { fontSize: 14, color: colors.textSecondary },
 });
