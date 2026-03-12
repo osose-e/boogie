@@ -1,4 +1,4 @@
-// src/components/Header.js
+// src/components/StackHeader.js
 import React, {useEffect, useState} from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import {
@@ -10,7 +10,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const StackHeader = React.forwardRef(({ title }, ref) => {
+const StackHeader = React.forwardRef(({ title, onBack }, ref) => {
   const insets = useSafeAreaInsets(); // dynamic safe area values
   const { theme } = useTheme();
   const navigation = useNavigation();
@@ -45,10 +45,10 @@ const StackHeader = React.forwardRef(({ title }, ref) => {
         }}
       >
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => (onBack ? onBack() : navigation.goBack())}
           style={{ position: "absolute", left: 0 }}
           accessibilityRole="button"
-          accessibilityLabel="Back to home screen"
+          accessibilityLabel="Back"
           importantForAccessibility={
             headerFocused ? "auto" : "no-hide-descendants"
           }

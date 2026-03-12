@@ -6,16 +6,18 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   Switch,
   AccessibilityInfo,
   findNodeHandle,
   Keyboard,
 } from 'react-native';
-import { colors } from '../styles/colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import CancelConfirmationModal from '../components/CancelConfirmationModal';
 import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
+import StackHeader from '../components/StackHeader';
 
 const RideRegistrationScreen = ({ navigation, route }) => {
   const {
@@ -31,6 +33,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
   const [isRecurring, setIsRecurring] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showFinalizeModal, setShowFinalizeModal] = useState(false);
+  const { theme } = useTheme();
 
   const handleRequestRide = () => {
     setShowFinalizeModal(true);
@@ -80,26 +83,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <Text style={styles.backIcon}>‹</Text>
-        </TouchableOpacity>
-        <Text 
-          ref={headerTitleRef}
-          style={styles.headerTitle} 
-          accessibilityRole="header"
-          accessible={true}
-          importantForAccessibility="yes"
-        >
-          Complete Ride Booking
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
+      <StackHeader title="Complete Ride Booking" ref={headerTitleRef} />
 
       <ScrollView 
         style={styles.content} 
@@ -218,7 +202,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             value={notes}
             onChangeText={setNotes}
             placeholder="Notes for the driver. (Optional, max. 100 char)"
-            placeholderTextColor={colors.textSecondary}
+            placeholderTextColor={theme.colors.bodyPlaceholder}
             multiline
             maxLength={100}
             accessibilityLabel="Notes for the driver, optional, maximum 100 characters"
@@ -237,8 +221,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             <Switch
               value={needsWheelchair}
               onValueChange={setNeedsWheelchair}
-              trackColor={{ false: colors.border, true: colors.primary }}
-              thumbColor={colors.secondary}
+              trackColor={{ false: theme.colors.border, true: theme.colors.wordmark.primary }}
+              thumbColor={theme.colors.wordmark.secondary}
               accessibilityRole="switch"
               accessibilityLabel="Wheelchair accessibility needed"
               accessibilityState={{ checked: needsWheelchair }}
@@ -252,8 +236,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             <Switch
               value={isRecurring}
               onValueChange={setIsRecurring}
-              trackColor={{ false: colors.border, true: colors.primary }}
-              thumbColor={colors.secondary}
+              trackColor={{ false: theme.colors.border, true: theme.colors.wordmark.primary }}
+              thumbColor={theme.colors.wordmark.secondary}
               accessibilityRole="switch"
               accessibilityLabel="Recurring ride request"
               accessibilityState={{ checked: isRecurring }}
@@ -305,7 +289,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    // backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -314,7 +298,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    // borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -324,12 +308,12 @@ const styles = StyleSheet.create({
   },
   backIcon: {
     fontSize: 32,
-    color: colors.text,
+    // color: colors.text,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: colors.text,
+    // color: colors.text,
   },
   headerSpacer: {
     width: 40,
@@ -345,15 +329,16 @@ const styles = StyleSheet.create({
   },
   currentLocationLabel: {
     fontSize: 14,
-    color: colors.textSecondary,
+    fontFamily: theme.fonts.body,
+    // color: colors.textSecondary,
   },
   section: {
     marginBottom: 24,
   },
   sectionLabel: {
     fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
+    fontFamily: theme.fonts.header2,
+    // color: colors.text,
     marginBottom: 12,
   },
   timeToggleContainer: {
@@ -366,22 +351,23 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
+    // backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
+    // borderColor: colors.border,
     alignItems: 'center',
   },
   timeToggleActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    // backgroundColor: colors.primary,
+    // borderColor: colors.primary,
   },
   timeToggleText: {
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
+    // color: colors.text,
     fontWeight: '600',
   },
   timeToggleTextActive: {
-    color: colors.secondary,
+    // color: colors.secondary,
   },
   dateTimeContainer: {
     gap: 16,
@@ -393,7 +379,8 @@ const styles = StyleSheet.create({
   },
   dateTimeLabel: {
     fontSize: 14,
-    color: colors.textSecondary,
+    fontFamily: theme.fonts.body,
+    // color: colors.textSecondary,
   },
   dateTimeInputContainer: {
     flexDirection: 'row',
@@ -402,10 +389,11 @@ const styles = StyleSheet.create({
   },
   dateTimeInput: {
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
+    // color: colors.text,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
+    // backgroundColor: colors.backgroundLight,
     borderRadius: 6,
     minWidth: 120,
   },
@@ -418,28 +406,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
+    // backgroundColor: colors.backgroundLight,
     borderRadius: 8,
   },
   locationText: {
     flex: 1,
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
+    // color: colors.text,
   },
   notesInput: {
-    backgroundColor: colors.backgroundLight,
+    // backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
+    // borderColor: colors.border,
     borderRadius: 8,
     padding: 12,
-    fontSize: 16,
-    color: colors.text,
+    fontSize: 14,
+    fontFamily: theme.fonts.body,
+    // color: colors.text,
     minHeight: 80,
     textAlignVertical: 'top',
   },
   notesCounter: {
     fontSize: 12,
-    color: colors.textSecondary,
+    // color: colors.textSecondary,
     textAlign: 'right',
     marginTop: 4,
   },
@@ -452,14 +442,15 @@ const styles = StyleSheet.create({
   },
   switchLabel: {
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
+    // color: colors.text,
     flex: 1,
   },
   actionButtons: {
     flexDirection: 'row',
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
+    // borderTopColor: colors.border,
     gap: 12,
   },
   cancelButton: {
@@ -467,13 +458,13 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
+    // backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
+    // borderColor: colors.border,
     alignItems: 'center',
   },
   cancelButtonText: {
-    color: colors.text,
+    // color: colors.text,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -482,11 +473,11 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.text,
+    // backgroundColor: colors.text,
     alignItems: 'center',
   },
   requestButtonText: {
-    color: colors.secondary,
+    // color: colors.secondary,
     fontSize: 16,
     fontWeight: '600',
   },

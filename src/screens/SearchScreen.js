@@ -62,18 +62,28 @@ const SearchScreen = ({ navigation, route }) => {
       : 'Double tap to set as dropoff location';
 
   const handleLocationSelect = (item) => {
-    navigation.navigate('EntranceSelect', {
+    navigation.push('EntranceSelect', {
       mode,
       rideDraft,
       building: item.building, // full building object from JSON
     });
   };
 
+  const handleBack = () => {
+    if (mode === "dropoff") {
+      // Go back to Entrance 1 (pickup entrance selection)
+      navigation.goBack();
+    } else {
+      // Go back to Home
+      navigation.navigate("Home");
+    }
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <StackHeader title={headerText} ref={titleRef} />
+      <StackHeader title={headerText} onBack={handleBack} ref={titleRef} />
       <View style={styles.content}>
         <View
           style={[

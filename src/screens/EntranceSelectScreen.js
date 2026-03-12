@@ -68,7 +68,7 @@ const EntranceSelectScreen = ({ navigation, route }) => {
       };
 
       // NOTE: If your navigator uses a different name than 'Search', change it here.
-      navigation.navigate('Search', {
+      navigation.push('Search', {
         mode: 'dropoff',
         rideDraft: nextDraft,
       });
