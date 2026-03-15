@@ -92,16 +92,16 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         onScrollBeginDrag={() => Keyboard.dismiss()}
       >
         <View style={styles.currentLocationContainer}>
-          <Text style={styles.currentLocationLabel} accessibilityRole="text">
+          <Text style={[styles.currentLocationLabel, {color: theme.colors.body}]} accessibilityRole="text">
             Your ride to {dropoffLocation}
           </Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionLabel} accessibilityRole="text">
+          <Text style={[styles.sectionLabel, {color: theme.colors.header2}]} accessibilityRole="text">
             Pick-up Time
           </Text>
-          <View style={styles.timeToggleContainer}>
+          <View style={[styles.timeToggleContainer, {borderColor: theme.colors.border}]}>
             <TouchableOpacity
               style={[
                 styles.timeToggle,
