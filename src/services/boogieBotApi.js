@@ -12,6 +12,8 @@ import {
   getLocationNamesForExtraction,
   getCampusDataSummaryForPrompt,
   resolveTripSlotToLocation,
+  findBuildingById,
+  findBuildingByName,
 } from './campusDataLoader';
 import { STANFORD_LOCATIONS, DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 
@@ -88,6 +90,35 @@ export function tripRequestFromStructuredContext(structuredContext) {
   return base;
 }
 
+/**
+ * True when the trip request has both pickup and dropoff filled so the user can continue to ride confirmation.
+ * Pickup: isCurrentLocation OR (building set AND entrance set when building has entrances).
+ * Dropoff: building set AND entrance set when building has entrances.
+ * Used to disable the "Continue to ride confirmation" button when e.g. user came from search with only a building (no entrance).
+ */
+export function isTripRequestFilled(tripRequest) {
+  if (!tripRequest || typeof tripRequest !== 'object') return false;
+  const pickup = tripRequest.pickup;
+  const dropoff = tripRequest.dropoff;
+  if (!pickup || !dropoff) return false;
+
+  const hasBuilding = (slot) => !!(slot && (slot.buildingId || slot.buildingName));
+  const hasEntrance = (slot) => !!(slot && (slot.entranceId || slot.entranceName));
+  const buildingHasEntrances = (slot) => {
+    if (!slot) return false;
+    const b = slot.buildingId ? findBuildingById(slot.buildingId) : findBuildingByName(slot.buildingName);
+    return b && Array.isArray(b.entrances) && b.entrances.length > 0;
+  };
+
+  const pickupFilled =
+    pickup.isCurrentLocation === true ||
+    (hasBuilding(pickup) && (!buildingHasEntrances(pickup) || hasEntrance(pickup)));
+  const dropoffFilled =
+    hasBuilding(dropoff) && (!buildingHasEntrances(dropoff) || hasEntrance(dropoff));
+
+  return pickupFilled && dropoffFilled;
+}
+
 /** Extract text between ** for highlights. */
 function extractHighlights(text) {
   if (!text || typeof text !== 'string') return [];
@@ -149,7 +180,14 @@ async function processTurnWithTripRequest(tripRequest, conversationHistory, user
 
 You have an in-memory "trip request" that you update from the conversation. The user may say anything: "pick me up at CoDa north entrance and drop me at Tressider by the bike racks", or give pickup and dropoff in separate messages, or correct one part. Deduce what they mean and update the trip request accordingly.
 
-Use this Stanford campus data to resolve building and entrance names and IDs. Match the user's words (e.g. "north entrance", "by the bike racks", "CoDa", "Tressider") to the correct building id and entrance id from the data.
+CRITICAL—extract multiple fields from one message: A single user message often contains several pieces of info. Fill every trip request field you can infer from that message in one go. Examples:
+- "I want to go to CoDa at the entrance near the Oval" → set dropoff building (CoDa) AND dropoff entrance (the entrance that matches "Oval" or "east" in the campus data for CoDa) in the same turn.
+- "Pick me up at Tressider by the bike racks" → set pickup building (Tressider) AND pickup entrance (the entrance with bike racks in the data) together. Make sure to clarify the entrance with more landmark descriptors if multiple entrances share the same landmark.
+- "Drop me at Wallenberg, main entrance" → set dropoff building (Wallenberg) AND dropoff entrance (main) together.
+- "CoDa north entrance for pickup and Tressider east for dropoff" → fill pickup building + pickup entrance + dropoff building + dropoff entrance in one update.
+Use the campus data to match phrases like "near the Oval", "by the bike racks", "main entrance", "north entrance" to the correct building id and entrance id. Do not ask for the entrance in your reply if you could already infer it from the same message.
+
+Use this Stanford campus data to resolve building and entrance names and IDs. Match the user's words (e.g. "north entrance", "by the bike racks", "CoDa", "Tressider", "near the Oval", "main") to the correct building id and entrance id from the data.
 
 CRITICAL—ask for entrance when missing: Both pickup and dropoff must include an entrance when the building has multiple entrances in the campus data. If the user names only a building (e.g. "drop me at Tressider" or "pickup at CoDa") and you set buildingId/buildingName but entranceId/entranceName are still null, you MUST ask which entrance they want. For example: "Got it, dropoff at **Tressider**. Which entrance? We have the east entrance (White Plaza), the west entrance near parking, or you can say by the bike racks, near the stairs, etc." Do the same for pickup when pickup has a building but no entrance yet. Only say "Tap Continue to ride confirmation" when both pickup and dropoff have building and entrance (or the building has only one entrance).
 
@@ -171,8 +209,8 @@ I've set your pickup at **CoDa** at the **north entrance** and dropoff at **Tres
 ${TRIP_JSON_MARKER}
 {"pickup":{"buildingId":"coda","buildingName":"Computing and Data Science","entranceId":"north-1","entranceName":"North entrance","isCurrentLocation":false},"dropoff":{"buildingId":"tressider","buildingName":"Tresidder Memorial Union","entranceId":"east-1","entranceName":"East entrance (White Plaza)"}}
 - Use building id and entrance id from the campus data when you match (e.g. "coda", "north-1"). Keep buildingName/entranceName human-readable.
-- Only change fields that the user has specified; leave existing resolved fields as-is if the user didn't mention them.
-- When dropoff has a building (buildingId/buildingName set) but entranceId/entranceName are null, your reply must ask which entrance at that building for dropoff. When pickup has a building but no entrance, ask which entrance for pickup. Use the campus data to list or suggest entrances (e.g. north entrance, east entrance, by the bike racks).`;
+- From each user message, fill every trip field you can infer (building + entrance for pickup and/or dropoff). Only leave a field null if the user did not provide enough info for it in this or earlier messages. Preserve existing resolved fields only when the user did not mention that part.
+- When dropoff has a building (buildingId/buildingName set) but entranceId/entranceName are null and the user did not describe an entrance in their message, your reply must ask which entrance at that building for dropoff. When pickup has a building but no entrance and they didn't describe one, ask which entrance for pickup. Use the campus data to list or suggest entrances (e.g. north entrance, east entrance, by the bike racks). If the user did describe an entrance in the same message (e.g. "at the entrance near the Oval"), match it from the campus data and fill it—do not ask again.`;
 
   const messages = [
     { role: 'system', content: systemContent },
@@ -646,7 +684,7 @@ export async function processBoogieBotTurn(state, userMessage, options = {}) {
       coordinates: DEFAULT_PICKUP_LOCATION.coordinates,
     };
   }
-
+ 
   // ----- Deep link: user came from EntranceSelectScreen and needs entrance help -----
   // If the UI already knows which building + whether it's pickup/dropoff, jump straight into "awaiting entrance".
   if (

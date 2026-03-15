@@ -46,7 +46,7 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
   const summary = useMemo(() => {
     if (!rideDetails) return '';
     const when = `${formatDate(rideDetails.pickupDate)} at ${formatTime(rideDetails.pickupTime)}`;
-    return `Finalize booking. Pickup ${when}. Pickup location: ${rideDetails.pickupLocation}. Dropoff location: ${rideDetails.dropoffLocation}.`;
+    return `Finalize booking. Pickup ${when}. Pickup location: ${rideDetails.pickupLocationName}. Dropoff location: ${rideDetails.dropoffLocationName}.`;
   }, [rideDetails]);
 
   // 🔑 Move VoiceOver focus INTO the modal when it opens + announce context
@@ -130,13 +130,13 @@ const FinalizeConfirmationModal = ({ visible, onClose, onConfirm, rideDetails })
 
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Pickup Location:</Text>
-              <Text style={styles.detailValue}>{rideDetails.pickupLocation}</Text>
+              <Text style={styles.detailValue}>{rideDetails.pickupLocationName}</Text>
             </View>
 
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Dropoff Location:</Text>
               <Text style={styles.detailValue}>
-                {rideDetails.dropoffLocation}
+                {rideDetails.dropoffLocationName}
                 {rideDetails.dropoffLocation && (rideDetails.dropoffLocation.includes('CoDa') || rideDetails.dropoffLocation.includes('Computing and Data Science')) && ' 📍(37.4300, -122.1675)'}
               </Text>
             </View>

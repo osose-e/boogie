@@ -98,7 +98,10 @@
             "west",
             "parking",
             "lagunita",
-            "stairs"
+            "stairs",
+            "CoHo",
+            "Package Center",
+            "Coffee house"
           ],
           "images": ["tresidder-west-1"]
         }
@@ -249,8 +252,44 @@
             "acrossFromBuilding": "Memorial Court",
             "notes": "South side of Main Quad; main accessible entrance."
           },
-          "landmarkKeywords": ["main", "quad", "main quad", "160"],
           "images": ["wallenberg-north-1"]
+          "landmarkKeywords": [
+            "main",
+            "quad",
+            "main quad",
+            "160"
+          ]
+        },
+        {
+          "id": "south",
+          "direction": "south",
+          "name": "Back entrance",
+          "roadSidewalk": "Within Main Quad",
+          "coordinates": {
+            "lat": 37.4278,
+            "lon": -122.173
+          },
+          "landmarks": {
+            "bikeRacks": false,
+            "stairs": true,
+            "parkingLot": false,
+            "fountain": false,
+            "other": [
+              "Main Quad"
+            ],
+            "establishmentsInside": [
+              "Classrooms",
+              "Learning spaces"
+            ],
+            "nextToBuilding": "McLatchy Hall",
+            "acrossFromBuilding": "Memorial Court",
+            "notes": "South side of Wallenberg; near Olive's."
+          },
+          "landmarkKeywords": [
+            "main quad",
+            "160",
+            "olives"
+          ]
         }
       ]
     },

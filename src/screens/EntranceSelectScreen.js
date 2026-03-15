@@ -16,6 +16,7 @@ import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import StackHeader from '../components/StackHeader';
 import { LinearGradient } from 'expo-linear-gradient';
 import { entranceImages } from '../data/entranceImages';
+import RideBookingProgressBar from '../components/RideBookingProgressBar';
 
 function getEntranceDescription(e) {
   const notes = e?.landmarks?.notes?.trim();
@@ -45,9 +46,13 @@ function getEntranceDescription(e) {
 }
 
 const EntranceSelectScreen = ({ navigation, route }) => {
-  const { building, mode = 'pickup', rideDraft = {} } = route?.params ?? {};
+  const routeName = route?.name ?? '';
+  const isPickupEntrance = routeName === 'PickupEntranceSelect';
+  const { building, rideDraft = {} } = route?.params ?? {};
+  const mode = route?.params?.mode ?? (isPickupEntrance ? 'pickup' : 'dropoff');
   const titleRef = useRef(null);
   const { theme } = useTheme();
+  const progressStep = isPickupEntrance ? 2 : 4;
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -68,7 +73,7 @@ const EntranceSelectScreen = ({ navigation, route }) => {
       };
 
       // NOTE: If your navigator uses a different name than 'Search', change it here.
-      navigation.push('Search', {
+      navigation.navigate('DropoffSearch', {
         mode: 'dropoff',
         rideDraft: nextDraft,
       });
@@ -100,13 +105,6 @@ const EntranceSelectScreen = ({ navigation, route }) => {
     });
   };
 
-  // const onChatbot = () => {
-  //   navigation.navigate('VoiceInput', {
-  //     context: mode === 'pickup' ? 'pickup_entrance_help' : 'dropoff_entrance_help',
-  //     locationName: building?.name ?? '',
-  //     buildingId: building?.id ?? null,
-  //   });
-  // };
   const onChatbot = () => {
     const buildingName = building?.name ?? 'this location';
   
@@ -118,8 +116,8 @@ const EntranceSelectScreen = ({ navigation, route }) => {
   
     const seedMessage =
       mode === 'pickup'
-        ? `I want to be picked up at ${buildingName}, but I'm not sure which entrance to choose.`
-        : `I want to be dropped off at ${buildingName}. My pickup is ${pickupName} at ${pickupEntranceName}. I'm not sure which dropoff entrance to choose.`;
+        ? `I want to be picked up at ${buildingName}, but I'm not sure which entrance to choose. Please describe the availble entrances and their landmarks.`
+        : `I want to be dropped off at ${buildingName}. My pickup is ${pickupName} at ${pickupEntranceName}. I'm not sure which dropoff entrance to choose. Please describe the availble entrances and their landmarks.`;
   
     navigation.navigate('VoiceInput', {
       // keep your existing params
@@ -186,12 +184,13 @@ const EntranceSelectScreen = ({ navigation, route }) => {
         </Text>
 
         <TouchableOpacity
+          style={styles.backButton}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
-          accessibilityLabel="Back"
+          accessibilityLabel="Go back"
           accessibilityHint="Returns to the previous screen"
         >
-          <Text style={styles.backLink}>Back</Text>
+          <Text style={styles.backIcon}>‹</Text>
         </TouchableOpacity>
       </View> */}
 
@@ -203,6 +202,16 @@ const EntranceSelectScreen = ({ navigation, route }) => {
           style={[styles.subtitle, { color: theme.colors.body }]}
           accessibilityRole="text"
         >
+        <Text ref={titleRef} style={styles.title} accessibilityRole="header">
+          {titleText}
+        </Text>
+        <View style={styles.headerSpacer} />
+      </View>
+
+      <RideBookingProgressBar key={`entrance-${progressStep}`} completedSteps={progressStep} />
+
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.subtitle} accessibilityRole="text">
           {subtitleText}
         </Text>
 
@@ -340,9 +349,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 10,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     // borderBottomColor: colors.border,
   },
@@ -357,7 +368,18 @@ const styles = StyleSheet.create({
     // color: colors.primary,
     textDecorationLine: "underline",
     fontWeight: "600",
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
+  backIcon: {
+    fontSize: 32,
+    color: colors.text,
+  },
+  title: { fontSize: 18, fontWeight: '700', color: colors.text, flex: 1, textAlign: 'center' },
+  headerSpacer: { width: 40 },
 
   content: { flex: 1 },
   contentContainer: { padding: 20 },

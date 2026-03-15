@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,29 +7,45 @@ import {
   StyleSheet,
   ScrollView,
   Switch,
-  AccessibilityInfo,
-  findNodeHandle,
-  Keyboard,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '../styles/themes';
 import { useTheme } from '../contexts/ThemeContext';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
+import RideBookingProgressBar from '../components/RideBookingProgressBar';
 import CancelConfirmationModal from '../components/CancelConfirmationModal';
 import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
 import StackHeader from '../components/StackHeader';
 
 const RideRegistrationScreen = ({ navigation, route }) => {
   const {
-    pickupLocation = DEFAULT_PICKUP_LOCATION.displayText,
+    pickupLocationName = '518 Memorial Way, Stanford, CA 94305',
+    dropoffLocationName = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
+    pickupLocation = '518 Memorial Way, Stanford, CA 94305',
     dropoffLocation = 'Computing and Data Science (CoDa), 385 Serra St., Stanford, CA 94305',
+    dropoffEntranceDescriptor,
   } = route.params || {};
 
   const [pickupTime, setPickupTime] = useState('later'); // 'now' or 'later'
-  const [pickupDate, setPickupDate] = useState('Feb 15, 2026');
-  const [pickupTimeValue, setPickupTimeValue] = useState('21:15');
+  const now = new Date();
+
+  const [pickupDate, setPickupDate] = useState(
+    now.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    })
+  );
+  
+  const [pickupTimeValue, setPickupTimeValue] = useState(
+    now.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    })
+  );
   const [notes, setNotes] = useState('');
-  const [needsWheelchair, setNeedsWheelchair] = useState(true);
+  const [needsWheelchair, setNeedsWheelchair] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showFinalizeModal, setShowFinalizeModal] = useState(false);
@@ -47,6 +63,9 @@ const RideRegistrationScreen = ({ navigation, route }) => {
     navigation.navigate('RideConfirmation', {
       pickupLocation,
       dropoffLocation,
+      dropoffLocationName,
+      pickupLocationName,
+      dropoffEntranceDescriptor,
       pickupDate: confirmationDate,
       pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
       needsWheelchair,
@@ -57,29 +76,6 @@ const RideRegistrationScreen = ({ navigation, route }) => {
     setShowCancelModal(false);
     navigation.goBack();
   };
-
-  const headerTitleRef = useRef(null);
-
-  // Focus on header title when screen loads
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      const node = findNodeHandle(headerTitleRef.current);
-      if (node) {
-        AccessibilityInfo.setAccessibilityFocus(node);
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  // Dismiss keyboard when tapping outside
-  useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      Keyboard.dismiss();
-    });
-    return () => {
-      keyboardDidHideListener.remove();
-    };
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -96,6 +92,24 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             Your ride to {dropoffLocation}
           </Text>
         </View>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+        >
+          <Text style={styles.backIcon}>‹</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle} accessibilityRole="header">
+          Complete Ride Booking
+        </Text>
+        <View style={styles.headerSpacer} />
+      </View>
+
+      <RideBookingProgressBar key="ride-reg-5" completedSteps={5} />
+
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
 
         <View style={styles.section}>
           <Text style={[styles.sectionLabel, {color: theme.colors.header2}]} accessibilityRole="text">
@@ -144,8 +158,10 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
           {pickupTime === 'later' && (
             <View style={styles.dateTimeContainer}>
-              <View style={styles.dateTimeRow}>
-                <Text style={styles.dateTimeLabel}>Date</Text>
+              <View style={styles.dateTimeColumn}>
+                <Text style={styles.dateTimeLabel}   accessible={false} 
+              importantForAccessibility="no"
+              accessibilityElementsHidden={true}>Date</Text>
                 <View style={styles.dateTimeInputContainer}>
                   <TextInput
                     style={styles.dateTimeInput}
@@ -154,11 +170,12 @@ const RideRegistrationScreen = ({ navigation, route }) => {
                     accessibilityLabel="Pickup date"
                     accessibilityRole="textbox"
                   />
-                  <Text style={styles.editIcon}>✏️</Text>
                 </View>
               </View>
-              <View style={styles.dateTimeRow}>
-                <Text style={styles.dateTimeLabel}>Time</Text>
+              <View style={styles.dateTimeColumn}>
+                <Text style={styles.dateTimeLabel}   accessible={false} 
+              importantForAccessibility="no"
+              accessibilityElementsHidden={true}>Time</Text>
                 <View style={styles.dateTimeInputContainer}>
                   <TextInput
                     style={styles.dateTimeInput}
@@ -168,7 +185,6 @@ const RideRegistrationScreen = ({ navigation, route }) => {
                     accessibilityLabel="Pickup time"
                     accessibilityRole="textbox"
                   />
-                  <Text style={styles.editIcon}>✏️</Text>
                 </View>
               </View>
             </View>
@@ -180,16 +196,17 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             Pickup Location
           </Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{pickupLocation}</Text>
+            <Text style={styles.locationText}>{pickupLocationName}</Text>
           </View>
         </View>
+
 
         <View style={styles.section}>
           <Text style={styles.sectionLabel} accessibilityRole="text">
             Dropoff Location
           </Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{dropoffLocation}</Text>
+            <Text style={styles.locationText}>{dropoffLocationName}</Text>
           </View>
         </View>
 
@@ -205,10 +222,12 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             placeholderTextColor={theme.colors.bodyPlaceholder}
             multiline
             maxLength={100}
-            accessibilityLabel="Notes for the driver, optional, maximum 100 characters"
             accessibilityRole="textbox"
           />
-          <Text style={styles.notesCounter}>
+          <Text style={styles.notesCounter} 
+              accessible={false} 
+              importantForAccessibility="no"
+              accessibilityElementsHidden={true}>
             {notes.length}/100
           </Text>
         </View>
@@ -278,8 +297,8 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         rideDetails={{
           pickupDate: pickupTime === 'now' ? new Date().toISOString() : pickupDate,
           pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
-          pickupLocation,
-          dropoffLocation,
+          pickupLocationName,
+          dropoffLocationName,
         }}
       />
     </SafeAreaView>
@@ -371,16 +390,21 @@ const styles = StyleSheet.create({
   },
   dateTimeContainer: {
     gap: 16,
-  },
-  dateTimeRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  dateTimeColumn: {
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'left',
   },
   dateTimeLabel: {
     fontSize: 14,
     fontFamily: theme.fonts.body,
     // color: colors.textSecondary,
+    importantForAccessibility: "no",
+    accessibilityElementsHidden: true,
+    accessible: false,
   },
   dateTimeInputContainer: {
     flexDirection: 'row',

@@ -130,7 +130,7 @@ export function getLocationNamesForExtraction(maxNames = 300) {
 /**
  * Find a building in the JSON by name or alternate name (case-insensitive, partial match).
  */
-function findBuildingByName(buildingName) {
+export function findBuildingByName(buildingName) {
   const data = getCampusJson();
   if (!data?.buildings?.length || !buildingName) return null;
   const search = (buildingName || '').toLowerCase().trim();
