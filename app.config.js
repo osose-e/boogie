@@ -9,6 +9,12 @@ export default {
       resizeMode: "contain",
       backgroundColor: "#ffffff",
     },
+    updates: {
+      url: "https://u.expo.dev/48792d2d-6c62-412c-be96-5e61261e2809",
+    },
+    runtimeVersion: {
+      policy: "appVersion",
+    },
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.boogie.app",
@@ -21,6 +27,9 @@ export default {
     },
     extra: {
       openAiApiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
+      eas: {
+        projectId: "48792d2d-6c62-412c-be96-5e61261e2809",
+      },
     },
   },
 };
