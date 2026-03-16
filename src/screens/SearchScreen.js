@@ -12,6 +12,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import StackHeader from '../components/StackHeader';
 import { STANFORD_LOCATIONS } from '../constants/stanfordLocations';
 import RideBookingProgressBar from '../components/RideBookingProgressBar';
 
@@ -25,6 +28,7 @@ const SearchScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
   const titleRef = useRef(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -69,7 +73,7 @@ const SearchScreen = ({ navigation, route }) => {
     return matchesCurrentLocation;
   }, [isPickupSearch, searchQuery, codaBuilding]);
 
-  const headerText = mode === 'pickup' ? 'Choose pickup location' : 'Choose dropoff location';
+  const headerText = mode === 'pickup' ? 'Choose Pickup Location' : 'Choose Dropoff Location';
   const navigateTo = mode === 'pickup' ? 'PickupEntranceSelect' : 'DropoffEntranceSelect';
   const hintText =
     mode === 'pickup'
@@ -93,9 +97,20 @@ const SearchScreen = ({ navigation, route }) => {
     });
   };
 
+  const handleBack = () => {
+    if (mode === "dropoff") {
+      // Go back to Entrance 1 (pickup entrance selection)
+      navigation.goBack();
+    } else {
+      // Go back to Home
+      navigation.navigate("Home");
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerRow}>
+    <SafeAreaView style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <StackHeader title={headerText} onBack={handleBack} ref={titleRef}/>
+      {/* <View style={styles.headerRow}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
@@ -109,7 +124,7 @@ const SearchScreen = ({ navigation, route }) => {
           {headerText}
         </Text>
         <View style={styles.headerSpacer} />
-      </View>
+      </View> */}
 
       <RideBookingProgressBar key={`search-${progressStep}`} completedSteps={progressStep} />
 
@@ -180,7 +195,7 @@ const SearchScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1 },
 
   headerRow: {
     flexDirection: 'row',

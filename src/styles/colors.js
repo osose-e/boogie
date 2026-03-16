@@ -15,7 +15,7 @@ export const colors = {
     border: "#000000",
     borderColored: "#09A6B8",
     separator: "#CFCFCF",
-
+    progressUnfilled: "#B4B4B4",
     backButton: "#09A6B8",
     modeToggle: "#09A6B8",
     icons: "#09A6B8",
@@ -63,7 +63,7 @@ export const colors = {
     border: "#F0F0F0",
     borderColored: "#09A6B8",
     separator: "#6E6E6E",
-
+    progressUnfilled: "#AEAEAE",
     backButton: "#09A6B8",
     modeToggle: "#F0F0F0",
     icons: "#09A6B8",
