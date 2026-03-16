@@ -4,9 +4,10 @@ export const colors = {
     secondary: "#8A38F5",
     tertiary: "#D32EC8",
     quaternary: "#ACE347",
-    
+
     header1: "#09A6B8",
     header2: "#000000",
+    header3: "#000000",
     body: "#000000",
     bodyPlaceholder: "#B4B4B4",
 
@@ -54,6 +55,7 @@ export const colors = {
 
     header1: "#09A6B8",
     header2: "#F0F0F0",
+    header3: "#F0F0F0",
     body: "#F0F0F0",
     bodyPlaceholder: "#AEAEAE",
 

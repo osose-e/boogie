@@ -2,7 +2,7 @@ export const fonts = {
   wordmark: "BagelFatOne-Regular",
   header1: "AlbertSans-Bold",
   header2: "AlbertSans-Bold",
-  header3: "AlbertSans-Regular",
+  header3: "AlbertSans-Bold",
   body: "AlbertSans-Regular",
   bodyItalic: "AlbertSans-Italic",
 };
