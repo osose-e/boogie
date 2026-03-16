@@ -20,7 +20,6 @@ const BoogieBotHeader = forwardRef((props, ref) => {
           alignItems: "center",
           height: 56,
           paddingHorizontal: theme.spacing.regular,
-          marginBottom: theme.spacing.regular,
         }}
       >
         {/* Back button FIRST */}

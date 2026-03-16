@@ -25,8 +25,6 @@ const MainHeader = ({ headerRef }) => {
           alignItems: "center",
           justifyContent: "space-between",
           paddingHorizontal: theme.spacing.regular,
-          borderColor: "red",
-          //   borderWidth: 1,
           height: 56,
           //   marginBottom: theme.spacing.regular,
         }}

@@ -23,7 +23,7 @@ const BUILDING_NUMBER_WHITELIST = {
   'memorial church': '01-500',
   'memorial-church': '01-500',
   tresidder: '02-300',
-  tressider: '02-300',
+  tresidder: '02-300',
   'tresidder memorial union': '02-300',
   'trèsidder memorial union': '02-300',
   gilbert: '07-420',
