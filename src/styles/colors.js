@@ -57,7 +57,7 @@ export const colors = {
     header2: "#F0F0F0",
     header3: "#F0F0F0",
     body: "#F0F0F0",
-    bodyPlaceholder: "#AEAEAE",
+    bodyPlaceholder: "#6d6d6d",
 
     background: "#13151F",
     border: "#F0F0F0",

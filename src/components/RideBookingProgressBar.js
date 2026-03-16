@@ -48,7 +48,7 @@ const RideBookingProgressBar = ({ completedSteps = 1 }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingHorizontal: 20,
+    paddingHorizontal: theme.spacing.lg,
     paddingTop: 12,
   },
   segments: {
