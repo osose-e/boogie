@@ -7,7 +7,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles/colors';
-import RideBookingProgressBar from '../components/RideBookingProgressBar';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import ConfirmationHeader from '../components/ConfirmationHeader';
+import { StatusBar } from 'expo-status-bar';
+import { Ionicons } from "@expo/vector-icons";
 
 const RideConfirmationScreen = ({ navigation, route }) => {
   const {
@@ -17,16 +21,12 @@ const RideConfirmationScreen = ({ navigation, route }) => {
     pickupTime = '21:15',
     needsWheelchair = true,
   } = route.params || {};
+  const { theme, themeMode } = useTheme();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.logo} accessibilityRole="text">
-          boogie
-        </Text>
-      </View>
-
-      <RideBookingProgressBar key="ride-conf-full" completedSteps={5} />
+    <SafeAreaView style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <StatusBar style={themeMode === "light" ? "dark" : "light"} />
+      <ConfirmationHeader />
 
       <View style={styles.content}>
         <View style={styles.confirmationContainer}>
@@ -36,38 +36,38 @@ const RideConfirmationScreen = ({ navigation, route }) => {
 
           <View style={styles.detailsContainer} accessible={true}>
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel} accessibilityRole="text">
+              <Text style={[styles.detailLabel, { color: theme.colors.body }]} accessibilityRole="text">
                 Pickup Date & Time:
               </Text>
-              <Text style={styles.detailValue} accessibilityRole="text">
+              <Text style={[styles.detailValue, { color: theme.colors.body }]} accessibilityRole="text">
                 {pickupDate} @ {pickupTime}
               </Text>
             </View>
 
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel} accessibilityRole="text">
+              <Text style={[styles.detailLabel, { color: theme.colors.body }]} accessibilityRole="text">
                 Pickup Location:
               </Text>
-              <Text style={styles.detailValue} accessibilityRole="text">
+              <Text style={[styles.detailValue, { color: theme.colors.body }]} accessibilityRole="text">
                 {pickupLocationName}
               </Text>
             </View>
 
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel} accessibilityRole="text">
+              <Text style={[styles.detailLabel, { color: theme.colors.body }]} accessibilityRole="text">
                 Dropoff Location:
               </Text>
-              <Text style={styles.detailValue} accessibilityRole="text">
+              <Text style={[styles.detailValue, { color: theme.colors.body }]} accessibilityRole="text">
                 {dropoffLocationName}
               </Text>
             </View>
 
             {needsWheelchair && (
-              <View style={styles.wheelchairContainer}>
+              <View style={[styles.wheelchairContainer, {borderTopColor: theme.colors.border}]}>
                 <Text style={styles.wheelchairIcon} accessibilityRole="text">
                   ♿
                 </Text>
-                <Text style={styles.wheelchairText} accessibilityRole="text">
+                <Text style={[styles.wheelchairText, {color: theme.colors.body}]} accessibilityRole="text">
                   You have noted need for a wheelchair.
                 </Text>
               </View>
@@ -79,12 +79,12 @@ const RideConfirmationScreen = ({ navigation, route }) => {
           style={styles.actionButton}
           onPress={() => {
             // In a real app, this would navigate to "My Rides" screen
-            navigation.navigate('Home');
+            navigation.navigate("Home");
           }}
           accessibilityRole="button"
           accessibilityLabel="Go to My Rides"
         >
-          <Text style={styles.actionButtonText}>Go to My Rides →</Text>
+          <Text style={[styles.actionButtonText, {color: theme.colors.background}]}>Go to My Rides →</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -94,38 +94,24 @@ const RideConfirmationScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-    alignItems: 'center',
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: colors.text,
   },
   content: {
     flex: 1,
     padding: 20,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   confirmationContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   confirmationTitle: {
     fontSize: 28,
-    fontWeight: '700',
-    color: colors.text,
+    fontFamily: theme.fonts.header1,
+    color: theme.colors.light.primary,
     marginBottom: 32,
-    textAlign: 'center',
+    textAlign: "center",
   },
   detailsContainer: {
-    backgroundColor: colors.backgroundLight,
     borderRadius: 12,
     padding: 20,
   },
@@ -133,43 +119,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   detailLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.text,
+    fontSize: 16,
+    fontFamily: theme.fonts.header3,
     marginBottom: 6,
   },
   detailValue: {
-    fontSize: 16,
-    color: colors.textSecondary,
+    fontSize: 14,
+    fontFamily: theme.fonts.body,
     lineHeight: 24,
   },
-  dropoffBlock: {
-    marginTop: 4,
-  },
-  dropoffName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  dropoffEntrance: {
-    fontSize: 15,
-    color: colors.textSecondary,
-    fontStyle: 'italic',
-    marginBottom: 4,
-  },
-  dropoffAddress: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    lineHeight: 20,
-  },
   wheelchairContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 8,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
   },
   wheelchairIcon: {
     fontSize: 24,
@@ -177,21 +141,20 @@ const styles = StyleSheet.create({
   },
   wheelchairText: {
     fontSize: 16,
-    color: colors.text,
-    fontWeight: '500',
+    fontFamily: theme.fonts.header3,
+    fontWeight: "500",
   },
   actionButton: {
-    backgroundColor: colors.text,
+    backgroundColor: theme.colors.light.primary,
     paddingVertical: 16,
     paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
+    borderRadius: 100,
+    alignItems: "center",
     marginTop: 20,
   },
   actionButtonText: {
-    color: colors.secondary,
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: theme.fonts.header3,
   },
 });
 
