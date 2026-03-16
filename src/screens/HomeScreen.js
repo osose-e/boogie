@@ -15,7 +15,6 @@ import { StatusBar } from "expo-status-bar";
 import { theme } from "../styles/themes";
 import { useTheme } from "../contexts/ThemeContext";
 import MainHeader from "../components/MainHeader";
-import { colors } from '../styles/colors';
 import { LinearGradient } from "expo-linear-gradient";
 
 const HomeScreen = ({ navigation }) => {

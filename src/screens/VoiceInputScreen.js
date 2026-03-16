@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useActionState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
@@ -16,9 +16,14 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from "expo-status-bar";
 import * as Speech from 'expo-speech';
 import * as Location from 'expo-location';
 import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import { LinearGradient } from "expo-linear-gradient";
+import BoogieBotHeader from '../components/BoogieBotHeader';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import { getOpenAIApiKey } from '../config';
 import { getInitialBotMessage, getInitialTripRequest, tripRequestFromStructuredContext, isTripRequestFilled, processBoogieBotTurn } from '../services/boogieBotApi';
@@ -45,6 +50,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
     resolvedDropoff: null,
   });
   const [currentLocation, setCurrentLocation] = useState(null);
+  const { theme, themeMode } = useTheme();
 
   // for previous context (e.g. user came from Search → EntranceSelect → "Get help from BoogieBot")
   const seededOnceRef = useRef(false);
@@ -365,42 +371,36 @@ const VoiceInputScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <Text style={styles.backIcon}>‹</Text>
-        </TouchableOpacity>
-        <Text 
-          ref={logoRef}
-          style={styles.logo} 
-          accessibilityRole="text"
-          accessible={true}
-          importantForAccessibility="yes"
-          accessibilityLabel="Boogie app"
-        >
-          boogie
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <StatusBar style={themeMode === "light" ? "dark" : "light"} />
+      <BoogieBotHeader
+        ref={logoRef}
 
-      <View style={styles.promptContainer} accessible={true} accessibilityRole="header" accessibilityLabel="Book a DisGo ride: pickup and dropoff. BoogieBot will ask where you want to be picked up, then where you want to be dropped off. Use building names and landmarks, for example north entrance or near the Oval." importantForAccessibility="yes">
+      />
+      <View style={styles.content}></View>
+      <View
+        style={styles.promptContainer}
+        accessible={true}
+        accessibilityRole="header"
+        accessibilityLabel="Book a DisGo ride: pickup and dropoff. BoogieBot will ask where you want to be picked up, then where you want to be dropped off. Use building names and landmarks, for example north entrance or near the Oval."
+        importantForAccessibility="yes"
+      >
         <Text style={styles.prompt} accessibilityElementsHidden={true}>
           Book a DisGo ride: pickup and dropoff
         </Text>
         <Text style={styles.promptSubtext} accessibilityElementsHidden={true}>
-          BoogieBot will ask where you want to be picked up, then where you want to be dropped off. Use building names and landmarks (e.g. north entrance, near the Oval).
+          BoogieBot will ask where you want to be picked up, then where you want
+          to be dropped off. Use building names and landmarks (e.g. north
+          entrance, near the Oval).
         </Text>
       </View>
 
       <KeyboardAvoidingView
         style={styles.chatWrapper}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
         <ScrollView
           ref={scrollViewRef}
@@ -412,12 +412,21 @@ const VoiceInputScreen = ({ navigation, route }) => {
           importantForAccessibility="no"
         >
           {transcript.length === 0 ? (
-            <View style={styles.emptyState} accessible={false} importantForAccessibility="no">
+            <View
+              style={styles.emptyState}
+              accessible={false}
+              importantForAccessibility="no"
+            >
               <TouchableOpacity
-                style={[styles.recordButton, isRecording && styles.recordButtonActive]}
+                style={[
+                  styles.recordButton,
+                  isRecording && styles.recordButtonActive,
+                ]}
                 onPress={isRecording ? stopRecording : startRecording}
                 accessibilityRole="button"
-                accessibilityLabel={isRecording ? 'Stop recording' : 'Start voice recording'}
+                accessibilityLabel={
+                  isRecording ? "Stop recording" : "Start voice recording"
+                }
                 accessibilityHint="Double tap to start or stop voice input"
               >
                 {isRecording ? (
@@ -433,7 +442,8 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 accessibilityLabel="Start the conversation by typing in the message box below, or use your keyboard microphone for voice. Tap the microphone button above to begin."
                 importantForAccessibility="yes"
               >
-                Type your message in the box below, or use your keyboard's microphone (🎤) for voice.
+                Type your message in the box below, or use your keyboard's
+                microphone (🎤) for voice.
               </Text>
             </View>
           ) : (
@@ -442,12 +452,16 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 ref={conversationHeaderRef}
                 accessible={true}
                 accessibilityRole="header"
-                accessibilityLabel={`Conversation with BoogieBot, ${transcript.length} message${transcript.length !== 1 ? 's' : ''}. Swipe right to read each message.`}
+                accessibilityLabel={`Conversation with BoogieBot, ${transcript.length} message${transcript.length !== 1 ? "s" : ""}. Swipe right to read each message.`}
                 style={styles.conversationHeader}
                 importantForAccessibility="yes"
               >
-                <Text style={styles.conversationHeaderText} accessibilityElementsHidden={true}>
-                  Conversation ({transcript.length} message{transcript.length !== 1 ? 's' : ''})
+                <Text
+                  style={styles.conversationHeaderText}
+                  accessibilityElementsHidden={true}
+                >
+                  Conversation ({transcript.length} message
+                  {transcript.length !== 1 ? "s" : ""})
                 </Text>
               </View>
               <View
@@ -455,34 +469,59 @@ const VoiceInputScreen = ({ navigation, route }) => {
                 importantForAccessibility="no"
                 style={styles.messageListWrapper}
               >
-                {transcript.map((message, index) => renderMessage(message, index))}
+                {transcript.map((message, index) =>
+                  renderMessage(message, index),
+                )}
               </View>
             </>
           )}
         </ScrollView>
 
-        <View style={styles.inputSection} pointerEvents="box-none" accessible={false} importantForAccessibility="no" collapsable={false}>
-          <View style={styles.inputRow} pointerEvents="box-none" collapsable={false}>
+        <View
+          style={styles.inputSection}
+          pointerEvents="box-none"
+          accessible={false}
+          importantForAccessibility="no"
+          collapsable={false}
+        >
+          <View
+            style={styles.inputRow}
+            pointerEvents="box-none"
+            collapsable={false}
+          >
             <TextInput
               ref={textInputRef}
               style={styles.manualInput}
               value={manualInput}
               onChangeText={setManualInput}
-              placeholder={transcript.length === 0 ? "e.g. I want to go to CoDa" : "Type or say your next message..."}
+              placeholder={
+                transcript.length === 0
+                  ? "e.g. I want to go to CoDa"
+                  : "Type or say your next message..."
+              }
               placeholderTextColor={colors.textSecondary}
               onSubmitEditing={handleManualSubmit}
               onBlur={() => Keyboard.dismiss()}
               editable={true}
-              accessibilityLabel={transcript.length === 0 ? "Message to BoogieBot. Type or use keyboard voice input." : "Your reply. Type or use keyboard voice input."}
+              accessibilityLabel={
+                transcript.length === 0
+                  ? "Message to BoogieBot. Type or use keyboard voice input."
+                  : "Your reply. Type or use keyboard voice input."
+              }
               accessibilityRole="textbox"
               accessibilityHint="Double tap to edit. Use keyboard microphone for voice."
               returnKeyType="send"
             />
             <TouchableOpacity
-              style={[styles.sendButton, isProcessing && styles.submitButtonDisabled]}
+              style={[
+                styles.sendButton,
+                isProcessing && styles.submitButtonDisabled,
+              ]}
               onPress={handleManualSubmit}
               accessibilityRole="button"
-              accessibilityLabel={isProcessing ? 'BoogieBot is thinking' : 'Send message'}
+              accessibilityLabel={
+                isProcessing ? "BoogieBot is thinking" : "Send message"
+              }
               accessibilityState={{ disabled: isProcessing }}
             >
               {isProcessing ? (
@@ -493,34 +532,61 @@ const VoiceInputScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
           {isProcessing && (
-            <View style={styles.statusBar} accessible={true} accessibilityLiveRegion="polite" accessibilityLabel="BoogieBot is thinking">
+            <View
+              style={styles.statusBar}
+              accessible={true}
+              accessibilityLiveRegion="polite"
+              accessibilityLabel="BoogieBot is thinking"
+            >
               <Text style={styles.statusText}>BoogieBot is thinking…</Text>
             </View>
           )}
           {isRecording && (
-            <View style={styles.statusBar} accessible={true} accessibilityLiveRegion="polite" accessibilityLabel="Listening">
+            <View
+              style={styles.statusBar}
+              accessible={true}
+              accessibilityLiveRegion="polite"
+              accessibilityLabel="Listening"
+            >
               <ActivityIndicator size="small" color={colors.primary} />
               <Text style={styles.statusText}>Listening…</Text>
             </View>
           )}
         </View>
-
       </KeyboardAvoidingView>
 
       {transcript.length > 0 && (
-        <View style={styles.actionButtonsOuter} accessible={false} importantForAccessibility="no" collapsable={false}>
+        <View
+          style={styles.actionButtonsOuter}
+          accessible={false}
+          importantForAccessibility="no"
+          collapsable={false}
+        >
           <TouchableOpacity
-            style={[styles.primaryButton, !isTripRequestFilled(tripRequest) && styles.primaryButtonDisabled]}
+            style={[
+              styles.primaryButton,
+              !isTripRequestFilled(tripRequest) && styles.primaryButtonDisabled,
+            ]}
             onPress={handleContinueToConfirmation}
             disabled={!isTripRequestFilled(tripRequest)}
             accessible={true}
             accessibilityRole="button"
             accessibilityLabel="Continue to ride confirmation"
-            accessibilityHint={isTripRequestFilled(tripRequest) ? "Double tap to go to the next step and complete your ride booking." : "Finish setting your pickup and dropoff locations (including entrances) to continue."}
-            accessibilityState={{ disabled: !isTripRequestFilled(tripRequest) }}
+            accessibilityHint={
+              isTripRequestFilled(tripRequest)
+                ? "Double tap to go to the next step and complete your ride booking."
+                : "Finish setting your pickup and dropoff locations (including entrances) to continue."
+            }
+            accessibilityState={{
+              disabled: !isTripRequestFilled(tripRequest),
+            }}
             importantForAccessibility="yes"
           >
-            <Text style={styles.primaryButtonText} accessibilityElementsHidden={true} importantForAccessibility="no">
+            <Text
+              style={styles.primaryButtonText}
+              accessibilityElementsHidden={true}
+              importantForAccessibility="no"
+            >
               Continue to ride confirmation
             </Text>
           </TouchableOpacity>
@@ -528,13 +594,29 @@ const VoiceInputScreen = ({ navigation, route }) => {
       )}
     </SafeAreaView>
   );
+  
+  
+  
+  
+  return (
+    <>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
+        <StatusBar style={themeMode === "light" ? "dark" : "light"} />
+        <BoogieBotHeader ref={logoRef} />
+
+        
+      </SafeAreaView>
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
+  content: { flex: 1, padding: 20 },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
