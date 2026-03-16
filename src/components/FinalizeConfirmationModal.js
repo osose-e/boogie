@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.light.primary,
     paddingVertical: 14,
     paddingHorizontal: 24,
-    borderRadius: 8,
+    borderRadius: 100,
     alignItems: 'center',
   },
   confirmButtonText: {
