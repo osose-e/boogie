@@ -58,7 +58,7 @@ const KNOWN_ADDRESSES = {
   'lathrop library': '518 Memorial Way, Stanford, CA 94305',
   'tresidder memorial union': '459 Lagunita Drive, Stanford, CA 94305',
   'tresidder': '459 Lagunita Drive, Stanford, CA 94305',
-  'tressider': '459 Lagunita Drive, Stanford, CA 94305',
+  'tresidder': '459 Lagunita Drive, Stanford, CA 94305',
   'coda': '385 Serra Mall, Stanford, CA 94305',
   'computing and data science': '385 Serra Mall, Stanford, CA 94305',
   'wallenberg hall': '450 Serra Mall, Stanford, CA 94305',
@@ -444,7 +444,7 @@ async function openAIEnhanceBuilding(building, index, total, webContext = null) 
 Use ALL of the following to infer the best data:
 1. **Overpass data**: Use the building's Overpass tags (addr:street, name, building type) and nearby Overpass features (bicycle_parking → bikeRacks, parking → parkingLot, entrance nodes) to infer entrances and landmarks. Assign nearby amenities to the most likely entrance (e.g. north side).
 2. **Stanford searchable map** (campus-map.stanford.edu): Use knowledge of official building names and locations (Serra Mall, Jane Stanford Way, Lagunita Drive, Main Quad, White Plaza, MemAud, Oval, etc.). Do not add or infer building/facility numbers.
-3. **General Stanford campus knowledge**: Addresses, abbreviations (CoDa, TMU, MemAud), and landmarks (Oval, White Plaza, Tressider, libraries, dorms).
+3. **General Stanford campus knowledge**: Addresses, abbreviations (CoDa, TMU, MemAud), and landmarks (Oval, White Plaza, Tresidder, libraries, dorms).
 
 ${contextParts.join('\n')}
 

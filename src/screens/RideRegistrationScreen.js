@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,18 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   Switch,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import StackHeader from '../components/StackHeader';
 import RideBookingProgressBar from '../components/RideBookingProgressBar';
 import CancelConfirmationModal from '../components/CancelConfirmationModal';
 import FinalizeConfirmationModal from '../components/FinalizeConfirmationModal';
+import { StatusBar } from 'expo-status-bar';
+import { Ionicons } from "@expo/vector-icons";
 
 const RideRegistrationScreen = ({ navigation, route }) => {
   const {
@@ -46,6 +51,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
   const [isRecurring, setIsRecurring] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showFinalizeModal, setShowFinalizeModal] = useState(false);
+  const { theme, themeMode } = useTheme();
 
   const handleRequestRide = () => {
     setShowFinalizeModal(true);
@@ -70,49 +76,49 @@ const RideRegistrationScreen = ({ navigation, route }) => {
 
   const handleCancel = () => {
     setShowCancelModal(false);
-    navigation.goBack();
+    navigation.navigate("Home");
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <Text style={styles.backIcon}>‹</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle} accessibilityRole="header">
-          Complete Ride Booking
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
-
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <StatusBar style={themeMode === "light" ? "dark" : "light"} />
+      <StackHeader title="Complete Ride Booking" />
       <RideBookingProgressBar key="ride-reg-5" completedSteps={5} />
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-
+      <ScrollView
+        style={[styles.content, { borderTopColor: theme.colors.border }]}
+        contentContainerStyle={styles.contentContainer}
+      >
         <View style={styles.section}>
-          <Text style={styles.sectionLabel} accessibilityRole="text">
+          <Text
+            style={[styles.sectionLabel, { color: theme.colors.header3 }]}
+            accessibilityRole="text"
+          >
             Pick-up Time
           </Text>
           <View style={styles.timeToggleContainer}>
             <TouchableOpacity
               style={[
                 styles.timeToggle,
-                pickupTime === 'now' && styles.timeToggleActive,
+                pickupTime === "now" && styles.timeToggleActive,
+                { borderColor: theme.colors.border },
               ]}
-              onPress={() => setPickupTime('now')}
+              onPress={() => setPickupTime("now")}
               accessibilityRole="button"
               accessibilityLabel="Select pickup time: Now"
-              accessibilityState={{ selected: pickupTime === 'now' }}
+              accessibilityState={{ selected: pickupTime === "now" }}
             >
               <Text
                 style={[
                   styles.timeToggleText,
-                  pickupTime === 'now' && styles.timeToggleTextActive,
+                  {
+                    color:
+                      pickupTime === "now"
+                        ? theme.colors.background
+                        : theme.colors.body,
+                  },
                 ]}
               >
                 Now
@@ -121,17 +127,23 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             <TouchableOpacity
               style={[
                 styles.timeToggle,
-                pickupTime === 'later' && styles.timeToggleActive,
+                pickupTime === "later" && styles.timeToggleActive,
+                { borderColor: theme.colors.border },
               ]}
-              onPress={() => setPickupTime('later')}
+              onPress={() => setPickupTime("later")}
               accessibilityRole="button"
               accessibilityLabel="Select pickup time: Later"
-              accessibilityState={{ selected: pickupTime === 'later' }}
+              accessibilityState={{ selected: pickupTime === "later" }}
             >
               <Text
                 style={[
                   styles.timeToggleText,
-                  pickupTime === 'later' && styles.timeToggleTextActive,
+                  {
+                    color:
+                      pickupTime === "later"
+                        ? theme.colors.background
+                        : theme.colors.body,
+                  },
                 ]}
               >
                 Later
@@ -139,13 +151,23 @@ const RideRegistrationScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
 
-          {pickupTime === 'later' && (
+          {pickupTime === "later" && (
             <View style={styles.dateTimeContainer}>
               <View style={styles.dateTimeColumn}>
-                <Text style={styles.dateTimeLabel}   accessible={false} 
-              importantForAccessibility="no"
-              accessibilityElementsHidden={true}>Date</Text>
-                <View style={styles.dateTimeInputContainer}>
+                <Text
+                  style={[styles.dateTimeLabel, { color: theme.colors.body }]}
+                  accessible={false}
+                  importantForAccessibility="no"
+                  accessibilityElementsHidden={true}
+                >
+                  Date
+                </Text>
+                <View
+                  style={[
+                    styles.dateTimeInputContainer,
+                    { backgroundColor: theme.colors.separator },
+                  ]}
+                >
                   <TextInput
                     style={styles.dateTimeInput}
                     value={pickupDate}
@@ -153,13 +175,28 @@ const RideRegistrationScreen = ({ navigation, route }) => {
                     accessibilityLabel="Pickup date"
                     accessibilityRole="textbox"
                   />
+                  <Ionicons
+                    name="pencil"
+                    size={24}
+                    color={theme.colors.icons}
+                  />
                 </View>
               </View>
               <View style={styles.dateTimeColumn}>
-                <Text style={styles.dateTimeLabel}   accessible={false} 
-              importantForAccessibility="no"
-              accessibilityElementsHidden={true}>Time</Text>
-                <View style={styles.dateTimeInputContainer}>
+                <Text
+                  style={[styles.dateTimeLabel, { color: theme.colors.body }]}
+                  accessible={false}
+                  importantForAccessibility="no"
+                  accessibilityElementsHidden={true}
+                >
+                  Time
+                </Text>
+                <View
+                  style={[
+                    styles.dateTimeInputContainer,
+                    { backgroundColor: theme.colors.separator },
+                  ]}
+                >
                   <TextInput
                     style={styles.dateTimeInput}
                     value={pickupTimeValue}
@@ -168,6 +205,11 @@ const RideRegistrationScreen = ({ navigation, route }) => {
                     accessibilityLabel="Pickup time"
                     accessibilityRole="textbox"
                   />
+                  <Ionicons
+                    name="pencil"
+                    size={24}
+                    color={theme.colors.icons}
+                  />
                 </View>
               </View>
             </View>
@@ -175,56 +217,73 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionLabel} accessibilityRole="text">
+          <Text
+            style={[styles.sectionLabel, { color: theme.colors.body }]}
+            accessibilityRole="text"
+          >
             Pickup Location
           </Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{pickupLocationName}</Text>
+            <Text style={[styles.locationText, { color: theme.colors.body }]}>
+              {pickupLocationName}
+            </Text>
           </View>
         </View>
 
-
         <View style={styles.section}>
-          <Text style={styles.sectionLabel} accessibilityRole="text">
+          <Text
+            style={[styles.sectionLabel, { color: theme.colors.body }]}
+            accessibilityRole="text"
+          >
             Dropoff Location
           </Text>
           <View style={styles.locationContainer}>
-            <Text style={styles.locationText}>{dropoffLocationName}</Text>
+            <Text style={[styles.locationText, { color: theme.colors.body }]}>
+              {dropoffLocationName}
+            </Text>
           </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionLabel} accessibilityRole="text">
+          <Text
+            style={[styles.sectionLabel, { color: theme.colors.body }]}
+            accessibilityRole="text"
+          >
             Notes
           </Text>
           <TextInput
-            style={styles.notesInput}
+            style={[styles.notesInput, { borderColor: theme.colors.border }]}
             value={notes}
             onChangeText={setNotes}
             placeholder="Notes for the driver. (Optional, max. 100 characters)"
-            placeholderTextColor={colors.textSecondary}
+            placeholderTextColor={theme.colors.bodyPlaceholder}
             multiline
             maxLength={100}
             accessibilityRole="textbox"
           />
-          <Text style={styles.notesCounter} 
-              accessible={false} 
-              importantForAccessibility="no"
-              accessibilityElementsHidden={true}>
+          <Text
+            style={[styles.notesCounter, { color: theme.colors.body }]}
+            accessible={false}
+            importantForAccessibility="no"
+            accessibilityElementsHidden={true}
+          >
             {notes.length}/100
           </Text>
         </View>
 
         <View style={styles.section}>
           <View style={styles.switchContainer}>
-            <Text style={styles.switchLabel} accessibilityRole="text">
+            <Text
+              style={[styles.switchLabel, { color: theme.colors.body }]}
+              accessibilityRole="text"
+            >
               Check if you need a wheelchair
             </Text>
             <Switch
               value={needsWheelchair}
               onValueChange={setNeedsWheelchair}
-              trackColor={{ false: colors.border, true: colors.primary }}
-              thumbColor={colors.secondary}
+              trackColor={{ false: theme.colors.background, true: "#09A6B8" }}
+              thumbColor={"#FFFFFF"}
               accessibilityRole="switch"
               accessibilityLabel="Wheelchair accessibility needed"
               accessibilityState={{ checked: needsWheelchair }}
@@ -232,14 +291,17 @@ const RideRegistrationScreen = ({ navigation, route }) => {
           </View>
 
           <View style={styles.switchContainer}>
-            <Text style={styles.switchLabel} accessibilityRole="text">
+            <Text
+              style={[styles.switchLabel, { color: theme.colors.body }]}
+              accessibilityRole="text"
+            >
               This is a recurring request
             </Text>
             <Switch
               value={isRecurring}
               onValueChange={setIsRecurring}
-              trackColor={{ false: colors.border, true: colors.primary }}
-              thumbColor={colors.secondary}
+              trackColor={{ false: theme.colors.background, true: "#09A6B8" }}
+              thumbColor={"#FFFFFF"}
               accessibilityRole="switch"
               accessibilityLabel="Recurring ride request"
               accessibilityState={{ checked: isRecurring }}
@@ -248,14 +310,14 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         </View>
       </ScrollView>
 
-      <View style={styles.actionButtons}>
+      <View style={[styles.actionButtons, {borderTopColor: theme.colors.border}]}>
         <TouchableOpacity
-          style={styles.cancelButton}
+          style={[styles.cancelButton, {borderColor: theme.colors.border}]}
           onPress={() => setShowCancelModal(true)}
           accessibilityRole="button"
           accessibilityLabel="Cancel booking"
         >
-          <Text style={styles.cancelButtonText}>Cancel booking</Text>
+          <Text style={[styles.cancelButtonText, {color: theme.colors.body}]}>Cancel booking</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.requestButton}
@@ -263,7 +325,7 @@ const RideRegistrationScreen = ({ navigation, route }) => {
           accessibilityRole="button"
           accessibilityLabel="Request ride"
         >
-          <Text style={styles.requestButtonText}>Request ride</Text>
+          <Text style={[styles.requestButtonText, {color: theme.colors.background}]}>Request ride</Text>
         </TouchableOpacity>
       </View>
 
@@ -278,8 +340,9 @@ const RideRegistrationScreen = ({ navigation, route }) => {
         onClose={() => setShowFinalizeModal(false)}
         onConfirm={handleFinalizeBooking}
         rideDetails={{
-          pickupDate: pickupTime === 'now' ? new Date().toISOString() : pickupDate,
-          pickupTime: pickupTime === 'now' ? 'Now' : pickupTimeValue,
+          pickupDate:
+            pickupTime === "now" ? new Date().toISOString() : pickupDate,
+          pickupTime: pickupTime === "now" ? "Now" : pickupTimeValue,
           pickupLocationName,
           dropoffLocationName,
         }}
@@ -294,9 +357,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
@@ -305,8 +368,8 @@ const styles = StyleSheet.create({
   backButton: {
     width: 40,
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
   backIcon: {
     fontSize: 32,
@@ -314,7 +377,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.text,
   },
   headerSpacer: {
@@ -322,6 +385,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    marginTop: theme.spacing.md,
+    borderTopWidth: 2,
   },
   contentContainer: {
     padding: 20,
@@ -338,12 +403,11 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
+    fontFamily: theme.fonts.header3,
     marginBottom: 12,
   },
   timeToggleContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
     marginBottom: 16,
   },
@@ -352,105 +416,94 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
+    alignItems: "center",
   },
   timeToggleActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: theme.colors.light.primary,
+    borderWidth: 0,
   },
   timeToggleText: {
     fontSize: 16,
-    color: colors.text,
-    fontWeight: '600',
-  },
-  timeToggleTextActive: {
-    color: colors.secondary,
+    fontFamily: theme.fonts.header3,
   },
   dateTimeContainer: {
     gap: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   dateTimeColumn: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'left',
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "left",
   },
   dateTimeLabel: {
     fontSize: 14,
-    color: colors.textSecondary,
+    fontFamily: theme.fonts.header3,
     importantForAccessibility: "no",
     accessibilityElementsHidden: true,
     accessible: false,
   },
   dateTimeInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 8,
   },
   dateTimeInput: {
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
     paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
     borderRadius: 6,
     minWidth: 120,
   },
-  editIcon: {
-    fontSize: 16,
-  },
   locationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 12,
-    backgroundColor: colors.backgroundLight,
     borderRadius: 8,
   },
   locationText: {
     flex: 1,
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
   },
   notesInput: {
     backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
     minHeight: 80,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
   notesCounter: {
     fontSize: 12,
     color: colors.textSecondary,
-    textAlign: 'right',
+    textAlign: "right",
     marginTop: 4,
   },
   switchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 12,
     marginBottom: 8,
   },
   switchLabel: {
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
     flex: 1,
   },
   actionButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
+    borderTopWidth: 2,
     gap: 12,
   },
   cancelButton: {
@@ -461,25 +514,23 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundLight,
     borderWidth: 1,
     borderColor: colors.border,
-    alignItems: 'center',
+    alignItems: "center",
   },
   cancelButtonText: {
-    color: colors.text,
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: theme.colors.body,
   },
   requestButton: {
     flex: 1,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: colors.text,
-    alignItems: 'center',
+    alignItems: "center",
+    backgroundColor: theme.colors.light.primary,
   },
   requestButtonText: {
-    color: colors.secondary,
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: theme.fonts.header3,
   },
 });
 

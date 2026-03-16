@@ -1,0 +1,26 @@
+export default {
+  expo: {
+    name: "boogie",
+    slug: "boogie",
+    version: "1.0.0",
+    orientation: "portrait",
+    userInterfaceStyle: "light",
+    splash: {
+      resizeMode: "contain",
+      backgroundColor: "#ffffff",
+    },
+    ios: {
+      supportsTablet: true,
+      bundleIdentifier: "com.boogie.app",
+    },
+    android: {
+      adaptiveIcon: {
+        backgroundColor: "#ffffff",
+      },
+      package: "com.boogie.app",
+    },
+    extra: {
+      openAiApiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
+    },
+  },
+};

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
 
 const TOTAL_STEPS = 5;
 
@@ -14,6 +16,7 @@ const TOTAL_STEPS = 5;
 const RideBookingProgressBar = ({ completedSteps = 1 }) => {
   const clamped = Math.max(1, Math.min(completedSteps, TOTAL_STEPS));
   const label = `Progress: Steps ${clamped}/${TOTAL_STEPS} Completed`;
+  const { theme } = useTheme();
 
   return (
     <View
@@ -32,7 +35,9 @@ const RideBookingProgressBar = ({ completedSteps = 1 }) => {
             key={i}
             style={[
               styles.segment,
-              i < clamped ? styles.segmentFilled : styles.segmentEmpty,
+              {
+                backgroundColor: i < clamped ? "#09A6B8" : theme.colors.progressUnfilled
+              },
             ]}
           />
         ))}
@@ -43,7 +48,7 @@ const RideBookingProgressBar = ({ completedSteps = 1 }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingHorizontal: 20,
+    paddingHorizontal: theme.spacing.lg,
     paddingTop: 12,
   },
   segments: {
@@ -54,14 +59,11 @@ const styles = StyleSheet.create({
   },
   segment: {
     flex: 1,
-    height: 8,
+    height: 5,
     borderRadius: 4,
   },
   segmentFilled: {
-    backgroundColor: colors.primary,
-  },
-  segmentEmpty: {
-    backgroundColor: colors.border,
+    backgroundColor: theme.colors.light.primary,
   },
 });
 

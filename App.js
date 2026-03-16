@@ -1,36 +1,39 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'expo-status-bar';
-import HomeScreen from './src/screens/HomeScreen';
-import VoiceInputScreen from './src/screens/VoiceInputScreen';
-import RideRegistrationScreen from './src/screens/RideRegistrationScreen';
-import RideConfirmationScreen from './src/screens/RideConfirmationScreen';
-import SearchScreen from './src/screens/SearchScreen';
-import EntranceSelectScreen from './src/screens/EntranceSelectScreen';
+import { useFonts } from "expo-font";
+import RootNavigator from './src/navigation/RootNavigator';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ThemeProvider } from "./src/contexts/ThemeContext";
+import { useTheme } from "./src/contexts/ThemeContext";
 
-const Stack = createStackNavigator();
+
+function AppContent() {
+  const { theme } = useTheme();
+
+  return (
+    <NavigationContainer theme={theme}>
+      <RootNavigator />
+    </NavigationContainer>
+  );
+}
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "AlbertSans-Regular": require("./assets/fonts/AlbertSans-Regular.ttf"),
+    "AlbertSans-Bold": require("./assets/fonts/AlbertSans-Bold.ttf"),
+    "AlbertSans-Italic": require("./assets/fonts/AlbertSans-Italic.ttf"),
+    "BagelFatOne": require("./assets/fonts/BagelFatOne-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="VoiceInput" component={VoiceInputScreen} />
-        <Stack.Screen name="RideRegistration" component={RideRegistrationScreen} />
-        <Stack.Screen name="RideConfirmation" component={RideConfirmationScreen} />
-        <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="PickupEntranceSelect" component={EntranceSelectScreen} />
-        <Stack.Screen name="DropoffEntranceSelect" component={EntranceSelectScreen} />
-        <Stack.Screen name="PickupSearch" component={SearchScreen} />
-        <Stack.Screen name="DropoffSearch" component={SearchScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <SafeAreaProvider>
+        <AppContent />
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useActionState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   ActivityIndicator,
   TextInput,
   Alert,
@@ -16,9 +15,15 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from "expo-status-bar";
 import * as Speech from 'expo-speech';
 import * as Location from 'expo-location';
 import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import { Ionicons } from "@expo/vector-icons";
+import BoogieBotHeader from '../components/BoogieBotHeader';
 import { DEFAULT_PICKUP_LOCATION } from '../constants/stanfordLocations';
 import { getOpenAIApiKey } from '../config';
 import { getInitialBotMessage, getInitialTripRequest, tripRequestFromStructuredContext, isTripRequestFilled, processBoogieBotTurn } from '../services/boogieBotApi';
@@ -45,6 +50,7 @@ const VoiceInputScreen = ({ navigation, route }) => {
     resolvedDropoff: null,
   });
   const [currentLocation, setCurrentLocation] = useState(null);
+  const { theme, themeMode } = useTheme();
 
   // for previous context (e.g. user came from Search → EntranceSelect → "Get help from BoogieBot")
   const seededOnceRef = useRef(false);
@@ -329,30 +335,44 @@ const VoiceInputScreen = ({ navigation, route }) => {
         ref={(ref) => {
           if (ref) messageRefs.current[message.timestamp] = ref;
         }}
-        style={[styles.messageContainer, isUser ? styles.userMessage : styles.botMessage]}
+        style={[
+          styles.messageContainer,
+          isUser
+            ? styles.userMessage
+            : [styles.botMessage, { borderColor: theme.colors.border }],
+        ]}
         accessible={true}
         accessibilityRole="text"
         accessibilityLabel={`${positionLabel}${roleLabel}: ${cleanText}`}
-        accessibilityHint={isUser ? 'Your message.' : 'BoogieBot message.'}
+        accessibilityHint={isUser ? "Your message." : "BoogieBot message."}
         importantForAccessibility="yes"
-        accessibilityLiveRegion={isLastMessage ? 'polite' : undefined}
+        accessibilityLiveRegion={isLastMessage ? "polite" : undefined}
       >
-        <Text 
-          style={styles.messageLabel}
+        <Text
+          style={[
+            styles.messageLabel,
+            { color: isUser ? theme.colors.background : theme.colors.header3 },
+          ]}
           accessibilityElementsHidden={true}
           importantForAccessibility="no"
         >
-          {isUser ? 'You:' : 'BoogieBot:'}
+          {isUser ? "You:" : "BoogieBot:"}
         </Text>
-        <Text 
-          style={styles.messageText} 
+        <Text
+          style={[
+            styles.messageText,
+            { color: isUser ? theme.colors.background : theme.colors.body },
+          ]}
           accessibilityElementsHidden={true}
           importantForAccessibility="no"
         >
-          {displayText.split('**').map((part, idx) => {
+          {displayText.split("**").map((part, idx) => {
             if (idx % 2 === 1) {
               return (
-                <Text key={idx} style={styles.highlightedText}>
+                <Text
+                  key={idx}
+                  style={[styles.highlightedText, { color: "#09A6B8" }]}
+                >
                   {part}
                 </Text>
               );
@@ -365,162 +385,208 @@ const VoiceInputScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <StatusBar style={themeMode === "light" ? "dark" : "light"} />
+      <BoogieBotHeader ref={logoRef} />
+      <View
+        style={[
+          styles.promptContainer,
+          { borderBottomColor: theme.colors.border },
+        ]}
+        accessible={true}
+        accessibilityRole="header"
+        importantForAccessibility="yes"
+      >
+        <Text
+          style={[styles.prompt, { color: theme.colors.header3 }]}
+          accessibilityElementsHidden={true}
         >
-          <Text style={styles.backIcon}>‹</Text>
-        </TouchableOpacity>
-        <Text 
-          ref={logoRef}
-          style={styles.logo} 
-          accessibilityRole="text"
-          accessible={true}
-          importantForAccessibility="yes"
-          accessibilityLabel="Boogie app"
+          Book a DisGo ride: Pickup and Dropoff
+        </Text>
+        <Text
+          style={[styles.promptSubtext, { color: theme.colors.body }]}
+          accessibilityElementsHidden={true}
         >
-          boogie
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
-
-      <View style={styles.promptContainer} accessible={true} accessibilityRole="header" accessibilityLabel="Book a DisGo ride: pickup and dropoff. BoogieBot will ask where you want to be picked up, then where you want to be dropped off. Use building names and landmarks, for example north entrance or near the Oval." importantForAccessibility="yes">
-        <Text style={styles.prompt} accessibilityElementsHidden={true}>
-          Book a DisGo ride: pickup and dropoff
-        </Text>
-        <Text style={styles.promptSubtext} accessibilityElementsHidden={true}>
-          BoogieBot will ask where you want to be picked up, then where you want to be dropped off. Use building names and landmarks (e.g. north entrance, near the Oval).
+          BoogieBot will ask where you want to be picked up, then where you want
+          to be dropped off. Please building names, directions and landmarks
+          (e.g. north entrance, near the Oval).
         </Text>
       </View>
 
       <KeyboardAvoidingView
         style={styles.chatWrapper}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
         <ScrollView
           ref={scrollViewRef}
           style={styles.transcriptContainer}
+          scrollIndicatorInsets={{ right: -3 }}
           contentContainerStyle={styles.transcriptContent}
           keyboardShouldPersistTaps="always"
           onScrollBeginDrag={() => Keyboard.dismiss()}
           accessible={false}
           importantForAccessibility="no"
         >
-          {transcript.length === 0 ? (
-            <View style={styles.emptyState} accessible={false} importantForAccessibility="no">
-              <TouchableOpacity
-                style={[styles.recordButton, isRecording && styles.recordButtonActive]}
-                onPress={isRecording ? stopRecording : startRecording}
-                accessibilityRole="button"
-                accessibilityLabel={isRecording ? 'Stop recording' : 'Start voice recording'}
-                accessibilityHint="Double tap to start or stop voice input"
-              >
-                {isRecording ? (
-                  <ActivityIndicator size="large" color={colors.secondary} />
-                ) : (
-                  <Text style={styles.recordButtonIcon}>🎤</Text>
-                )}
-              </TouchableOpacity>
-              <Text
-                style={styles.emptyStateText}
-                accessible={true}
-                accessibilityRole="text"
-                accessibilityLabel="Start the conversation by typing in the message box below, or use your keyboard microphone for voice. Tap the microphone button above to begin."
-                importantForAccessibility="yes"
-              >
-                Type your message in the box below, or use your keyboard's microphone (🎤) for voice.
-              </Text>
-            </View>
-          ) : (
-            <>
-              <View
-                ref={conversationHeaderRef}
-                accessible={true}
-                accessibilityRole="header"
-                accessibilityLabel={`Conversation with BoogieBot, ${transcript.length} message${transcript.length !== 1 ? 's' : ''}. Swipe right to read each message.`}
-                style={styles.conversationHeader}
-                importantForAccessibility="yes"
-              >
-                <Text style={styles.conversationHeaderText} accessibilityElementsHidden={true}>
-                  Conversation ({transcript.length} message{transcript.length !== 1 ? 's' : ''})
-                </Text>
-              </View>
-              <View
-                accessible={false}
-                importantForAccessibility="no"
-                style={styles.messageListWrapper}
-              >
-                {transcript.map((message, index) => renderMessage(message, index))}
-              </View>
-            </>
-          )}
+          <View
+            ref={conversationHeaderRef}
+            accessible={true}
+            accessibilityRole="header"
+            accessibilityLabel={`Conversation with BoogieBot, ${transcript.length} message${transcript.length !== 1 ? "s" : ""}. Swipe right to read each message.`}
+            style={[
+              styles.conversationHeader,
+              { borderBottomColor: theme.colors.border },
+            ]}
+            importantForAccessibility="yes"
+          >
+            <Text
+              style={[
+                styles.conversationHeaderText,
+                { color: theme.colors.header3 },
+              ]}
+              accessibilityElementsHidden={true}
+            >
+              Conversation ({transcript.length} message
+              {transcript.length !== 1 ? "s" : ""})
+            </Text>
+          </View>
+          <View
+            accessible={false}
+            importantForAccessibility="no"
+            style={styles.messageListWrapper}
+          >
+            {transcript.map((message, index) => renderMessage(message, index))}
+          </View>
         </ScrollView>
 
-        <View style={styles.inputSection} pointerEvents="box-none" accessible={false} importantForAccessibility="no" collapsable={false}>
-          <View style={styles.inputRow} pointerEvents="box-none" collapsable={false}>
+        <View
+          style={[styles.inputSection, { borderTopColor: theme.colors.border }]}
+          pointerEvents="box-none"
+          accessible={false}
+          importantForAccessibility="no"
+          collapsable={false}
+        >
+          <View
+            style={styles.inputRow}
+            pointerEvents="box-none"
+            collapsable={false}
+          >
             <TextInput
               ref={textInputRef}
-              style={styles.manualInput}
+              style={[
+                styles.manualInput,
+                { borderColor: theme.colors.border, color: theme.colors.body },
+              ]}
               value={manualInput}
               onChangeText={setManualInput}
-              placeholder={transcript.length === 0 ? "e.g. I want to go to CoDa" : "Type or say your next message..."}
-              placeholderTextColor={colors.textSecondary}
+              placeholder={
+                transcript.length === 0
+                  ? "e.g. I want to go to CoDa"
+                  : "Type or say your next message..."
+              }
+              placeholderTextColor={theme.colors.bodyPlaceholder}
               onSubmitEditing={handleManualSubmit}
               onBlur={() => Keyboard.dismiss()}
               editable={true}
-              accessibilityLabel={transcript.length === 0 ? "Message to BoogieBot. Type or use keyboard voice input." : "Your reply. Type or use keyboard voice input."}
+              accessibilityLabel={
+                transcript.length === 0
+                  ? "Message to BoogieBot. Type or use keyboard voice input."
+                  : "Your reply. Type or use keyboard voice input."
+              }
               accessibilityRole="textbox"
               accessibilityHint="Double tap to edit. Use keyboard microphone for voice."
               returnKeyType="send"
             />
             <TouchableOpacity
-              style={[styles.sendButton, isProcessing && styles.submitButtonDisabled]}
+              style={[
+                styles.sendButton,
+                isProcessing && styles.submitButtonDisabled,
+              ]}
               onPress={handleManualSubmit}
               accessibilityRole="button"
-              accessibilityLabel={isProcessing ? 'BoogieBot is thinking' : 'Send message'}
+              accessibilityLabel={
+                isProcessing ? "BoogieBot is thinking" : "Send message"
+              }
               accessibilityState={{ disabled: isProcessing }}
             >
               {isProcessing ? (
-                <ActivityIndicator size="small" color={colors.secondary} />
+                <ActivityIndicator size="small" color={theme.colors.body} />
               ) : (
-                <Text style={styles.submitButtonText}>Send</Text>
+                <Ionicons
+                  name="send"
+                  size={30}
+                  color={
+                    !manualInput.trim() || isProcessing ? "#808080" : "#09A6B8"
+                  }
+                />
               )}
             </TouchableOpacity>
           </View>
           {isProcessing && (
-            <View style={styles.statusBar} accessible={true} accessibilityLiveRegion="polite" accessibilityLabel="BoogieBot is thinking">
-              <Text style={styles.statusText}>BoogieBot is thinking…</Text>
+            <View
+              style={styles.statusBar}
+              accessible={true}
+              accessibilityLiveRegion="polite"
+              accessibilityLabel="BoogieBot is thinking"
+            >
+              <Text
+                style={[styles.statusText, { color: theme.colors.header3 }]}
+              >
+                BoogieBot is thinking…
+              </Text>
             </View>
           )}
           {isRecording && (
-            <View style={styles.statusBar} accessible={true} accessibilityLiveRegion="polite" accessibilityLabel="Listening">
+            <View
+              style={styles.statusBar}
+              accessible={true}
+              accessibilityLiveRegion="polite"
+              accessibilityLabel="Listening"
+            >
               <ActivityIndicator size="small" color={colors.primary} />
               <Text style={styles.statusText}>Listening…</Text>
             </View>
           )}
         </View>
-
       </KeyboardAvoidingView>
 
       {transcript.length > 0 && (
-        <View style={styles.actionButtonsOuter} accessible={false} importantForAccessibility="no" collapsable={false}>
+        <View
+          style={[
+            styles.actionButtonsOuter,
+            { borderTopColor: theme.colors.border },
+          ]}
+          accessible={false}
+          importantForAccessibility="no"
+          collapsable={false}
+        >
           <TouchableOpacity
-            style={[styles.primaryButton, !isTripRequestFilled(tripRequest) && styles.primaryButtonDisabled]}
+            style={[
+              styles.primaryButton,
+              !isTripRequestFilled(tripRequest) && styles.primaryButtonDisabled,
+            ]}
             onPress={handleContinueToConfirmation}
             disabled={!isTripRequestFilled(tripRequest)}
             accessible={true}
             accessibilityRole="button"
             accessibilityLabel="Continue to ride confirmation"
-            accessibilityHint={isTripRequestFilled(tripRequest) ? "Double tap to go to the next step and complete your ride booking." : "Finish setting your pickup and dropoff locations (including entrances) to continue."}
-            accessibilityState={{ disabled: !isTripRequestFilled(tripRequest) }}
+            accessibilityHint={
+              isTripRequestFilled(tripRequest)
+                ? "Double tap to go to the next step and complete your ride booking."
+                : "Finish setting your pickup and dropoff locations (including entrances) to continue."
+            }
+            accessibilityState={{
+              disabled: !isTripRequestFilled(tripRequest),
+            }}
             importantForAccessibility="yes"
           >
-            <Text style={styles.primaryButtonText} accessibilityElementsHidden={true} importantForAccessibility="no">
+            <Text
+              style={[styles.primaryButtonText, {color: theme.colors.background}]}
+              accessibilityElementsHidden={true}
+              importantForAccessibility="no"
+            >
               Continue to ride confirmation
             </Text>
           </TouchableOpacity>
@@ -533,47 +599,21 @@ const VoiceInputScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  backIcon: {
-    fontSize: 32,
-    color: colors.text,
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  headerSpacer: {
-    width: 40,
-  },
+  content: { flex: 1, paddingHorizontal: theme.spacing.lg },
   promptContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+    paddingHorizontal: theme.spacing.lg,
+    borderBottomWidth: 2,
   },
   prompt: {
     fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
+    fontFamily: theme.fonts.header3,
   },
   promptSubtext: {
     fontSize: 14,
-    color: colors.textSecondary,
+    fontFamily: theme.fonts.body,
     marginTop: 8,
     lineHeight: 20,
   },
@@ -582,15 +622,16 @@ const styles = StyleSheet.create({
   },
   transcriptContainer: {
     flex: 1,
+    paddingHorizontal: theme.spacing.lg,
   },
   transcriptContent: {
-    padding: 20,
+    marginTop: 20,
     paddingBottom: 16,
   },
   emptyState: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     minHeight: 280,
   },
   recordButton: {
@@ -598,8 +639,8 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
   },
   recordButtonActive: {
@@ -615,56 +656,50 @@ const styles = StyleSheet.create({
   conversationHeader: {
     marginBottom: 16,
     paddingBottom: 12,
-    borderBottomWidth: 2,
-    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
   },
   messageListWrapper: {},
   conversationHeaderText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
+    fontFamily: theme.fonts.header3,
   },
   messageContainer: {
     marginBottom: 16,
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 15,
     minHeight: 44, // Ensure minimum touch target size
   },
   userMessage: {
-    backgroundColor: colors.backgroundLight,
-    alignSelf: 'flex-end',
-    maxWidth: '85%',
+    backgroundColor: theme.colors.light.primary,
+    alignSelf: "flex-end",
+    maxWidth: "85%",
   },
   botMessage: {
-    backgroundColor: colors.background,
-    alignSelf: 'flex-start',
-    maxWidth: '85%',
+    alignSelf: "flex-start",
+    maxWidth: "85%",
     borderWidth: 1,
-    borderColor: colors.border,
   },
   messageLabel: {
     fontSize: 12,
-    fontWeight: '600',
-    color: colors.textSecondary,
+    fontFamily: theme.fonts.header3,
     marginBottom: 4,
   },
   messageText: {
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
     lineHeight: 24,
   },
   highlightedText: {
-    fontWeight: '600',
-    color: colors.primary,
+    fontFamily: theme.fonts.header3,
   },
   recordButtonSmall: {
     width: 50,
     height: 50,
     borderRadius: 25,
     backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
     marginTop: 16,
   },
   recordButtonSmallIcon: {
@@ -674,106 +709,66 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 12,
     paddingBottom: 12,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    backgroundColor: colors.background,
     zIndex: 10,
   },
   inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
   },
   manualInput: {
     flex: 1,
-    backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 14,
     fontSize: 16,
-    color: colors.text,
+    fontFamily: theme.fonts.body,
     minHeight: 48,
   },
   sendButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    minWidth: 72,
-    minHeight: 48,
+    padding: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    // minWidth: 72,
+    // minHeight: 48,
   },
   statusBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 8,
     gap: 8,
   },
   statusText: {
     fontSize: 14,
-    color: colors.primary,
-    fontWeight: '600',
-  },
-  submitButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
+    fontFamily: theme.fonts.header3,
   },
   submitButtonDisabled: {
     opacity: 0.7,
   },
   submitButtonText: {
-    color: colors.secondary,
     fontSize: 16,
-    fontWeight: '600',
-  },
-  actionButtons: {
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    gap: 12,
+    fontFamily: theme.fonts.header3,
   },
   actionButtonsOuter: {
     padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
+    borderTopWidth: 2,
     gap: 12,
-    backgroundColor: colors.background,
   },
   primaryButton: {
-    backgroundColor: colors.text,
     paddingVertical: 14,
     paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
+    borderRadius: 100,
+    alignItems: "center",
+    backgroundColor: theme.colors.light.primary,
   },
   primaryButtonDisabled: {
     opacity: 0.5,
   },
   primaryButtonText: {
-    color: colors.secondary,
     fontSize: 16,
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    backgroundColor: colors.backgroundLight,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  secondaryButtonText: {
-    color: colors.text,
-    fontSize: 16,
-    fontWeight: '600',
+    fontFamily: theme.fonts.header3,
   },
 });
 

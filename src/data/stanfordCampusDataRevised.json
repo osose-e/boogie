@@ -6,7 +6,7 @@
   },
   "buildings": [
     {
-      "id": "tressider",
+      "id": "tresidder",
       "name": "Tresidder Memorial Union",
       "alternateNames": [
         "Tressider",
@@ -27,11 +27,11 @@
         {
           "id": "east-1",
           "direction": "east",
-          "name": "East entrance (White Plaza)",
-          "roadSidewalk": "White Plaza / Lasuen Mall",
+          "name": "East Entrance",
+          "roadSidewalk": "Lasuen Mall",
           "coordinates": {
-            "lat": 37.4248,
-            "lon": -122.1698
+            "lat": 37.4246,
+            "lon": -122.1702
           },
           "landmarks": {
             "bikeRacks": true,
@@ -52,9 +52,12 @@
               "Stanford Hair",
               "Package Center",
               "Subway",
-              "Starbucks"
+              "Starbucks",
+              "Coho",
+              "Coffee House",
+              "Treehouse"
             ],
-            "nextToBuilding": "Stanford Bookstore",
+            "nextToBuilding": "Old Union",
             "acrossFromBuilding": "Dinkelspiel Auditorium",
             "notes": "Main east entrance; bike racks and stairs; food court inside."
           },
@@ -65,44 +68,20 @@
             "starbucks",
             "bike racks",
             "stairs"
-          ]
-        },
-        {
-          "id": "east-2",
-          "direction": "east",
-          "name": "East entrance (second)",
-          "roadSidewalk": "Lasuen Mall",
-          "coordinates": {
-            "lat": 37.4246,
-            "lon": -122.1702
-          },
-          "landmarks": {
-            "bikeRacks": true,
-            "stairs": false,
-            "parkingLot": false,
-            "fountain": false,
-            "other": [],
-            "establishmentsInside": [],
-            "nextToBuilding": "Old Union",
-            "acrossFromBuilding": null,
-            "notes": "Bike racks, no stairs."
-          },
-          "landmarkKeywords": [
-            "east",
-            "bike racks"
-          ]
+          ],
+          "images": ["tresidder-east-1"]
         },
         {
           "id": "west-1",
           "direction": "west",
-          "name": "West entrance",
+          "name": "West Entrance",
           "roadSidewalk": "Lagunita Drive",
           "coordinates": {
             "lat": 37.4244,
             "lon": -122.1712
           },
           "landmarks": {
-            "bikeRacks": false,
+            "bikeRacks": true,
             "stairs": true,
             "parkingLot": true,
             "fountain": false,
@@ -123,12 +102,13 @@
             "CoHo",
             "Package Center",
             "Coffee house"
-          ]
+          ],
+          "images": ["tresidder-west-1"]
         }
       ]
     },    {
       "id": "coda",
-      "name": "Computing and Data Science",
+      "name": "Computing and Data Science (CoDa)",
       "alternateNames": [
         "CoDa",
         "Computing and Data Science building",
@@ -146,7 +126,7 @@
         {
           "id": "north-1",
           "direction": "north",
-          "name": "North entrance",
+          "name": "North Entrance",
           "roadSidewalk": "Serra Mall",
           "coordinates": {
             "lat": 37.43,
@@ -157,11 +137,7 @@
             "stairs": true,
             "parkingLot": false,
             "fountain": false,
-            "other": [
-              "Blend (eatery)",
-              "near chemistry building",
-              "Voyager"
-            ],
+            "other": ["Blend (eatery)", "near chemistry building", "Voyager"],
             "establishmentsInside": [],
             "nextToBuilding": "Gilbert",
             "acrossFromBuilding": null,
@@ -175,12 +151,13 @@
             "voyager",
             "bikes",
             "bike racks"
-          ]
+          ],
+          "images": ["coda-north-1"]
         },
         {
           "id": "southwest-1",
           "direction": "southwest",
-          "name": "Southwest entrance",
+          "name": "Southwest Entrance",
           "roadSidewalk": "Serra Mall",
           "coordinates": {
             "lat": 37.4255,
@@ -191,12 +168,7 @@
             "stairs": true,
             "parkingLot": false,
             "fountain": true,
-            "other": [
-              "Gilbert",
-              "stairs",
-              "fountain",
-              "gates"
-            ],
+            "other": ["Gilbert", "stairs", "fountain", "gates"],
             "establishmentsInside": [],
             "nextToBuilding": "Gilbert",
             "acrossFromBuilding": "Gates",
@@ -209,12 +181,13 @@
             "gates",
             "southwest",
             "basement"
-          ]
+          ],
+          "images": ["coda-southwest-1"]
         },
         {
           "id": "east-1",
           "direction": "east",
-          "name": "East entrance",
+          "name": "East Entrance",
           "roadSidewalk": "Oval",
           "coordinates": {
             "lat": 37.429,
@@ -225,13 +198,7 @@
             "stairs": false,
             "parkingLot": false,
             "fountain": false,
-            "other": [
-              "Oval",
-              "bikes",
-              "main",
-              "Voyager",
-              "coffee"
-            ],
+            "other": ["Oval", "bikes", "main", "Voyager", "coffee"],
             "establishmentsInside": [],
             "nextToBuilding": null,
             "acrossFromBuilding": "Stanford Oval",
@@ -244,7 +211,8 @@
             "voyager",
             "coffee",
             "east"
-          ]
+          ],
+          "images": ["coda-east-1"]
         }
       ]
     },
@@ -265,9 +233,9 @@
       },
       "entrances": [
         {
-          "id": "main",
+          "id": "north-1",
           "direction": "north",
-          "name": "Main entrance",
+          "name": "North Entrance",
           "roadSidewalk": "Jane Stanford Way",
           "coordinates": {
             "lat": 37.4278,
@@ -278,26 +246,17 @@
             "stairs": true,
             "parkingLot": false,
             "fountain": false,
-            "other": [
-              "Main Quad"
-            ],
-            "establishmentsInside": [
-              "Classrooms",
-              "Learning spaces"
-            ],
+            "other": ["Main Quad"],
+            "establishmentsInside": ["Classrooms", "Learning spaces"],
             "nextToBuilding": "McLatchy Hall",
             "acrossFromBuilding": "Memorial Court",
             "notes": "South side of Main Quad; main accessible entrance."
           },
-          "landmarkKeywords": [
-            "main",
-            "quad",
-            "main quad",
-            "160"
-          ]
+          "landmarkKeywords": ["main", "quad", "main quad", "160"],
+          "images": ["wallenberg-north-1"]
         },
         {
-          "id": "south",
+          "id": "south-1",
           "direction": "south",
           "name": "Back entrance",
           "roadSidewalk": "Within Main Quad",
@@ -325,17 +284,15 @@
             "main quad",
             "160",
             "olives"
-          ]
+          ],
+          "images": ["wallenberg-south-1"]
         }
       ]
     },
     {
       "id": "oval",
       "name": "Stanford Oval",
-      "alternateNames": [
-        "The Oval",
-        "Oval"
-      ],
+      "alternateNames": ["The Oval", "Oval"],
       "address": "Stanford Oval, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -344,7 +301,7 @@
       },
       "entrances": [
         {
-          "id": "main",
+          "id": "south-1",
           "direction": null,
           "name": "Oval (general)",
           "roadSidewalk": "Serra Mall and Palm Drive",
@@ -357,39 +314,52 @@
             "stairs": false,
             "parkingLot": true,
             "fountain": false,
-            "other": [
-              "Palm Drive",
-              "Memorial Church"
-            ],
+            "other": ["Palm Drive", "Memorial Church"],
             "establishmentsInside": [],
             "nextToBuilding": "Memorial Church",
             "acrossFromBuilding": "Lathrop",
             "notes": "Central landmark; use for dropoff near Memorial Church or CoDa east side."
           },
-          "landmarkKeywords": [
-            "oval",
-            "palm",
-            "fountain",
-            "memorial church"
-          ]
+          "landmarkKeywords": ["oval", "palm", "fountain", "memorial church"],
+          "images": ["oval-south-1"]
         }
       ]
     },
     {
-      "id": "arrillaga-outdoor-education-and-recreation-center",
-      "name": "Arrillaga Outdoor Education and Recreation Center",
-      "alternateNames": [
-        "Arrillaga",
-        "Farillaga",
-        "Farillaga gym"
-      ],
+      "id": "aoerc",
+      "name": "Arrillaga Outdoor Education and Recreation Center (AOERC)",
+      "alternateNames": ["Arrillaga", "Farillaga", "Farillaga gym", "AOERC", "aoerc"],
       "address": "285 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
         "lat": 37.42680696,
         "lon": -122.17754728
       },
-      "entrances": []
+      "entrances": [
+        {
+          "id": "south-1",
+          "direction": null,
+          "name": "AOERC (general)",
+          "roadSidewalk": "Santa Teresa Rd.",
+          "coordinates": {
+            "lat": 37.427,
+            "lon": -122.169
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": ["Roble Field", "Lagunita Court"],
+            "establishmentsInside": [],
+            "nextToBuilding": "Roble Field",
+            "acrossFromBuilding": "Norcliffe Hall",
+            "notes": "South side of gym; faces Norcliffe Hall parking lot."
+          },
+          "landmarkKeywords": ["norcliffe", "roble", "field"],
+          "images": ["aoerc-south-1"]
+        }
+      ]
     },
     {
       "id": "lathrop",
@@ -407,9 +377,9 @@
       },
       "entrances": [
         {
-          "id": "east",
+          "id": "east-1",
           "direction": "east",
-          "name": "East entrance",
+          "name": "East Entrance",
           "roadSidewalk": "Memorial Way",
           "coordinates": {
             "lat": 37.4292,
@@ -420,10 +390,7 @@
             "stairs": false,
             "parkingLot": false,
             "fountain": false,
-            "other": [
-              "Memorial Auditorium",
-              "MemAud"
-            ],
+            "other": ["Memorial Auditorium", "MemAud"],
             "establishmentsInside": [],
             "nextToBuilding": null,
             "acrossFromBuilding": "Memorial Auditorium",
@@ -434,12 +401,13 @@
             "memorial auditorium",
             "memaud",
             "memorial way"
-          ]
+          ],
+          "images": ["lathrop-east-1"]
         },
         {
-          "id": "west",
+          "id": "west-1",
           "direction": "west",
-          "name": "West entrance",
+          "name": "West Entrance",
           "roadSidewalk": null,
           "coordinates": {
             "lat": 37.4292,
@@ -450,24 +418,19 @@
             "stairs": false,
             "parkingLot": false,
             "fountain": false,
-            "other": [
-              "Main Quad"
-            ],
+            "other": ["Main Quad"],
             "establishmentsInside": [],
             "nextToBuilding": null,
             "acrossFromBuilding": "Main Quad",
             "notes": "West side of Lathrop Library; faces Main Quad."
           },
-          "landmarkKeywords": [
-            "west",
-            "main quad",
-            "quad"
-          ]
+          "landmarkKeywords": ["west", "main quad", "quad"],
+          "images": ["lathrop-west-1"]
         },
         {
-          "id": "littlefield-memaud-parking",
+          "id": "north-1",
           "direction": null,
-          "name": "Entrance near Littlefield and MemAud parking",
+          "name": "North Entrance",
           "roadSidewalk": null,
           "coordinates": {
             "lat": 37.4295,
@@ -478,10 +441,7 @@
             "stairs": false,
             "parkingLot": true,
             "fountain": false,
-            "other": [
-              "Littlefield",
-              "MemAud parking"
-            ],
+            "other": ["Littlefield", "MemAud parking"],
             "establishmentsInside": [],
             "nextToBuilding": "Littlefield",
             "acrossFromBuilding": null,
@@ -493,13 +453,14 @@
             "memaud",
             "parking",
             "parking lot"
-          ]
+          ],
+          "images": ["lathrop-north-1"]
         }
       ]
     },
     {
-      "id": "green-library",
-      "name": "Cecil H Green Library",
+      "id": "green",
+      "name": "Cecil H. Green Library",
       "alternateNames": [
         "Green",
         "Green Library"
@@ -514,10 +475,10 @@
         {
           "id": "west-1",
           "direction": "west",
-          "name": "West wing Entrance",
+          "name": "West Entrance",
           "roadSidewalk": "Lasuen Mall",
           "coordinates": {
-            "lat": 37.427032837484, 
+            "lat": 37.427032837484,
             "lon": -122.16801006243055
           },
           "landmarks": {
@@ -525,24 +486,22 @@
             "stairs": true,
             "parkingLot": false,
             "fountain": true,
-            "other": [
-              "courtyard"
-            ],
+            "other": ["courtyard"],
             "establishmentsInside": ["Bing Wing"],
             "nextToBuilding": null,
             "acrossFromBuilding": "Main Quad",
             "notes": "West side of Green Library on Lasuen Mall; faces Main Quad"
           },
-          "landmarkKeywords": [
-          ]
+          "landmarkKeywords": [],
+          "images": ["green-west-1"]
         },
         {
-          "id": "east wing entrance",
+          "id": "south-1",
           "direction": "south",
-          "name": "East Wing Entrance",
+          "name": "South Entrance",
           "roadSidewalk": null,
           "coordinates": {
-            "lat": 37.4262255872341, 
+            "lat": 37.4262255872341,
             "lon": -122.16699122628367
           },
           "landmarks": {
@@ -562,47 +521,10 @@
             "acrossFromBuilding": "Meyer Green",
             "notes": "East wing entrance of Green Library near Coupa Cafe and Meyer Green; faces South."
           },
-          "landmarkKeywords": [
-          ]
-        },
-        {
-          "id": "littlefield-memaud-parking",
-          "direction": null,
-          "name": "Entrance near Littlefield and MemAud parking",
-          "roadSidewalk": null,
-          "coordinates": {
-            "lat": 37.4295,
-            "lon": -122.167
-          },
-          "landmarks": {
-            "bikeRacks": false,
-            "stairs": false,
-            "parkingLot": true,
-            "fountain": false,
-            "other": [
-              "Littlefield",
-              "MemAud parking"
-            ],
-            "establishmentsInside": [],
-            "nextToBuilding": "Littlefield",
-            "acrossFromBuilding": null,
-            "notes": "Near Littlefield and the small MemAud parking lot."
-          },
-          "landmarkKeywords": [
-            "littlefield",
-            "memaud parking",
-            "memaud",
-            "parking",
-            "parking lot"
-          ]
+          "landmarkKeywords": [],
+          "images": ["green-south-1"]
         }
       ]
-    },
-
-
-
-
-
-
+    }
   ]
 }

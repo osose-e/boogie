@@ -6,14 +6,21 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
   AccessibilityInfo,
   findNodeHandle,
   Keyboard,
+  Image,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import { buildingImages } from "../data/buildingImages";
+import StackHeader from '../components/StackHeader';
+import { Ionicons } from "@expo/vector-icons";
 import { STANFORD_LOCATIONS } from '../constants/stanfordLocations';
 import RideBookingProgressBar from '../components/RideBookingProgressBar';
+import { StatusBar } from 'expo-status-bar';
 
 const SearchScreen = ({ navigation, route }) => {
   const routeName = route?.name ?? '';
@@ -25,6 +32,7 @@ const SearchScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
   const titleRef = useRef(null);
+  const { theme, themeMode } = useTheme();
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -69,7 +77,7 @@ const SearchScreen = ({ navigation, route }) => {
     return matchesCurrentLocation;
   }, [isPickupSearch, searchQuery, codaBuilding]);
 
-  const headerText = mode === 'pickup' ? 'Choose pickup location' : 'Choose dropoff location';
+  const headerText = mode === 'pickup' ? 'Choose Pickup Location' : 'Choose Dropoff Location';
   const navigateTo = mode === 'pickup' ? 'PickupEntranceSelect' : 'DropoffEntranceSelect';
   const hintText =
     mode === 'pickup'
@@ -93,148 +101,215 @@ const SearchScreen = ({ navigation, route }) => {
     });
   };
 
+  const handleBack = () => {
+    if (mode === "dropoff") {
+      // Go back to Entrance 1 (pickup entrance selection)
+      navigation.goBack();
+    } else {
+      // Go back to Home
+      navigation.navigate("Home");
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerRow}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          accessibilityHint="Returns to the previous screen"
-        >
-          <Text style={styles.backIcon}>‹</Text>
-        </TouchableOpacity>
-        <Text ref={titleRef} style={styles.sectionTitle} accessibilityRole="header">
-          {headerText}
-        </Text>
-        <View style={styles.headerSpacer} />
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <StatusBar style={themeMode === "light" ? "dark" : "light"} />
+      <StackHeader title={headerText} onBack={handleBack} ref={titleRef} />
+      <RideBookingProgressBar
+        key={`search-${progressStep}`}
+        completedSteps={progressStep}
+      />
+
+      <View
+        style={[styles.searchContainer, { borderColor: theme.colors.border }]}
+      >
+        <TextInput
+          ref={searchInputRef}
+          style={styles.searchInput}
+          placeholder="Find locations by name..."
+          placeholderTextColor={theme.colors.bodyPlaceholder}
+          value={searchQuery}
+          onChangeText={(t) => setSearchQuery(sanitizeDictation(t))}
+          autoCorrect={false}
+          spellCheck={false}
+          autoCapitalize="none"
+          accessibilityLabel="Search for locations by name"
+          accessibilityRole="searchbox"
+          returnKeyType="search"
+        />
+        <Ionicons
+          name="search"
+          size={24}
+          color={theme.colors.icons}
+          accessibilityElementsHidden
+          importantForAccessibility="no"
+        />
       </View>
 
-      <RideBookingProgressBar key={`search-${progressStep}`} completedSteps={progressStep} />
+      <Text
+        style={[styles.helperText, { color: theme.colors.body }]}
+        accessibilityRole="text"
+      >
+        Matching Locations (
+        {showCurrentLocationOption
+          ? filteredLocations.length + 1
+          : filteredLocations.length}
+        )
+      </Text>
 
       <ScrollView
-        style={styles.content}
+        style={[styles.content, { borderTopColor: theme.colors.border }]}
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
         onScrollBeginDrag={() => Keyboard.dismiss()}
       >
-        <View style={styles.searchContainer}>
-          <TextInput
-            ref={searchInputRef}
-            style={styles.searchInput}
-            placeholder="Find locations by name..."
-            placeholderTextColor={colors.textSecondary}
-            value={searchQuery}
-            onChangeText={(t) => setSearchQuery(sanitizeDictation(t))}
-            autoCorrect={false}
-            spellCheck={false}
-            autoCapitalize="none"
-            accessibilityLabel="Search for locations by name"
-            accessibilityRole="searchbox"
-            returnKeyType="search"
-          />
-          <Text style={styles.searchIcon} accessibilityElementsHidden importantForAccessibility="no">
-            🔍
-          </Text>
-        </View>
+        {showCurrentLocationOption && (
+          <TouchableOpacity
+            style={styles.curLocButton}
+            onPress={handleCurrentLocationSelect}
+            accessibilityRole="button"
+            accessibilityLabel="Current location"
+            accessibilityHint="Double tap to choose current location, then select an entrance at Computing and Data Science"
+          >
+            <Text style={[styles.locationName, { fontFamily: theme.fonts.header3, color: theme.colors.background }]}>
+              Use Current Location
+            </Text>
+          </TouchableOpacity>
 
-        <Text style={styles.helperText} accessibilityRole="text">
-          Matching locations ({showCurrentLocationOption ? filteredLocations.length + 1 : filteredLocations.length})
-        </Text>
+          // <TouchableOpacity
+          //   style={[
+          //     styles.locationItem,
+          //     { borderBottomColor: theme.colors.separator },
+          //   ]}
+          //   onPress={handleCurrentLocationSelect}
+          //   accessibilityRole="button"
+          //   accessibilityLabel="Current location"
+          //   accessibilityHint="Double tap to choose current location, then select an entrance at Computing and Data Science"
+          // >
+          //   <Text style={[styles.locationName, { color: theme.colors.body }]}>
+          //     Current Location
+          //   </Text>
+          //   <Ionicons
+          //     name="chevron-forward"
+          //     size={24}
+          //     color={theme.colors.chevron}
+          //     style={{ alignSelf: "center" }}
+          //     accessibilityElementsHidden
+          //     importantForAccessibility="no"
+          //   />
+          // </TouchableOpacity>
+        )}
+        {filteredLocations.map((location) => (
+          <TouchableOpacity
+            key={location.id}
+            style={[
+              styles.locationItem,
+              { borderTopColor: theme.colors.separator },
+            ]}
+            onPress={() => handleLocationSelect(location)}
+            accessibilityRole="button"
+            accessibilityLabel={location.name}
+            accessibilityHint={hintText}
+          >
+            <Image
+              source={buildingImages[location.building.id]}
+              style={styles.locationImage}
+              accessibilityElementsHidden
+              importantForAccessibility="no"
+            />
+            <Text style={[styles.locationName, { color: theme.colors.body }]}>
+              {location.name}
+            </Text>
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={theme.colors.chevron}
+              style={{ alignSelf: "center" }}
+              accessibilityElementsHidden
+              importantForAccessibility="no"
+            />
+          </TouchableOpacity>
+        ))}
 
-        <View style={styles.locationsList}>
-          {showCurrentLocationOption && (
-            <TouchableOpacity
-              style={styles.locationItem}
-              onPress={handleCurrentLocationSelect}
-              accessibilityRole="button"
-              accessibilityLabel="Current location"
-              accessibilityHint="Double tap to choose current location, then select an entrance at Computing and Data Science"
+        {/* {filteredLocations.map((location) => (
+          <TouchableOpacity
+            key={location.id}
+            style={styles.locationItem}
+            onPress={() => handleLocationSelect(location)}
+            accessibilityRole="button"
+            accessibilityLabel={location.name}
+            accessibilityHint={hintText}
+          >
+            <Text style={styles.locationName}>{location.name}</Text>
+            <Text
+              style={styles.locationArrow}
+              accessibilityElementsHidden
+              importantForAccessibility="no"
             >
-              <Text style={styles.locationName}>Current Location</Text>
-              <Text style={styles.locationArrow} accessibilityElementsHidden importantForAccessibility="no">
-                ›
-              </Text>
-            </TouchableOpacity>
-          )}
-          {filteredLocations.map((location) => (
-            <TouchableOpacity
-              key={location.id}
-              style={styles.locationItem}
-              onPress={() => handleLocationSelect(location)}
-              accessibilityRole="button"
-              accessibilityLabel={location.name}
-              accessibilityHint={hintText}
-            >
-              <Text style={styles.locationName}>{location.name}</Text>
-              <Text style={styles.locationArrow} accessibilityElementsHidden importantForAccessibility="no">
-                ›
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+              ›
+            </Text>
+          </TouchableOpacity>
+        ))} */}
+        {/* <View style={styles.locationsList}></View> */}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1 },
 
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  backIcon: {
-    fontSize: 32,
-    color: colors.text,
-  },
-  sectionTitle: { fontSize: 18, fontWeight: '700', color: colors.text, flex: 1, textAlign: 'center' },
-  headerSpacer: { width: 40 },
-
-  content: { flex: 1 },
-  contentContainer: { padding: 20 },
+  content: { flex: 1, borderTopWidth: 2 },
+  contentContainer: { paddingHorizontal: theme.spacing.lg },
 
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.backgroundLight,
+    flexDirection: "row",
+    alignItems: "center",
     borderRadius: 8,
+    marginTop: theme.spacing.regular,
+    marginHorizontal: theme.spacing.lg,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: colors.border,
   },
-  searchInput: { flex: 1, fontSize: 16, color: colors.text },
+  searchInput: { flex: 1, fontSize: 16, fontFamily: theme.fonts.body },
   searchIcon: { fontSize: 20, marginLeft: 8 },
 
-  helperText: { fontSize: 14, color: colors.textSecondary, marginBottom: 12 },
+  helperText: {
+    marginHorizontal: theme.spacing.lg,
+    marginTop: theme.spacing.sm,
+    marginBottom: 8,
+    fontSize: 14,
+    fontFamily: theme.fonts.body,
+  },
 
-  locationsList: { marginBottom: 24 },
   locationItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderTopWidth: 1,
   },
-  locationName: { fontSize: 16, color: colors.text, flex: 1 },
-  locationArrow: { fontSize: 24, color: colors.textSecondary, marginLeft: 12 },
+  locationName: { fontSize: 16, fontFamily: theme.fonts.body, flex: 1 },
+  locationArrow: { fontSize: 24, marginLeft: 12 },
+  locationImage: {
+    width: 110,
+    height: 110,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  curLocButton: {
+    borderRadius: 100,
+    backgroundColor: theme.colors.light.primary,
+    marginVertical: theme.spacing.sm,
+    paddingVertical: 16,
+    paddingHorizontal: theme.spacing.regular,
+    alignItems: "center",
+  },
 });
 
 export default SearchScreen;

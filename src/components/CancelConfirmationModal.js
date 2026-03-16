@@ -8,8 +8,13 @@ import {
   AccessibilityInfo,
 } from 'react-native';
 import { colors } from '../styles/colors';
+import { theme } from '../styles/themes';
+import { useTheme } from '../contexts/ThemeContext';
+import { Ionicons } from "@expo/vector-icons";
 
 const CancelConfirmationModal = ({ visible, onClose, onConfirm }) => {
+  const { theme } = useTheme();
+
   return (
     <Modal
       visible={visible}
@@ -19,29 +24,45 @@ const CancelConfirmationModal = ({ visible, onClose, onConfirm }) => {
       accessibilityViewIsModal={true}
     >
       <View style={styles.overlay}>
-        <View style={styles.modalContainer} accessible={true} accessibilityRole="alertdialog">
-          <Text style={styles.title} accessibilityRole="header">
+        <View
+          style={[
+            styles.modalContainer,
+            {
+              backgroundColor: theme.colors.background,
+              borderColor: theme.colors.border,
+            },
+          ]}
+          accessible={true}
+          accessibilityRole="alertdialog"
+        >
+          <Text
+            style={[styles.title, { color: theme.colors.header2 }]}
+            accessibilityRole="header"
+          >
             Cancel your booking?
           </Text>
-          <Text style={styles.message} accessibilityRole="text">
+          <Text
+            style={[styles.message, { color: theme.colors.body }]}
+            accessibilityRole="text"
+          >
             Are you sure you want to cancel your booking?
           </Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={[styles.button, styles.buttonSecondary]}
-              onPress={onClose}
-              accessibilityRole="button"
-              accessibilityLabel="No, do not cancel booking"
-            >
-              <Text style={styles.buttonTextSecondary}>No</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonPrimary]}
+              style={[styles.button, styles.buttonSecondary, {borderColor: theme.colors.border}]}
               onPress={onConfirm}
               accessibilityRole="button"
               accessibilityLabel="Yes, cancel booking"
             >
-              <Text style={styles.buttonTextPrimary}>Yes</Text>
+              <Text style={[styles.buttonTextSecondary, {color: theme.colors.body}]}>Yes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonPrimary]}
+              onPress={onClose}
+              accessibilityRole="button"
+              accessibilityLabel="No, do not cancel booking"
+            >
+              <Text style={[styles.buttonTextPrimary, {color: theme.colors.background}]}>No</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -53,26 +74,25 @@ const CancelConfirmationModal = ({ visible, onClose, onConfirm }) => {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContainer: {
-    backgroundColor: colors.background,
     borderRadius: 12,
+    borderWidth: 1,
     padding: 24,
     width: '85%',
     maxWidth: 400,
   },
   title: {
     fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
+    fontFamily: theme.fonts.header3,
     marginBottom: 12,
   },
   message: {
     fontSize: 16,
-    color: colors.textSecondary,
+    fontFamily: theme.fonts.body,
     marginBottom: 24,
   },
   buttonContainer: {
@@ -88,22 +108,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonPrimary: {
-    backgroundColor: colors.text,
+    backgroundColor: theme.colors.light.primary,
   },
   buttonSecondary: {
-    backgroundColor: colors.backgroundLight,
     borderWidth: 1,
-    borderColor: colors.border,
   },
   buttonTextPrimary: {
-    color: colors.secondary,
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: theme.fonts.header3,
   },
   buttonTextSecondary: {
-    color: colors.text,
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: theme.fonts.body,
   },
 });
 
