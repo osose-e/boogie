@@ -1,5 +1,5 @@
 export const entranceImages = {
-  aoerc: [require("./../../assets/images/aoerc/south-1.jpg")],
+  "aoerc-south-1": [require("./../../assets/images/aoerc/south-1.jpg")],
   "coda-east-1": [
     require("./../../assets/images/coda/east-1.jpg"),
     // require("./../../assets/images/coda/east-2.jpg"),
@@ -25,7 +25,7 @@ export const entranceImages = {
     // require("./../../assets/images/lathrop/north-3.jpg"),
   ],
   "lathrop-west-1": [require("./../../assets/images/lathrop/west-1.jpg")],
-  oval: [require("./../../assets/images/oval/south-1.jpg")],
+  "oval-south-1": [require("./../../assets/images/oval/south-1.jpg")],
   "tresidder-east-1": [
     // require("./../../assets/images/tresidder/east-1.jpg"),
     require("./../../assets/images/tresidder/east-2.jpg"),

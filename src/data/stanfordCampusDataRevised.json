@@ -233,7 +233,7 @@
       },
       "entrances": [
         {
-          "id": "main",
+          "id": "north-1",
           "direction": "north",
           "name": "North Entrance",
           "roadSidewalk": "Jane Stanford Way",
@@ -252,16 +252,11 @@
             "acrossFromBuilding": "Memorial Court",
             "notes": "South side of Main Quad; main accessible entrance."
           },
-          "images": ["wallenberg-north-1"],
-          "landmarkKeywords": [
-            "main",
-            "quad",
-            "main quad",
-            "160"
-          ]
+          "landmarkKeywords": ["main", "quad", "main quad", "160"],
+          "images": ["wallenberg-north-1"]
         },
         {
-          "id": "south",
+          "id": "south-1",
           "direction": "south",
           "name": "Back entrance",
           "roadSidewalk": "Within Main Quad",
@@ -289,17 +284,15 @@
             "main quad",
             "160",
             "olives"
-          ]
+          ],
+          "images": ["wallenberg-south-1"]
         }
       ]
     },
     {
       "id": "oval",
       "name": "Stanford Oval",
-      "alternateNames": [
-        "The Oval",
-        "Oval"
-      ],
+      "alternateNames": ["The Oval", "Oval"],
       "address": "Stanford Oval, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
@@ -307,23 +300,66 @@
         "lon": -122.16648056923077
       },
       "entrances": [
+        {
+          "id": "south-1",
+          "direction": null,
+          "name": "Oval (general)",
+          "roadSidewalk": "Serra Mall and Palm Drive",
+          "coordinates": {
+            "lat": 37.427,
+            "lon": -122.169
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": ["Palm Drive", "Memorial Church"],
+            "establishmentsInside": [],
+            "nextToBuilding": "Memorial Church",
+            "acrossFromBuilding": "Lathrop",
+            "notes": "Central landmark; use for dropoff near Memorial Church or CoDa east side."
+          },
+          "landmarkKeywords": ["oval", "palm", "fountain", "memorial church"],
+          "images": ["oval-south-1"]
+        }
       ]
     },
     {
       "id": "aoerc",
-      "name": "Arrillaga Outdoor Education and Recreation Center",
-      "alternateNames": [
-        "Arrillaga",
-        "Farillaga",
-        "Farillaga gym"
-      ],
+      "name": "Arrillaga Outdoor Education and Recreation Center (AOERC)",
+      "alternateNames": ["Arrillaga", "Farillaga", "Farillaga gym", "AOERC", "aoerc"],
       "address": "285 Santa Teresa Street, Stanford, CA 94305",
       "buildingNumber": null,
       "coordinates": {
         "lat": 37.42680696,
         "lon": -122.17754728
       },
-      "entrances": []
+      "entrances": [
+        {
+          "id": "south-1",
+          "direction": null,
+          "name": "AOERC (general)",
+          "roadSidewalk": "Santa Teresa Rd.",
+          "coordinates": {
+            "lat": 37.427,
+            "lon": -122.169
+          },
+          "landmarks": {
+            "bikeRacks": true,
+            "stairs": false,
+            "parkingLot": true,
+            "fountain": false,
+            "other": ["Roble Field", "Lagunita Court"],
+            "establishmentsInside": [],
+            "nextToBuilding": "Roble Field",
+            "acrossFromBuilding": "Norcliffe Hall",
+            "notes": "South side of gym; faces Norcliffe Hall parking lot."
+          },
+          "landmarkKeywords": ["norcliffe", "roble", "field"],
+          "images": ["aoerc-south-1"]
+        }
+      ]
     },
     {
       "id": "lathrop",
@@ -341,7 +377,7 @@
       },
       "entrances": [
         {
-          "id": "east",
+          "id": "east-1",
           "direction": "east",
           "name": "East Entrance",
           "roadSidewalk": "Memorial Way",
@@ -369,7 +405,7 @@
           "images": ["lathrop-east-1"]
         },
         {
-          "id": "west",
+          "id": "west-1",
           "direction": "west",
           "name": "West Entrance",
           "roadSidewalk": null,
@@ -392,7 +428,7 @@
           "images": ["lathrop-west-1"]
         },
         {
-          "id": "littlefield-memaud-parking",
+          "id": "north-1",
           "direction": null,
           "name": "North Entrance",
           "roadSidewalk": null,
@@ -460,9 +496,9 @@
           "images": ["green-west-1"]
         },
         {
-          "id": "east wing entrance",
+          "id": "south-1",
           "direction": "south",
-          "name": "East Entrance",
+          "name": "South Entrance",
           "roadSidewalk": null,
           "coordinates": {
             "lat": 37.4262255872341,

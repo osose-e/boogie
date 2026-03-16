@@ -20,6 +20,7 @@ import StackHeader from '../components/StackHeader';
 import { Ionicons } from "@expo/vector-icons";
 import { STANFORD_LOCATIONS } from '../constants/stanfordLocations';
 import RideBookingProgressBar from '../components/RideBookingProgressBar';
+import { StatusBar } from 'expo-status-bar';
 
 const SearchScreen = ({ navigation, route }) => {
   const routeName = route?.name ?? '';
@@ -31,7 +32,7 @@ const SearchScreen = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef(null);
   const titleRef = useRef(null);
-  const { theme } = useTheme();
+  const { theme, themeMode } = useTheme();
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -114,6 +115,7 @@ const SearchScreen = ({ navigation, route }) => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
+      <StatusBar style={themeMode === "light" ? "dark" : "light"} />
       <StackHeader title={headerText} onBack={handleBack} ref={titleRef} />
       <RideBookingProgressBar
         key={`search-${progressStep}`}
