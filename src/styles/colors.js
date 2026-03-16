@@ -1,13 +1,91 @@
 export const colors = {
-  primary: '#6366F1', // Purple/indigo for primary actions
-  primaryDark: '#4F46E5',
-  secondary: '#FFFFFF',
-  text: '#1F2937',
-  textSecondary: '#6B7280',
-  background: '#FFFFFF',
-  backgroundLight: '#F9FAFB',
-  border: '#E5E7EB',
-  success: '#10B981',
-  error: '#EF4444',
-  disabled: '#9CA3AF',
+  light: {
+    primary: "#09A6B8",
+    secondary: "#8A38F5",
+    tertiary: "#D32EC8",
+    quaternary: "#ACE347",
+    
+    header1: "#09A6B8",
+    header2: "#000000",
+    body: "#000000",
+    bodyPlaceholder: "#B4B4B4",
+
+    background: "#FFFFFF",
+    border: "#000000",
+    borderColored: "#09A6B8",
+    separator: "#CFCFCF",
+
+    backButton: "#09A6B8",
+    modeToggle: "#09A6B8",
+    icons: "#09A6B8",
+    chevron: "#a0a0a0",
+
+    // header1: "#09A6B8",
+    // header2: "#000000",
+    // header3: "#000000",
+    // bodyLight: "#FFFFFF",
+    // bodyDark: "#000000",
+    // textAddress: "#6E6E6E",
+    // textPlaceholder: "#B4B4B4",
+
+    // background: "#FFFFFF",
+    // border: "#000000",
+
+    // primary: "#09A6B8",
+
+    // borderLight: "#FFFFFF",
+    // borderDark: "#000000",
+    // borderColored: "#09A6B8",
+
+    // iconsInactive: "#000000",
+    // separator: "#CFCFCF",
+    // arrow: "#CFCFCF",
+    // buttonPrimary: "#000000",
+    // buttonSecondary: "#FFFFFF",
+    // buttonTextPrimary: "#FFFFFF",
+    // buttonTextSecondary: "#000000",
+    // switchThumb: "#FFFFFF",
+  },
+  dark: {
+    primary: "#077581",
+    secondary: "#5E2AA3",
+    tertiary: "#761B70",
+    quaternary: "#5F7C2A",
+
+    header1: "#09A6B8",
+    header2: "#F0F0F0",
+    body: "#F0F0F0",
+    bodyPlaceholder: "#AEAEAE",
+
+    background: "#13151F",
+    border: "#F0F0F0",
+    borderColored: "#09A6B8",
+    separator: "#6E6E6E",
+
+    backButton: "#09A6B8",
+    modeToggle: "#F0F0F0",
+    icons: "#09A6B8",
+    chevron: "#AEAEAE",
+
+    // header1: "#09A6B8",
+    // header2: "#F0F0F0",
+    // header3: "#F0F0F0",
+    // bodyDark: "#F0F0F0",
+    // bodyLight: "#13151F",
+    // textAddress: "#6E6E6E",
+    // textPlaceholder: "#AEAEAE",
+
+    // background: "#13151F",
+    // borderDark: "#F0F0F0",
+    // borderColored: "#09A6B8",
+    // borderLight: "#13151F",
+
+    // iconsInactive: "#F0F0F0",
+    // arrow: "#AEAEAE",
+    // buttonPrimary: "#F0F0F0",
+    // buttonSecondary: "#13151F",
+    // buttonTextPrimary: "#13151F",
+    // buttonTextSecondary: "#F0F0F0",
+    // switchThumb: "#FFFFFF",
+  },
 };
